@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Employe;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -22,17 +23,16 @@ class EmployeType extends AbstractType
             ->add('telephone')
             ->add('adresse')
             ->add('email', EmailType::class, [
-                'required' => false,
+                'required' => true,
                 'constraints' => new Email(),
             ])
             ->add('nationalite')
             ->add('cni')
             ->add('passeport')
             ->add('sexe', ChoiceType::class, [
-        'choices' => ['Masculin' => 'p', 'Doctor' => 'doc'],
-        'constraints' => new EqualTo(['value' => 'd', 'message' => 'Nope! The best job in the world is Developer ... at least for me ;-)']),
-        'help' => 'Choose the best job in the world',
-    ])
+                'choices' => ['Masculin' => 'masculin', 'Feminin' => 'feminin'],
+                'help' => 'Choisir le sexe', 'required' => false,
+            ])
             ->add('dateNaissance', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => false,
@@ -43,8 +43,7 @@ class EmployeType extends AbstractType
             ->add('poste')
             ->add('noteAdditionnelle', TextareaType::class, [
                 'required' => false,
-            ])
-            /*->add('compte',CollectionType::class,
+            ])/*->add('compte',CollectionType::class,
                 [
                     'entry_type' => RegistrationType::class, // le formulaire enfant qui doit être répété
                     'allow_add' => true, // true si tu veux que l'utilisateur puisse en ajouter

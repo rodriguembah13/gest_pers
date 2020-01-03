@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Employe;
+use App\Entity\User;
 use App\Form\EmployeType;
 use App\Repository\EmployeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,11 +32,19 @@ class EmployeController extends AbstractController
     public function new(Request $request): Response
     {
         $employe = new Employe();
+        $userManager = $this->get('fos_user.user_manager');
         $form = $this->createForm(EmployeType::class, $employe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $employe->setMatricule($employe->getPoste()->getCode().$this->randomMatricule());
+            $user = new User();
+            $user->setUsername($employe->getMatricule());
+            $user->setEmail($employe->getEmail());
+            $user->setPlainPassword('123456789');
+            $userManager->updateUser($user);
+            $employe->setCompte($user);
             $entityManager->persist($employe);
             $entityManager->flush();
 
@@ -90,5 +99,10 @@ class EmployeController extends AbstractController
         }
 
         return $this->redirectToRoute('employe_index');
+    }
+
+    private function randomMatricule()
+    {
+        return rand(5, 15);
     }
 }

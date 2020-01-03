@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employe{% endblock %}
+{% block page_title %} Employe {% endblock %}
+{% block page_subtitle %} {{ employe.id }} {% endblock %}
+{% block page_content %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ employe.id }}</td>
+            </tr>
+            <tr>
+                <th>NomComplet</th>
+                <td>{{ employe.nomComplet }}</td>
+            </tr>
+            <tr>
+                <th>Matricule</th>
+                <td>{{ employe.matricule }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ employe.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ employe.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ employe.email }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ employe.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>Cni</th>
+                <td>{{ employe.cni }}</td>
+            </tr>
+            <tr>
+                <th>Passeport</th>
+                <td>{{ employe.passeport }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ employe.sexe }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ employe.dateNaissance ? employe.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LieuNaissance</th>
+                <td>{{ employe.lieuNaissance }}</td>
+            </tr>
+            <tr>
+                <th>EtatCivil</th>
+                <td>{{ employe.etatCivil }}</td>
+            </tr>
+            <tr>
+                <th>NoteAdditionnelle</th>
+                <td>{{ employe.noteAdditionnelle }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-warning" href="{{ path('employe_index') }}">back to list</a>
+
+    <a class="btn btn-primary" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
+
+    {{ include('employe/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeContrat index{% endblock %}
+
+{% block page_content %}
+    <h1>TypeContrat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Code</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_contrat in type_contrats %}
+            <tr>
+                <td>{{ type_contrat.id }}</td>
+                <td>{{ type_contrat.libelle }}</td>
+                <td>{{ type_contrat.code }}</td>
+                <td><div class="btn-group">
+                    <a class="btn btn-info btn-sm" href="{{ path('type_contrat_show', {'id': type_contrat.id}) }}">show</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('type_contrat_edit', {'id': type_contrat.id}) }}">edit</a></div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_contrat_new') }}">Create new</a>
+{% endblock %}

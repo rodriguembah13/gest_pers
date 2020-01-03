@@ -7,8 +7,9 @@
 admin_lte:
     options:
         default_avatar: bundles/adminlte/images/default_avatar.png
+        skin: 'skin-green'
         fixed_layout: false
-        boxed_layout: true
+        boxed_layout: false
         collapsed_sidebar: false
         mini_sidebar: true
         #max_navbar_notifications: 10

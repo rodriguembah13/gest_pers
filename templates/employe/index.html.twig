@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employe index{% endblock %}
+{% block page_title %} Employes {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-primary pull-right" href="{{ path('employe_new') }}"><i class="far fa-flash"></i>Create new</a>
+        </div>
+    </div>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomComplet</th>
+                <th>Matricule</th>
+                <th>Telephone</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>Sexe</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for employe in employes %}
+            <tr>
+                <td>{{ employe.id }}</td>
+                <td>{{ employe.nomComplet }}</td>
+                <td>{{ employe.matricule }}</td>
+                <td>{{ employe.telephone }}</td>
+                <td>{{ employe.adresse }}</td>
+                <td>{{ employe.email }}</td>
+                <td>{{ employe.sexe }}</td>
+                <td><div class="btn-group">
+                    <a  class="btn btn-info btn-sm" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
+                    <a  class="btn btn-primary btn-sm" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

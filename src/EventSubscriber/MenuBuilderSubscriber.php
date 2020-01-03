@@ -25,17 +25,11 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
      */
     private $security;
 
-    /**
-     * @param AuthorizationCheckerInterface $security
-     */
     public function __construct(AuthorizationCheckerInterface $security)
     {
         $this->security = $security;
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -46,15 +40,24 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Generate the main menu.
-     *
-     * @param SidebarMenuEvent $event
      */
     public function onSetupNavbar(SidebarMenuEvent $event)
     {
         $event->addItem(
             new MenuItemModel('homepage', 'menu.homepage', 'homepage', [], 'fas fa-tachometer-alt')
         );
-
+        $rh = new MenuItemModel('rh', 'menu.rh', null, [], 'fas fa-industry');
+        $rh->addChild(
+            new MenuItemModel('employe', 'menu.employe', 'employe', [], 'fas fa-users')
+        )->addChild(
+            new MenuItemModel('departement', 'Departement', 'departement', [], 'far fa-building')
+        )->addChild(
+            new MenuItemModel('contrat', 'menu.contrat', 'contrat', [], 'far fa-folder')
+        )
+            ->addChild(
+                new MenuItemModel('sub-demo3', 'menu.configuration', 'forms3', [], 'fas fa-users-cog')
+            );
+        $event->addItem($rh);
         $event->addItem(
             new MenuItemModel('forms', 'menu.form', 'forms', [], 'fab fa-wpforms')
         );
@@ -63,13 +66,13 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
             new MenuItemModel('context', 'AdminLTE context', 'context', [], 'fas fa-code')
         );
 
-        $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
+     /*   $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
         $demo->addChild(
             new MenuItemModel('sub-demo', 'Form - Horizontal', 'forms2', [], 'far fa-arrow-alt-circle-down')
         )->addChild(
             new MenuItemModel('sub-demo2', 'Form - Sidebar', 'forms3', [], 'far fa-arrow-alt-circle-up')
         );
-        $event->addItem($demo);
+        $event->addItem($demo);*/
 
         if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $event->addItem(
@@ -88,7 +91,7 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param string $route
+     * @param string          $route
      * @param MenuItemModel[] $items
      */
     protected function activateByRoute($route, $items)

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Poste index{% endblock %}
+{% block page_title %} Poste {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <h1>Poste index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Code</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for poste in postes %}
+            <tr>
+                <td>{{ poste.id }}</td>
+                <td>{{ poste.libelle }}</td>
+                <td>{{ poste.code }}</td>
+                <td>
+                    <a href="{{ path('poste_show', {'id': poste.id}) }}">show</a>
+                    <a href="{{ path('poste_edit', {'id': poste.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('poste_new') }}">Create new</a>
+{% endblock %}

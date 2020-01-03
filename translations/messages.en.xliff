@@ -10,6 +10,22 @@
                 <source>menu.form</source>
                 <target>Forms</target>
             </trans-unit>
+            <trans-unit id="menu.rh">
+                            <source>menu.rh</source>
+                            <target>Ressource Humaine</target>
+                        </trans-unit>
+                         <trans-unit id="menu.employe">
+                                                    <source>menu.employe</source>
+                                                    <target>Dossier Employe</target>
+                                                </trans-unit>
+                                                 <trans-unit id="menu.contrat">
+                                                                            <source>menu.contrat</source>
+                                                                            <target>Contrat</target>
+                                                                        </trans-unit>
+                                                                         <trans-unit id="menu.configuration">
+                                                                                                    <source>menu.configuration</source>
+                                                                                                    <target>Configuration</target>
+                                                                                                </trans-unit>
             <trans-unit id="menu.login">
                 <source>menu.login</source>
                 <target>Login</target>

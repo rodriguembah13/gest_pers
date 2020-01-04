@@ -8,7 +8,9 @@
     <div class="row">
         <a class="btn btn-success" href="{{ path('poste_index') }}">list postes</a>  <a class="btn btn-primary pull-right" href="{{ path('departement_new') }}">Create new</a>
     </div>
-
+    <div class="count">
+        {{ departements.getTotalItemCount }}
+    </div>
     <table class="table table-condensed">
         <thead>
             <tr>
@@ -37,6 +39,9 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(departements) }}
+    </div>
 
 {% endblock %}

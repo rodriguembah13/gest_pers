@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Departement;
 use App\Form\DepartementType;
 use App\Repository\DepartementRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +20,26 @@ class DepartementController extends AbstractController
     /**
      * @Route("/", name="departement_index", methods={"GET"})
      */
-    public function index(DepartementRepository $departementRepository): Response
+    public function index(DepartementRepository $departementRepository, EntityManagerInterface $em, PaginatorInterface $paginator, Request $request): Response
     {
-        return $this->render('departement/index.html.twig', [
-            'departements' => $departementRepository->findAll(),
-        ]);
+        $allDepartementsQuery = $departementRepository->createQueryBuilder('p')
+            ->getQuery();
+        $dql = 'SELECT a FROM App\Entity\Departement a';
+        $query = $em->createQuery($dql);
+        //$paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+        /*$pagination = $paginator->paginate(
+            $allDepartementsQuery,
+            $request->query->getInt('page', 1),
+            10
+        );*/
+
+        return $this->render('departement/index.html.twig',
+            ['departements' => $pagination]);
     }
 
     /**

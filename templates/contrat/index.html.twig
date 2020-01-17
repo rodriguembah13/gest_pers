@@ -9,25 +9,39 @@
 
         </div>
         <div class="col-md-4">
-
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)"
+                       ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <a class="btn btn-primary pull-right" href="{{ path('contrat_new') }}">Create new</a>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtablelist"><i class="fa fa-th-list"></i></a>
+                <a class="btn btn-default btn-sm" href="#" id="jqtablebox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('contrat_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-success btn-sm pull-right" href="{{ path('contrat_new') }}"><i class="far fa-flash"></i>Importer</a>
         </div>
     </div>
+    <br>
 
-    <table class="table">
+    <table class="table table-hover" id="jqtable_contrat">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>DateDebut</th>
-                <th>DateFin</th>
-                <th>FinEssai</th>
-                <th>Salaire</th>
-                <th>Satut</th>
-                <th>actions</th>
-            </tr>
+        <tr class="bg-aqua">
+            <th>Id</th>
+            <th>Libelle</th>
+            <th>DateDebut</th>
+            <th>DateFin</th>
+            <th>FinEssai</th>
+            <th>Salaire</th>
+            <th>Satut</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for contrat in contrats %}
@@ -35,13 +49,15 @@
                 <td>{{ contrat.id }}</td>
                 <td>{{ contrat.libelle }}</td>
                 <td>{{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.dateFin }}</td>
+                <td>{{ contrat.dateFin  ? contrat.dateFin|date('Y-m-d') : '' }}</td>
                 <td>{{ contrat.finEssai ? contrat.finEssai|date('Y-m-d') : '' }}</td>
                 <td>{{ contrat.salaire }}</td>
-                <td>{{ contrat.satut }}</td>
-                <td><div class="btn-group">
-                    <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a></div>
+                <td><span class="label label-info">{{ contrat.satut }}</span></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
+                    </div>
                 </td>
             </tr>
         {% else %}
@@ -51,4 +67,76 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="row" id="jqbox_contrat">
+        {% for contrat in contrats %}
+            <div class="col-md-3">
+                {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+
+                    {% block box_body %}
+
+                        <img class="col-md-5" width="100" height="70"
+                             src="{{ asset('uploads/' ~ contrat.employe.imageFilename) }}" title="my image"
+                             alt="My image">
+
+                        <div class="col-md-7">
+                            {{ contrat.libelle }}<br>
+                            {{ contrat.employe.nomComplet }}-
+                            {{ contrat.employe.poste.libelle }}
+                            <div class="btn-group">
+                                <a class="btn btn-info btn-xs" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
+                                <a class="btn btn-primary btn-xs" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
+                            </div>
+                        </div>
+                    {% endblock %}
+                    {% block box_footer %}
+                        <span id="span1" class="label label-info">{{ contrat.satut}}</span>
+
+                        {#<select class="" id="changestatut">
+                            <option value="nouveau"><span class="label label-info">Nouveau</span></option>
+                            <option value="encours">Encours</option>
+                            <option value="renouveller">À renouveller</option>
+                            <option value="expire">Expiré</option>
+                            <option value="annule">Annulé</option>
+                        </select>#}
+                        {# <ul class="list-group">
+                        <a class=" btn btn-primary dropdown-toggle" href="">
+                           <span class="hidden-sm">
+                                ...
+                            </span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-item">
+                                <a ui-sref="emploi-temps-make({id:classe.id})">Nouveau</a>
+                            </li>
+                            <li class="dropdown-item" >
+                                <a ui-sref="classe-matiere-professeur-affecter({id:classe.id})">
+                                    <span class="">Encours</span>
+                                </a></li>
+                            <li class="dropdown-item">
+                                <a ui-sref="emploi-temps-make({id:classe.id})">À renouveller</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a ui-sref="emploi-temps-make({id:classe.id})">Expiré</a>
+                            </li>
+
+                            <li class="dropdown-item">
+                                <a ui-sref="emploi-temps-make({id:classe.id})">Annulé</a>
+                            </li>
+                        </ul>
+                    </ul>#}
+                    {% endblock %}
+                    {#  {% block box_title %}
+                      #}{# Title goes here #}{#
+                      {{ contrat.libelle }}
+                  {% endblock %}#}
+                {% endembed %}
+            </div> {% endfor %}</div>
+    <div class="navigation center-block">
+        {{ knp_pagination_render(contrats) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'contrat/javascript.html.twig' %}
 {% endblock %}

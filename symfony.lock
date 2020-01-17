@@ -1,4 +1,21 @@
 {
+    "api-platform/api-pack": {
+        "version": "v1.2.1"
+    },
+    "api-platform/core": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "a93061567140e386f107be75340ac2aee3f86cbf"
+        },
+        "files": [
+            "config/packages/api_platform.yaml",
+            "config/routes/api_platform.yaml",
+            "src/Entity/.gitignore"
+        ]
+    },
     "composer/semver": {
         "version": "1.4.2"
     },
@@ -98,6 +115,9 @@
     "egulias/email-validator": {
         "version": "2.1.4"
     },
+    "fig/link-util": {
+        "version": "1.1.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -131,8 +151,26 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v5.0.0"
     },
+    "markbaker/complex": {
+        "version": "1.4.7"
+    },
+    "markbaker/matrix": {
+        "version": "1.2.0"
+    },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "nelmio/cors-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "6388de23860284db9acce0a7a5d9d13153bcb571"
+        },
+        "files": [
+            "config/packages/nelmio_cors.yaml"
+        ]
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -143,6 +181,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.0"
     },
+    "onurb/excel-bundle": {
+        "version": "1.0.2"
+    },
     "paragonie/random_compat": {
         "version": "v2.0.17"
     },
@@ -152,14 +193,32 @@
     "php-cs-fixer/diff": {
         "version": "v1.3.0"
     },
+    "phpdocumentor/reflection-common": {
+        "version": "2.0.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "4.3.4"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.0.1"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.10.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/link": {
+        "version": "1.0.0"
+    },
     "psr/log": {
         "version": "1.0.2"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
@@ -226,6 +285,9 @@
     },
     "symfony/event-dispatcher-contracts": {
         "version": "v1.1.7"
+    },
+    "symfony/expression-language": {
+        "version": "v4.4.2"
     },
     "symfony/filesystem": {
         "version": "v4.1.1"
@@ -320,6 +382,9 @@
     "symfony/property-access": {
         "version": "v4.1.1"
     },
+    "symfony/property-info": {
+        "version": "v4.4.2"
+    },
     "symfony/routing": {
         "version": "4.0",
         "recipe": {
@@ -349,6 +414,9 @@
     },
     "symfony/security-http": {
         "version": "v4.2.3"
+    },
+    "symfony/serializer": {
+        "version": "v4.4.2"
     },
     "symfony/service-contracts": {
         "version": "v1.1.8"
@@ -401,6 +469,9 @@
     "symfony/var-exporter": {
         "version": "v4.2.3"
     },
+    "symfony/web-link": {
+        "version": "v4.4.2"
+    },
     "symfony/web-profiler-bundle": {
         "version": "3.3",
         "recipe": {
@@ -431,8 +502,26 @@
     "symfony/yaml": {
         "version": "v4.1.1"
     },
+    "tattali/calendar-bundle": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "0c643e17b5340747b35c2c75e11727fa31bfa9bb"
+        },
+        "files": [
+            "config/routes/calendar.yaml"
+        ]
+    },
     "twig/twig": {
         "version": "v2.4.8"
+    },
+    "webmozart/assert": {
+        "version": "1.6.0"
+    },
+    "willdurand/negotiation": {
+        "version": "v2.3.1"
     },
     "zendframework/zend-code": {
         "version": "3.3.0"

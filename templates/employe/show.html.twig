@@ -4,71 +4,161 @@
 {% block page_title %} Employe {% endblock %}
 {% block page_subtitle %} {{ employe.id }} {% endblock %}
 {% block page_content %}
+<div class="row">
+    <div class="col-md-12">
+    {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+        {% block box_before %}{% endblock %}
+        {% block box_body %}
+    <div class="col-md-2">
+        {% if employe.imageFilename is defined and employe.imageFilename  is not null %}
+            <img id="img_emp" class="img img-responsive img-thumbnail" style="width:90%"
+                 src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
+                 alt="My image">
+        {% else %}  <img id="img_emp" class="img img-responsive img-thumbnail" style="width:90%"
+                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="my image"
+                         alt="My image">
+        {% endif %}
+    </div>
+    <div class="col-md-5">
+     <h3>{{ employe.nomComplet }}</h3>
+    </div>
+    {% endblock %}
+    {% endembed %}
+</div></div>
+<div class="row">
+    <div class="col-md-6">
+        {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+        {% block box_before %}{% endblock %}
+        {% block box_title %}{{ 'information personnelle'|trans }}{% endblock %}
+        {% block box_body %}
+        <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Matricule</span></dt>
+        <dd>
+            <span>{{employe.matricule}}</span>
+        </dd>
+            <dt><span>email</span></dt>
+            <dd>
+                <span>{{employe.email}}</span>
+            </dd>
+            <dt><span>Date de Naissance</span></dt>
+            <dd>
+                <span>{{employe.dateNaissance ? employe.dateNaissance|date('Y-m-d') : '' }}</span>
+            </dd>
+            <dt><span>Lieu de Naissance</span></dt>
+            <dd>
+                <span>{{employe.lieunaissance}}</span>
+            </dd>
+            <dt><span>Sexe</span></dt>
+            <dd>
+                <span>{{employe.sexe}}</span>
+            </dd>
+            <dt><span>Telephone</span></dt>
+            <dd>
+                <span>{{employe.telephone}}</span>
+            </dd>
+            <dt><span>Adresse</span></dt>
+            <dd>
+                <span>{{employe.adresse}}</span>
+            </dd>
+            <dt><span>Nationalite</span></dt>
+            <dd>
+                <span>{{employe.nationalite}}</span>
+            </dd>
+            <dt><span>Etat Civil</span></dt>
+            <dd>
+                <span>{{employe.etatCivil}}</span>
+            </dd>
+            <dt><span>N°cni</span></dt>
+            <dd>
+                <span>{{employe.cni}}</span>
+            </dd>
+            <dt><span>N°passeport</span></dt>
+            <dd>
+                <span>{{employe.passeport}}</span>
+            </dd>
+        </dl>
+        {% endblock %}
+            {% block box_footer %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ employe.id }}</td>
-            </tr>
-            <tr>
-                <th>NomComplet</th>
-                <td>{{ employe.nomComplet }}</td>
-            </tr>
-            <tr>
-                <th>Matricule</th>
-                <td>{{ employe.matricule }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ employe.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ employe.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ employe.email }}</td>
-            </tr>
-            <tr>
-                <th>Nationalite</th>
-                <td>{{ employe.nationalite }}</td>
-            </tr>
-            <tr>
-                <th>Cni</th>
-                <td>{{ employe.cni }}</td>
-            </tr>
-            <tr>
-                <th>Passeport</th>
-                <td>{{ employe.passeport }}</td>
-            </tr>
-            <tr>
-                <th>Sexe</th>
-                <td>{{ employe.sexe }}</td>
-            </tr>
-            <tr>
-                <th>DateNaissance</th>
-                <td>{{ employe.dateNaissance ? employe.dateNaissance|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>LieuNaissance</th>
-                <td>{{ employe.lieuNaissance }}</td>
-            </tr>
-            <tr>
-                <th>EtatCivil</th>
-                <td>{{ employe.etatCivil }}</td>
-            </tr>
-            <tr>
-                <th>NoteAdditionnelle</th>
-                <td>{{ employe.noteAdditionnelle }}</td>
-            </tr>
-        </tbody>
-    </table>
+            {% endblock %}
 
-    <a class="btn btn-warning" href="{{ path('employe_index') }}">back to list</a>
+            {% block box_after %}{% endblock %}
+        {% endembed %}
+    </div>
+    <div class="col-md-6">
+        {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+        {% block box_before %}{% endblock %}
+        {% block box_title %}{{ 'information professionelle'|trans }}{% endblock %}
+        {% block box_body %}
+        <dl class="dl-horizontal jh-entity-details">
 
-    <a class="btn btn-primary" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
+            <dt><span>Departement</span></dt>
+            {% if employe.departement %}
+                <dd>
+                <span>{{employe.departement.libelle}}</span>
+            </dd>{% endif %}
 
-    {{ include('employe/_delete_form.html.twig') }}
+            <dt><span>Poste</span></dt>
+            {% if employe.poste %} <dd>
+                <span>{{employe.poste.libelle}}</span>
+            </dd>{% endif %}
+
+            <dt><span>Login</span></dt>
+            {% if employe.compte %}  <dd>
+                <span>{{employe.compte.username}}</span>
+            </dd>
+                <dt><span>Roles</span></dt>
+                <dd>
+                    <span>{{ employe.compte.roles ? employe.compte.roles|join(', ') : '' }}</span>
+                </dd>
+            {% endif %}
+        </dl>
+
+        {% endblock %}
+            {% block box_footer %}
+
+            {% endblock %}
+
+            {% block box_after %}{% endblock %}
+        {% endembed %}
+    </div>
+</div>
+    <div class="row">
+
+
+        <div class="col-md-9"> <a class="btn btn-warning" href="{{ path('employe_index') }}">back to list</a>
+
+            <a class="btn btn-primary" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a></div>
+       {# <div class="col-md-3"> {{ include('employe/_delete_form.html.twig') }}</div>#}
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+            delete
+        </button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this item?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ path('employe_delete', {'id': employe.id}) }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employe.id) }}">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">cancel</span>
+                        </button>
+                        <button class="btn btn-danger">Delete</button>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,11 +1,17 @@
 {% extends '@AdminLTE/layout/default-layout.html.twig' %}
-
-{% block page_title %}Demo application{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+{% endblock %}
+{% block page_title %}Gest-Pers{% endblock %}
+{% block logo_large %} <b>Gest-</b>PERS {% endblock %}
+{% block logo_mini %}<b>G-</b>PERS{% endblock %}
+{% block sidebar_search %}{% endblock %}
+ {#{{ macro.avatar(user.avatar, user.email)  }}#}
 {% block navbar_start %}
     <li class="dropdown messages-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="far fa-globe"></i>
+            <i class="fa fa-globe"></i>
             <span class="label label-primary">{{ app_locales|length }}</span>
         </a>
         <ul class="dropdown-menu">
@@ -25,7 +31,16 @@
         </ul>
     </li>
 {% endblock %}
-
+{% block footer %}
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2018 <a href="#">GES-PERS</a>.</strong> All rights reserved.
+    </footer>
+{% endblock %}
 {% block javascripts %}
     {{ parent() }}
     {% include 'includes/javascript.html.twig' %}

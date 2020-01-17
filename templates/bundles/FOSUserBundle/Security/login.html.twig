@@ -1,3 +1,11 @@
 {% extends '@AdminLTE/FOSUserBundle/Security/login.html.twig' %}
-
+{% block title %}Gers-P | Log in{% endblock %}
 {% block logo_login %}<b>GEST_PERS</b> Login{% endblock %}
+{% block login_actions %}
+    {% if 'adminlte_password_reset'|route_alias != 'adminlte_password_reset' %}
+        <a href="{{ path('adminlte_password_reset'|route_alias) }}">
+            {{ 'I forgot my password'|trans({}, 'AdminLTEBundle') }}
+        </a>
+        <br>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+{#{{ form_row(form.actif) }}#}
+<div class="col-md-6">
+    {{ form_row(form.libelle) }}
+    {{ form_row(form.dateDebut) }}
+    {{ form_row(form.nbreJours) }}
+    {{ form_row(form.paid) }}
+</div>
+
+<div class="col-md-6">
+    {{ form_row(form.code) }}
+    {{ form_row(form.dateFin) }}
+    {{ form_row(form.mode) }}
+    <div id="departement" class="departement">
+        {{ form_row(form.departement) }}
+    </div>
+    <div id="entreprise" class="entreprise">
+        {{ form_row(form.entreprise) }}</div>
+        <div id="poste" class="poste">
+            {{ form_row(form.poste) }}</div>
+</div>
+
+{{ form_widget(form) }}
+<div class="pull-right">
+    <button type="reset" class="btn btn-warning "><i class="fa fa-times"></i> {{ 'Cancel'|trans }}</button>
+    <button type="submit" class="btn btn-primary "><i class="fa fa-check-square"></i> {{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

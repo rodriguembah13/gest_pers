@@ -43,6 +43,11 @@ class Departement
      */
     private $postes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Employe", mappedBy="departement")
+     */
+    private $employes;
+
     public function __construct()
     {
         $this->employes = new ArrayCollection();
@@ -137,5 +142,36 @@ class Departement
     {
         // to show the name of the Category in the select
         return $this->libelle;
+    }
+
+    /**
+     * @return Collection|Employe[]
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): self
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes[] = $employe;
+            $employe->setDepartement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): self
+    {
+        if ($this->employes->contains($employe)) {
+            $this->employes->removeElement($employe);
+            // set the owning side to null (unless already changed)
+            if ($employe->getDepartement() === $this) {
+                $employe->setDepartement(null);
+            }
+        }
+
+        return $this;
     }
 }

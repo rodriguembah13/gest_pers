@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CaType{% endblock %}
+{% block page_title %} Type de conge {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+   {{ include('ca_type/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('ca_type_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ca_type/javascript.html.twig' %}
+{% endblock %}

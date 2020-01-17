@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="Sign in to start your session">
                 <source>Sign in to start your session</source>
-                <target>You can login with "admin/password" or "user/password"</target>
+                <target></target>
             </trans-unit>
         </body>
     </file>

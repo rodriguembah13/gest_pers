@@ -35,6 +35,15 @@ class EmployeRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function count2($value)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id)')
+            ->getQuery()
+            ->useQueryCache(true)
+            ->getSingleScalarResult()
+            ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Employe

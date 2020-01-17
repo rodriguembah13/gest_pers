@@ -62,7 +62,8 @@ class NavbarUserSubscriber implements EventSubscriberInterface
             ->setUsername($myUser->getUsername())
             ->setIsOnline(true)
             ->setTitle('demo user')
-            ->setAvatar('/bundles/adminlte/images/default_avatar.png')
+            ->setAvatar($myUser->getAvatar())
+            //->setAvatar('/bundles/adminlte/images/default_avatar.png')
             ->setMemberSince(new \DateTime());
 
         //$event->setShowProfileLink(false);

@@ -1,0 +1,65 @@
+<script type="text/javascript">
+   //$('.departement').hide();
+   //$('#poste').hide();
+   //$('#entreprise').hide();
+   if ($('#ca_type_mode').val()==='departement'){
+       $('.departement').show();
+       $('#poste').hide();
+       $('#entreprise').hide();
+   }else if ($('#ca_type_mode').val()==='poste'){
+       $('.departement').hide();
+       $('#poste').show();
+       $('#entreprise').hide();
+   }else if ($('#ca_type_mode').val()==='entreprise'){
+       $('.departement').hide();
+       $('#poste').hide();
+       $('#entreprise').show();
+   }
+   // alert($('#ca_type_departement').val())
+    $('#ca_type_mode').change(function () {
+        var statutSelector = $(this);
+        alert(statutSelector.val());
+        if (statutSelector.val()==='departement'){
+            $('.departement').show();
+            $('#poste').hide();
+            $('#entreprise').hide();
+        }else if (statutSelector.val()==='poste'){
+            $('.departement').hide();
+            $('#poste').show();
+            $('#entreprise').hide();
+        }else if (statutSelector.val()==='entreprise'){
+            $('.departement').hide();
+            $('#poste').hide();
+            $('#entreprise').show();
+        }
+    });
+ /*  $('#ca_type_dateFin').change(function () {
+       var number=0;
+       var endDate=new Date($(this).val());
+       var startDate=new Date($('#ca_type_dateDebut').val());
+       var diff_time=new Date($(this).val()).getTime()-new Date($('#ca_type_dateDebut').val()).getTime();
+       var diff_days=diff_time/(1000*3600*24);
+       while (startDate<endDate){
+           startDate.setDate(startDate.getDate()+1);
+           if (startDate.getDay()===0 || startDate.getDay()==6){
+               number=number+1;
+           }
+       }
+       alert(number);
+   })*/
+   // $('#jqtablelist').hide();
+    /*$(function () {
+        $('#departement').show();
+        $('#ca_type_actif').addClass('hide');
+        alert("test");
+
+       /!* $('#jqtablelist').click(function () {
+            $('#jqtable_contrat').show();$('#jqbox_contrat').hide();
+
+        })
+        $('#jqtablebox').click(function () {
+            $('#jqtable_contrat').hide();
+            $('#jqbox_contrat').show();
+        })*!/
+    });*/
+</script>

@@ -8,8 +8,11 @@ controllers:
         _locale: '%locale%'
 
 home:
-    path: /admin
+    path: /
     controller: App\Controller\DefaultController::index
+config-rh:
+    path: /config-rh
+    controller: App\Controller\DefaultController::config
 front:
     path: /front
     controller: App\Controller\FrontController::index
@@ -23,6 +26,23 @@ employe:
 departement:
     path: /departement
     controller: App\Controller\DepartementController::index
+type-conge:
+    path: /ca/type/
+    controller: App\Controller\CaTypeController::index
+demande-conge:
+    path: /ca/conge
+    controller: App\Controller\CaCongeController::index
+mes-demande-conge:
+    path: /ca/myconge
+    controller: App\Controller\CaCongeController::myconge
+posterest:
+    path: /posterest
+    controller: App\Controller\EmployeController::listpost
+    methods:  GET
+congerest:
+    path: /congerest
+    controller: App\Controller\CaCongeController::update
+    methods:  GET
 fos_user_security:
     prefix: /{_locale}
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -38,3 +58,9 @@ fos_user_resetting:
 fos_user_profile:
     prefix: /{_locale}/profile
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+
+fos_user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /{_locale}/group
+calendar:
+    resource: "@CalendarBundle/Resources/config/routing.yaml"

@@ -2,6 +2,8 @@ fos_user:
     db_driver: orm
     firewall_name: secured_area
     user_class: App\Entity\User
+    group:
+        group_class: App\Entity\Group
     from_email:
         address: "demo@example.com"
         sender_name: "AdminLTE Demo"

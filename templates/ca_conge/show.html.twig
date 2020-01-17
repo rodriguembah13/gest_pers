@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CaConge{% endblock %}
+{% block page_title %} CaConge {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)"
+                       ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtablelist"><i class="fa fa-th-list"></i></a>
+                <a class="btn btn-default btn-sm" href="#" id="jqtablebox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('contrat_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-success btn-sm pull-right" href="{{ path('contrat_new') }}"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ca_conge.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ ca_conge.libelle }}</td>
+            </tr>
+            <tr>
+                <th>DateDebut</th>
+                <td>{{ ca_conge.dateDebut ? ca_conge.dateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ ca_conge.dateFin ? ca_conge.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NbreJours</th>
+                <td>{{ ca_conge.nbreJours }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ ca_conge.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-9"><a class="btn btn-warning" href="{{ path('ca_conge_index') }}">back to list</a>
+
+            <a class="btn btn-primary" href="{{ path('ca_conge_edit', {'id': ca_conge.id}) }}">edit</a></div>
+        <div class="col-md-3"> {{ include('ca_conge/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}

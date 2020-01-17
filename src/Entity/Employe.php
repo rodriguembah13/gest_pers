@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,25 +58,13 @@ class Employe
      */
     private $passeport;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $sexe;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $dateNaissance;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $lieuNaissance;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $etatCivil;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -86,10 +76,47 @@ class Employe
      */
     private $poste;
 
+
+
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageFilename;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="employe", cascade={"persist", "remove"})
      */
     private $compte;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Departement", inversedBy="employes")
+     */
+    private $departement;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $etatCivil;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateNaissance;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $sexe;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CaConge", mappedBy="employe")
+     */
+    private $caConges;
+
+    public function __construct()
+    {
+        $this->caConges = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,29 +219,6 @@ class Employe
         return $this;
     }
 
-    public function getSexe(): ?string
-    {
-        return $this->sexe;
-    }
-
-    public function setSexe(string $sexe): self
-    {
-        $this->sexe = $sexe;
-
-        return $this;
-    }
-
-    public function getDateNaissance(): ?\DateTimeInterface
-    {
-        return $this->dateNaissance;
-    }
-
-    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
-    {
-        $this->dateNaissance = $dateNaissance;
-
-        return $this;
-    }
 
     public function getLieuNaissance(): ?string
     {
@@ -228,17 +232,6 @@ class Employe
         return $this;
     }
 
-    public function getEtatCivil(): ?string
-    {
-        return $this->etatCivil;
-    }
-
-    public function setEtatCivil(string $etatCivil): self
-    {
-        $this->etatCivil = $etatCivil;
-
-        return $this;
-    }
 
     public function getNoteAdditionnelle(): ?string
     {
@@ -264,6 +257,24 @@ class Employe
         return $this;
     }
 
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->nomComplet;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
     public function getCompte(): ?User
     {
         return $this->compte;
@@ -275,4 +286,84 @@ class Employe
 
         return $this;
     }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): self
+    {
+        $this->departement = $departement;
+
+        return $this;
+    }
+
+    public function getEtatCivil(): ?string
+    {
+        return $this->etatCivil;
+    }
+
+    public function setEtatCivil(?string $etatCivil): self
+    {
+        $this->etatCivil = $etatCivil;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): self
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(?string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CaConge[]
+     */
+    public function getCaConges(): Collection
+    {
+        return $this->caConges;
+    }
+
+    public function addCaConge(CaConge $caConge): self
+    {
+        if (!$this->caConges->contains($caConge)) {
+            $this->caConges[] = $caConge;
+            $caConge->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaConge(CaConge $caConge): self
+    {
+        if ($this->caConges->contains($caConge)) {
+            $this->caConges->removeElement($caConge);
+            // set the owning side to null (unless already changed)
+            if ($caConge->getEmploye() === $this) {
+                $caConge->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

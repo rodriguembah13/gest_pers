@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Entreprise index{% endblock %}
-
+{% block page_title %} Entreprise {% endblock %}
+{% block page_subtitle %} List {% endblock %}
 {% block page_content %}
-    <h1>Entreprise index</h1>
-
     <table class="table">
         <thead>
             <tr>
@@ -35,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('entreprise_new') }}">Create new</a>
+    <a class="btn btn-warning" href="{{ path('config-rh') }}">Return</a><a class="btn btn-primary pull-right" href="{{ path('entreprise_new') }}">Create new</a>
 {% endblock %}

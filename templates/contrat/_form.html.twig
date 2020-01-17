@@ -1,4 +1,20 @@
 {{ form_start(form) }}
+{{ form_row(form.libelle) }}
+<div class="row">
+<div class="col-md-6">
+    {{ form_row(form.employe) }}
+    {{ form_row(form.type) }}
+    {{ form_row(form.salaire) }}
+</div>
+<div class="col-md-6">
+    {{ form_row(form.finEssai) }}
+    {{ form_row(form.dateDebut) }}
+    {{ form_row(form.dateFin) }}
+</div>
+</div>
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="pull-right">
+    <button type="reset" class="btn btn-warning "><i class="fa fa-times"></i> {{ 'Cancel'|trans }}</button>
+    <button type="submit" class="btn btn-primary "><i class="fa fa-check-square"></i> {{ button_label|default('Save') }}</button>
+</div>
 {{ form_end(form) }}

@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="menu.rh">
                             <source>menu.rh</source>
-                            <target>Ressource Humaine</target>
+                            <target>Portail RH</target>
                         </trans-unit>
                          <trans-unit id="menu.employe">
                                                     <source>menu.employe</source>

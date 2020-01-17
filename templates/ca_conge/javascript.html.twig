@@ -1,0 +1,171 @@
+<script type="text/javascript">
+
+   if ($('#ca_conge_status').val()==='approuve'){
+       $('#annuler').show();
+       $('#confimer').show();
+       $('#valider').hide();
+   }else  if ($('#ca_conge_status').val()==='confirme'){
+       $('#annuler').show();
+       $('#confimer').hide();
+       $('#valider').show();
+   }else  if ($('#ca_conge_status').val()==='valide'){
+       $('#annuler').show();
+       $('#confimer').hide();
+       $('#valider').hide();
+   }
+   $('#status').hide();
+  // $('#ca_conge_nbreJours').prop("disabled",true);
+   //$('#my_ca_conge_nbreJours').addClass('disabled');
+    $('#ca_type_mode').change(function () {
+        var statutSelector = $(this);
+        alert(statutSelector.val());
+        if (statutSelector.val()==='departement'){
+            $('.departement').show();
+            $('#poste').hide();
+            $('#entreprise').hide();
+        }else if (statutSelector.val()==='poste'){
+            $('.departement').hide();
+            $('#poste').show();
+            $('#entreprise').hide();
+        }else if (statutSelector.val()==='entreprise'){
+            $('.departement').hide();
+            $('#poste').hide();
+            $('#entreprise').show();
+        }
+    });
+  $('#ca_conge_dateFin').change(function () {
+       var number=0;
+       var endDate=new Date($(this).val());
+       var startDate=new Date($('#ca_conge_dateDebut').val());
+       var diff_time=endDate.getTime()-startDate.getTime();
+       var diff_days=diff_time/(1000*3600*24);
+       while (startDate<endDate){
+           startDate.setDate(startDate.getDate()+1);
+           if (startDate.getDay()===0 || startDate.getDay()==6){
+               number=number+1;
+           }
+       }
+      // alert((diff_days+1)-number);
+  $('#ca_conge_nbreJours').val((diff_days)-number)
+   });
+  document.addEventListener('DOMContentLoaded', () => {
+       var calendarEl = document.getElementById('calendar-holder');
+
+       var calendar = new FullCalendar.Calendar(calendarEl, {
+           defaultView: 'dayGridMonth',
+           editable: true,
+           selectable: true,
+           selectMirror: true,
+           select: function(arg) {
+               var title = prompt('Event Title:');
+               if (title) {
+                   calendar.addEvent({
+                       title: title,
+                       start: arg.start,
+                       end: arg.end,
+                       allDay: arg.allDay
+                   })
+               }
+               calendar.unselect()
+           },
+          eventSources: [
+               {
+                   url: "{{ path('fc_load_events') }}",
+                   method: "POST",
+                   extraParams: {
+                       filters: JSON.stringify({})
+                   },
+                   failure: () => {
+                        alert("There was an error while fetching FullCalendar!");
+                   },
+               },
+           ],
+           header: {
+               left: 'prev,next today',
+               center: 'title',
+               right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+           },
+           plugins: [ 'interaction', 'dayGrid', 'timeGrid','list' ], // https://fullcalendar.io/docs/plugin-index
+           timeZone: 'UTC',
+       });
+       calendar.render();
+   });
+   $('#confimer').click(function () {
+       var id_conge = $('#conge_id').html();
+     //  alert(id_conge);
+       // Request the neighborhoods of the selected city.congerest
+   $.ajax({
+           url: "{{ path('congerest') }}",
+           type: "GET",
+           dataType: "JSON",
+           data: {
+               congeid: id_conge,
+               congestatus:'confimer'
+           },
+           success: function (conge) {
+               alert(conge.id);
+
+           },
+           error: function (err) {
+               alert("An error ocurred while loading data ...");
+           }
+       });
+   });
+   $('#valider').click(function () {
+       var id_conge = $('#conge_id').html();
+       //  alert(id_conge);
+       // Request the neighborhoods of the selected city.congerest
+       $.ajax({
+           url: "{{ path('congerest') }}",
+           type: "GET",
+           dataType: "JSON",
+           data: {
+               congeid: id_conge,
+               congestatus:'valider'
+           },
+           success: function (conge) {
+               alert(conge.id);
+
+           },
+           error: function (err) {
+               alert("An error ocurred while loading data ...");
+           }
+       });
+   });
+   $('#annuler').click(function () {
+       var id_conge = $('#conge_id').html();
+       //  alert(id_conge);
+       // Request the neighborhoods of the selected city.congerest
+       $.ajax({
+           url: "{{ path('congerest') }}",
+           type: "GET",
+           dataType: "JSON",
+           data: {
+               congeid: id_conge,
+               congestatus:'annuler'
+           },
+           success: function (conge) {
+               alert(conge.id);
+
+           },
+           error: function (err) {
+               alert("An error ocurred while loading data ...");
+           }
+       });
+   });
+   $('#my_ca_conge_dateFin').change(function () {
+       var number=0;
+       var endDate=new Date($(this).val());
+       var startDate=new Date($('#my_ca_conge_dateDebut').val());
+       var diff_time=endDate.getTime()-startDate.getTime();
+       var diff_days=diff_time/(1000*3600*24);
+       while (startDate<endDate){
+           startDate.setDate(startDate.getDate()+1);
+           if (startDate.getDay()===0 || startDate.getDay()==6){
+               number=number+1;
+           }
+       }
+       // alert((diff_days+1)-number);
+       $('#my_ca_conge_nbreJours').val((diff_days+1)-number)
+   });
+</script>

@@ -10,22 +10,49 @@
 namespace App\Controller;
 
 use App\Form\FormDemoModelType;
+use App\Repository\DepartementRepository;
+use App\Repository\EmployeRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Default controller
+ * Default controller.
+ *
+ * @IsGranted("ROLE_USER")
  */
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/admin", defaults={}, name="homepage")
+     * @Route("/", defaults={}, name="homepage")
      */
-    public function index()
+    public function index(EmployeRepository $employeRepository, UserRepository $userRepository, DepartementRepository $departementRepository)
     {
-        return $this->render('default/index.html.twig', []);
+        $items = $employeRepository->findAll();
+        $users = $userRepository->findAll();
+        $departements = $departementRepository->findAll();
+        $count = count($items);
+
+        return $this->render('default/index.html.twig', [
+            'nbemp' => $count, 'nbusers' => count($users), 'nbdepartements' => count($departements),
+        ]);
+    }
+
+    /**
+     * @Route("/config-rh", defaults={}, name="configpage")
+     */
+    public function config(UserRepository $userRepository, EntityManagerInterface $em, PaginatorInterface $paginator, Request $request)
+    {
+        $dql = 'SELECT a FROM App\Entity\User a';
+        $query = $em->createQuery($dql);
+        $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 10);
+
+        return $this->render('default/config.html.twig', ['users' => $pagination]);
     }
 
     /**

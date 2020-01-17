@@ -1,46 +1,116 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Contrat{% endblock %}
-
+{% block page_title %} Contrats {% endblock %}
+{% block page_subtitle %} detail {% endblock %}
 {% block page_content %}
-    <h1>Contrat</h1>
+    <div class="row">
+        <div class="col-md-12">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% block box_before %}{% endblock %}
+                {% block box_body %}
+                    <div class="col-md-2">
+                        {% if contrat.employe.imageFilename is defined and contrat.employe.imageFilename  is not null %}
+                            <img id="img_emp" class="img img-responsive img-thumbnail" style="width:90%"
+                                 src="{{ asset('uploads/' ~ contrat.employe.imageFilename) }}" title="my image"
+                                 alt="My image">
+                        {% else %}  <img id="img_emp" class="img img-responsive img-thumbnail" style="width:90%"
+                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}"
+                                         title="my image"
+                                         alt="My image">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-5">
+                        <h3>{{ contrat.employe.nomComplet }}</h3><br>
+                        <span class="label label-info">{{ contrat.satut }}</span>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% block box_before %}{% endblock %}
+                {% block box_title %}{{ 'information personnelle'|trans }}{% endblock %}
+                {% block box_body %}
+                    <dl class="dl-horizontal jh-entity-details">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ contrat.id }}</td>
-            </tr>
-            <tr>
-                <th>Libelle</th>
-                <td>{{ contrat.libelle }}</td>
-            </tr>
-            <tr>
-                <th>DateDebut</th>
-                <td>{{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateFin</th>
-                <td>{{ contrat.dateFin }}</td>
-            </tr>
-            <tr>
-                <th>FinEssai</th>
-                <td>{{ contrat.finEssai ? contrat.finEssai|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Salaire</th>
-                <td>{{ contrat.salaire }}</td>
-            </tr>
-            <tr>
-                <th>Satut</th>
-                <td>{{ contrat.satut }}</td>
-            </tr>
-        </tbody>
-    </table>
+                        <dt><span>Libelle</span></dt>
+                        <dd>
+                            <span>{{ contrat.libelle }}</span>
+                        </dd>
+                        {% if contrat.type %}
+                            <dt><span>Catégorie de l'employé</span></dt>
 
-    <a href="{{ path('contrat_index') }}">back to list</a>
+                            <dd>
+                                <span>{{ contrat.type.libelle }}</span>
+                            </dd>
+                        {% endif %}
 
-    <a href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
+                        <dt><span>Date deDebut</span></dt>
+                        <dd>
+                            <span>{{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}</span>
+                        </dd>
+                        <dt><span>Date de fin</span></dt>
+                        <dd>
+                            <span>{{ contrat.dateFin ? contrat.dateFin|date('Y-m-d') : '' }}</span>
+                        </dd>
+                        <dt><span>Date fin d'essai</span></dt>
+                        <dd>
+                            <span>{{ contrat.finEssai ? contrat.finEssai|date('Y-m-d') : '' }}</span>
+                        </dd>
+                        <dt><span>Salaire</span></dt>
+                        <dd>
+                            <span>{{ contrat.salaire }}</span>
+                        </dd>
+                    </dl>
+                {% endblock %}
+                {% block box_footer %}
 
-    {{ include('contrat/_delete_form.html.twig') }}
+                {% endblock %}
+
+                {% block box_after %}{% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    {#   <table class="table">
+           <tbody>
+               <tr>
+                   <th>Id</th>
+                   <td>{{ contrat.id }}</td>
+               </tr>
+               <tr>
+                   <th>Libelle</th>
+                   <td>{{ contrat.libelle }}</td>
+               </tr>
+               <tr>
+                   <th>DateDebut</th>
+                   <td>{{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}</td>
+               </tr>
+               <tr>
+                   <th>DateFin</th>
+                   <td>{{ contrat.dateFin ? contrat.dateFin|date('Y-m-d') : '' }}</td>
+               </tr>
+               <tr>
+                   <th>FinEssai</th>
+                   <td>{{ contrat.finEssai ? contrat.finEssai|date('Y-m-d') : '' }}</td>
+               </tr>
+               <tr>
+                   <th>Salaire</th>
+                   <td>{{ contrat.salaire }}</td>
+               </tr>
+               <tr>
+                   <th>Satut</th>
+                   <td>{{ contrat.satut }}</td>
+               </tr>
+           </tbody>
+       </table>
+   #}
+    <div class="row">
+        <div class="col-md-9"><a class="btn btn-warning" href="{{ path('contrat_index') }}">back to list</a>
+
+            <a class="btn btn-primary" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a></div>
+        <div class="col-md-3"> {{ include('contrat/_delete_form.html.twig') }}</div>
+    </div>
 {% endblock %}

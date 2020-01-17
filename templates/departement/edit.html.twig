@@ -2,8 +2,9 @@
 
 {% block title %}Edit Departement{% endblock %}
 
-{% block body %}
-    <h1>Edit Departement</h1>
+{% block page_title %} Departement {% endblock %}
+{% block page_subtitle %} edit {% endblock %}
+{% block page_content %}
 
     {{ include('departement/_form.html.twig', {'button_label': 'Update'}) }}
 

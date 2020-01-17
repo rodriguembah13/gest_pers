@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CaConge{% endblock %}
+{% block page_title %} CaConge {% endblock %}
+{% block page_subtitle %} edit {% endblock %}
+{% block page_content %}
+    {#<nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="btn btn-warning btn-xs" href="{{ path('entreprise_index') }}">
+                        <span >Annuler</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-success btn-xs" href="{{ path('entreprise_index') }}">
+                        <span >Confirmer</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>#}
+    <div class="row bg-black">
+        <div class="col-md-3">
+            <button class="btn btn-danger btn-md" id="annuler">Annuler</button>
+            <button class="btn btn-success btn-md" id="confimer">Confirmer</button>
+            <button class="btn btn-primary btn-md" id="valider">Valider</button>
+        </div>
+        <div class="col-md-9">
+
+        {#<ol class="cd-breadcrumb triangle">
+            <li><a href="#0">Home</a></li>
+            <li><a href="#0">Gallery</a></li>
+            <li><a href="#0">Web</a></li>
+            <li class="current"><em>Project</em></li>
+        </ol>#}
+           {# <ul class="progressbar">
+                <li class="active">login</li>
+                <li>choose interest</li>
+                <li>add friends</li>
+                <li>View map</li>
+            </ul>#}
+        </div>
+    </div>
+    <span class="hide" id="conge_id">{{ ca_conge.id }}</span>
+    <br>
+    {{ include('ca_conge/_form.html.twig') }}
+<div class="row">
+    <div class="col-md-2">
+    <a class="btn btn-warning" href="{{ path('ca_conge_index') }}"><i class="fa fa-arrow-left"></i>back to list</a></div>
+    {{ include('ca_conge/_delete_form.html.twig') }}
+</div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ca_conge/javascript.html.twig' %}
+{% endblock %}

@@ -30,7 +30,7 @@ class DepartementController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            2 /*limit per page*/
+            10 /*limit per page*/
         );
         /*$pagination = $paginator->paginate(
             $allDepartementsQuery,
@@ -42,6 +42,24 @@ class DepartementController extends AbstractController
             ['departements' => $pagination]);
     }
 
+    /**
+     * @Route("/{id}/employe", name="depart_empl_index", methods={"GET"})
+     */
+    public function listemploye(Departement $departement): Response
+    {
+        return $this->render('employe/list_emp_depart.html.twig', [
+            'employes' => $departement->getEmployes(), 'departement' => $departement,
+        ]);
+    }
+    /**
+     * @Route("/{id}/poste", name="depart_poste_index", methods={"GET"})
+     */
+    public function listposte(Departement $departement): Response
+    {
+        return $this->render('employe/liste_poste_depart.html.twig', [
+            'postes' => $departement->getPostes(), 'departement' => $departement,
+        ]);
+    }
     /**
      * @Route("/new", name="departement_new", methods={"GET","POST"})
      */

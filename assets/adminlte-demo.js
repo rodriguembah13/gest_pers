@@ -15,5 +15,6 @@ $(document).ready(
                 firstDay: 1
             }
         });
+        $('jqtable_contrat').hide();
     }
 );

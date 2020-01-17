@@ -53,11 +53,27 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
             new MenuItemModel('departement', 'Departement', 'departement', [], 'far fa-building')
         )->addChild(
             new MenuItemModel('contrat', 'menu.contrat', 'contrat', [], 'far fa-folder')
-        )
-            ->addChild(
-                new MenuItemModel('sub-demo3', 'menu.configuration', 'forms3', [], 'fas fa-users-cog')
+        )->addChild(
+                new MenuItemModel('config-rh', 'menu.configuration', 'config-rh', [], 'fas fa-users-cog')
             );
         $event->addItem($rh);
+        $conge = new MenuItemModel('conge', 'Conges & Absences', null, [], 'fas fa-industry');
+        $conge->addChild(
+            new MenuItemModel('demande', 'Demande Conges', 'demande-conge', [], 'fas fa-users'))->
+       addChild(
+           new MenuItemModel('Mesdemande', 'Mes Demande Conges', 'mes-demande-conge', [], 'fas fa-users'))->
+            addChild(
+                new MenuItemModel('typeconge', 'Type De Conges', 'type-conge', [], 'fas fa-users'))->addChild(
+        new MenuItemModel('statistique', 'Statistque', 'type-conge', [], 'fas fa-users'))
+        ;
+
+        $event->addItem($conge);
+        $formation = new MenuItemModel('form', 'Formations', null, [], 'fas fa-industry');
+        $event->addItem($formation);
+        $recrutment = new MenuItemModel('rec', 'Recrutements', null, [], 'fas fa-industry');
+        $event->addItem($recrutment);
+        $temps = new MenuItemModel('temps', 'Temps & Activites', null, [], 'fas fa-industry');
+        $event->addItem($temps);
         $event->addItem(
             new MenuItemModel('forms', 'menu.form', 'forms', [], 'fab fa-wpforms')
         );
@@ -66,13 +82,13 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
             new MenuItemModel('context', 'AdminLTE context', 'context', [], 'fas fa-code')
         );
 
-     /*   $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
-        $demo->addChild(
-            new MenuItemModel('sub-demo', 'Form - Horizontal', 'forms2', [], 'far fa-arrow-alt-circle-down')
-        )->addChild(
-            new MenuItemModel('sub-demo2', 'Form - Sidebar', 'forms3', [], 'far fa-arrow-alt-circle-up')
-        );
-        $event->addItem($demo);*/
+        /*   $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
+           $demo->addChild(
+               new MenuItemModel('sub-demo', 'Form - Horizontal', 'forms2', [], 'far fa-arrow-alt-circle-down')
+           )->addChild(
+               new MenuItemModel('sub-demo2', 'Form - Sidebar', 'forms3', [], 'far fa-arrow-alt-circle-up')
+           );
+           $event->addItem($demo);*/
 
         if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $event->addItem(

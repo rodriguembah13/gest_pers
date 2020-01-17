@@ -1,0 +1,35 @@
+<script type="text/javascript">
+    $('#changestatut').change(function () {
+        var statutSelector = $(this);
+        alert($('#span1').html());
+        // Request the neighborhoods of the selected city.
+        $.ajax({
+            url: "{{ path('posterest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                cityid: statutSelector.val(),
+
+            },
+            success: function (neighborhoods) {
+                var neighborhoodSelect = $("#employe_poste");
+                alert("An error ocurred while loading data ...");
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    });
+    $(function () {
+        //alert("test");
+        $('#jqtable_contrat').hide();
+        $('#jqtablelist').click(function () {
+            $('#jqtable_contrat').show();$('#jqbox_contrat').hide();
+
+        })
+        $('#jqtablebox').click(function () {
+            $('#jqtable_contrat').hide();
+            $('#jqbox_contrat').show();
+        })
+    });
+</script>

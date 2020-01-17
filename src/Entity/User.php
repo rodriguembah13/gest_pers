@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Application main User entity.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(
  *      name="users",
  *      uniqueConstraints={
@@ -39,7 +39,29 @@ class User extends BaseUser implements UserInterface, EquatableInterface
      * @ORM\Column(name="id", type="integer")
      */
     protected $id;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Group")
+     * @ORM\JoinTable(name="users_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageFilename;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Employe", mappedBy="compte", cascade={"persist", "remove"})
+     */
+    private $employe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
     /**
      * Checks if the user has to be logged out of the session,
      * due to changed fields / security related settings (like roles and teams).
@@ -66,5 +88,47 @@ class User extends BaseUser implements UserInterface, EquatableInterface
         }
 
         return true;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    public function getEmploye(): ?Employe
+    {
+        return $this->employe;
+    }
+
+    public function setEmploye(?Employe $employe): self
+    {
+        $this->employe = $employe;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newCompte = null === $employe ? null : $this;
+        if ($employe->getCompte() !== $newCompte) {
+            $employe->setCompte($newCompte);
+        }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 }

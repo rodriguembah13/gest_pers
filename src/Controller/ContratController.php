@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Contrat;
 use App\Form\ContratType;
 use App\Repository\ContratRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,10 +21,14 @@ class ContratController extends AbstractController
     /**
      * @Route("/", name="contrat_index", methods={"GET"})
      */
-    public function index(ContratRepository $contratRepository): Response
+    public function index(ContratRepository $contratRepository, EntityManagerInterface $em, PaginatorInterface $paginator, Request $request): Response
     {
+        $dql = 'SELECT a FROM App\Entity\Contrat a';
+        $query = $em->createQuery($dql);
+        $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 10);
+
         return $this->render('contrat/index.html.twig', [
-            'contrats' => $contratRepository->findAll(),
+            'contrats' => $pagination,
         ]);
     }
 
@@ -35,6 +42,7 @@ class ContratController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $contrat->setSatut('encours');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($contrat);
             $entityManager->flush();
@@ -91,4 +99,37 @@ class ContratController extends AbstractController
 
         return $this->redirectToRoute('contrat_index');
     }
+    /**
+     * Returns a JSON string with the neighborhoods of the City with the providen id.
+     */
+    public function listpost(Request $request, ContratRepository $contratRepository): JsonResponse
+    {
+        // Get Entity manager and repository
+        $em = $this->getDoctrine()->getManager();
+        // $neighborhoodsRepository = $em->getRepository('AppBundle:Neighborhood');
+
+        // Search the neighborhoods that belongs to the city with the given id as GET parameter "cityid"
+        $neighborhoods = $posteRepository->createQueryBuilder('q')
+            ->where('q.departement = :cityid')
+            ->setParameter('cityid', $request->query->get('cityid'))
+            ->getQuery()
+            ->getResult();
+
+        // Serialize into an array the data that we need, in this case only name and id
+        // Note: you can use a serializer as well, for explanation purposes, we'll do it manually
+        $responseArray = [];
+        foreach ($neighborhoods as $neighborhood) {
+            $responseArray[] = [
+                'id' => $neighborhood->getId(),
+                'libelle' => $neighborhood->getLibelle(),
+            ];
+        }
+
+        // Return array with structure of the neighborhoods of the providen city id
+        return new JsonResponse($responseArray);
+
+        // e.g
+        // [{"id":"3","name":"Treasure Island"},{"id":"4","name":"Presidio of San Francisco"}]
+    }
+
 }

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CaConge{% endblock %}
+{% block page_title %} Demande de conge {% endblock %}
+{% block page_subtitle %} add {% endblock %}
+{% block page_content %}
+    <br>
+
+    {{ include('ca_conge/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('ca_conge_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ca_conge/javascript.html.twig' %}
+{% endblock %}

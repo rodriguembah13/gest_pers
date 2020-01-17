@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    app_locales: ar|cs|de|en|es|fi|fr|it|ja|nl|pt_BR|ru|sv
+    app_locales: en|fr
 
 services:
     # default configuration for services in *this* file
@@ -30,3 +30,6 @@ services:
 
     App\EventSubscriber\RedirectToLocaleSubscriber:
         arguments: ['@router', '%app_locales%', '%locale%']
+    App\EventSubscriber\CalendarSubscriber:
+        tags:
+            - { name: 'kernel.event_listener', event: 'calendar.set_data', method: load }

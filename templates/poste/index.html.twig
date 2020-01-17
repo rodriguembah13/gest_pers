@@ -4,13 +4,23 @@
 {% block page_title %} Poste {% endblock %}
 {% block page_subtitle %} list {% endblock %}
 {% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
 
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-primary pull-right" href="{{ path('poste_new') }}"><i class="far fa-flash"></i>Create new</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Libelle</th>
-                <th>Code</th>
+                <th>Code</th><th>Departement</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,9 +30,12 @@
                 <td>{{ poste.id }}</td>
                 <td>{{ poste.libelle }}</td>
                 <td>{{ poste.code }}</td>
+                <td>{{ poste.departement.libelle }}</td>
                 <td>
-                    <a href="{{ path('poste_show', {'id': poste.id}) }}">show</a>
-                    <a href="{{ path('poste_edit', {'id': poste.id}) }}">edit</a>
+                    <div class="btn-group">
+                        <a  class="btn btn-info btn-sm" href="{{ path('poste_show', {'id': poste.id}) }}">show</a>
+                        <a  class="btn btn-primary btn-sm" href="{{ path('poste_edit', {'id': poste.id}) }}">edit</a>
+                    </div>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +45,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('poste_new') }}">Create new</a>
 {% endblock %}

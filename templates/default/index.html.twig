@@ -8,36 +8,60 @@
 
 {% block page_content %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
             {# ... infobox widget, solid background ... #}
             {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
             'solid' : 'red',
             'icon'  : 'far fa-star',
-            'progress' : 40
             } %}
 
-                {% block box_text %}Vestibulum ante ipsum primis{% endblock %}
-                {% block progress_description %}The progress description{% endblock %}
+                {% block box_text %}Departement{% endblock %}
+                {% block box_number %}{{nbdepartements}}{% endblock %}
+                {% block progress_description %}{% endblock %}
             {% endembed %}
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
 
             {# ... infobox widget, colored icon ... #}
             {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
-            'color' : 'aqua',
+            'solid' : 'aqua',
             'icon'  : 'fas fa-comments',
             } %}
-                {% block box_text %}Vestibulum ante ipsum primis{% endblock %}
+                {% block box_text %}Employes{% endblock %}
                 {% block box_number %}999.9{% endblock %}
-                {% block progress_description %}Works as well without progress bar{% endblock %}
+                {% block progress_description %}{% endblock %}
+            {% endembed %}
+        </div>
+        <div class="col-md-3">
+
+            {# ... infobox widget, colored icon ... #}
+            {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+                'color' : 'indigo',
+                'icon'  : 'fa fa-users',
+            } %}
+                {% block box_text %}Employes{% endblock %}
+                {% block box_number %}{{nbemp}}{% endblock %}
+                {% block progress_description %}{% endblock %}
+            {% endembed %}
+        </div>
+        <div class="col-md-3">
+
+            {# ... infobox widget, colored icon ... #}
+            {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+                'color' : 'green',
+                'icon'  : 'fa fa-bolt',
+            } %}
+                {% block box_text %}Utilisateurs{% endblock %}
+                {% block box_number %}{{nbusers}}{% endblock %}
+                {% block progress_description %}{% endblock %}
             {% endembed %}
         </div>
     </div>
 
-    <div class="row">
+{#    <div class="row">
         <div class="col-md-6">
-            {# ... box widget with defaults ... #}
+            #}{# ... box widget with defaults ... #}{#
             {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
 
                 {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
@@ -64,7 +88,7 @@
             {% endembed %}
         </div>
         <div class="col-md-6">
-            {# ... box widget with some options ... #}
+            #}{# ... box widget with some options ... #}{#
             {% embed '@AdminLTE/Widgets/box-widget.html.twig' with {
             'boxtype' : 'success',
             'solid' : 0,
@@ -95,5 +119,5 @@
                 {% endblock %}
             {% endembed %}
         </div>
-    </div>
+    </div>#}
 {% endblock %}

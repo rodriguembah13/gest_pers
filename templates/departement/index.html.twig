@@ -4,16 +4,33 @@
 {% block page_title %} Departement {% endblock %}
 {% block page_subtitle %} list {% endblock %}
 {% block page_content %}
-
     <div class="row">
-        <a class="btn btn-success" href="{{ path('poste_index') }}">list postes</a>  <a class="btn btn-primary pull-right" href="{{ path('departement_new') }}">Create new</a>
+        <div class="col-md-4">
+            <a class="btn btn-warning btn-sm" href="{{ path('poste_index') }}"><i class="fa fa-flash"></i>Postes</a>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('departement_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-success btn-sm pull-right" href="{{ path('departement_new') }}"><i class="far fa-flash"></i>Importer</a>
+        </div>
     </div>
-    <div class="count">
-        {{ departements.getTotalItemCount }}
-    </div>
+    <br>
     <table class="table table-condensed">
         <thead>
-            <tr>
+            <tr class="bg-aqua">
                 <th>Id</th>
                 <th>Libelle</th>
                 <th>Code</th>
@@ -29,7 +46,10 @@
                 <td>
                     <div class="btn-group">
                     <a class="btn btn-info btn-sm" href="{{ path('departement_show', {'id': departement.id}) }}">show</a>
-                    <a class="btn btn-primary btn-sm" href="{{ path('departement_edit', {'id': departement.id}) }}">edit</a></div>
+                    <a class="btn btn-primary btn-sm" href="{{ path('departement_edit', {'id': departement.id}) }}">edit</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('depart_empl_index', {'id': departement.id}) }}">employes</a>
+                        <a class="btn btn-success btn-sm" href="{{ path('depart_poste_index', {'id': departement.id}) }}">postes</a>
+                    </div>
                 </td>
             </tr>
         {% else %}

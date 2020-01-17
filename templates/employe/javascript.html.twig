@@ -1,0 +1,139 @@
+<script type="text/javascript">
+    $('#jqtablelist').hide();
+    var $sport = $('#employe_departement');
+    // When sport gets selected ...
+    $sport.change(function() {
+        // ... retrieve the corresponding form.
+        var $form = $(this).closest('form');
+        // Simulate form data, but only include the selected sport value.
+        var data = {};
+        data[$sport.attr('name')] = $sport.val();
+        // Submit data via AJAX to the form's action path.
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function(html) {
+                // Replace current position field ...
+                $('#employe_poste').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('#employe_poste')
+                );
+                // Position field now displays the appropriate positions.
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    });
+    $('#employe_departement3').change(function () {
+        var citySelector = $(this);
+
+        // Request the neighborhoods of the selected city.
+        $.ajax({
+            url: "{{ path('posterest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                cityid: citySelector.val()
+            },
+            success: function (neighborhoods) {
+                var neighborhoodSelect = $("#employe_poste");
+
+                // Remove current options
+                neighborhoodSelect.html('');
+
+                // Empty value ...
+                neighborhoodSelect.append('<option value> Select a poste of ' + citySelector.find("option:selected").text() + ' ...</option>');
+
+
+                $.each(neighborhoods, function (key, neighborhood) {
+                    neighborhoodSelect.append('<option value="' + neighborhood.id + '">' + neighborhood.libelle + '</option>');
+                });
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    });
+    /*function previewFile() {
+        const preview = document.querySelector('img');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            // convert image file to base64 string
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }*/
+/*    $('#employe_departement').change(function () {
+        alert('test')
+        let $field = $(this)
+        // let $regionField = $('#appbundle_medecin_region')
+        let $form = $field.closest('form')
+        //let target = '#' + $field.attr('id').replace('departement', 'ville').replace('region', 'departement')
+        // Les données à envoyer en Ajax
+        let data = {}
+        //data[$regionField.attr('name')] = $regionField.val()
+        data[$field.attr('name')] = $field.val()
+        // On soumet les données
+        $.post($form.attr('action'), data).then(function (data) {
+            // On récupère le nouveau <select>
+            let $input = $(data).find('#employe_poste')
+            // On remplace notre <select> actuel
+            $('#employe_poste').replaceWith($input)
+        })
+    })
+    $(document).on('change', '#employe_departement', function () {
+        alert('test')
+        let $field = $(this)
+       // let $regionField = $('#appbundle_medecin_region')
+        let $form = $field.closest('form')
+        //let target = '#' + $field.attr('id').replace('departement', 'ville').replace('region', 'departement')
+        // Les données à envoyer en Ajax
+        let data = {}
+        //data[$regionField.attr('name')] = $regionField.val()
+        data[$field.attr('name')] = $field.val()
+        // On soumet les données
+        $.post($form.attr('action'), data).then(function (data) {
+            // On récupère le nouveau <select>
+            let $input = $(data).find('#employe_poste')
+            // On remplace notre <select> actuel
+            $('#employe_poste').replaceWith($input)
+        })
+    })*/
+    $(function () {
+        //alert("test");
+
+        //$('#employe_departement').hide();
+        $('#jqtable_employe').hide();
+        $('#jqtable_emplist').click(function () {
+            $('#jqtable_employe').show();$('#jqbox_employe').hide();
+
+        });
+        $('#jqtable_empbox').click(function () {
+            $('#jqtable_employe').hide();
+            $('#jqbox_employe').show();
+        });//alert("test")
+        $('#employe_image').change(function () {
+            const preview = $('#img_emp');
+            const file = this.files[0];
+            const reader = new FileReader();
+//alert("test")
+            reader.addEventListener("load", function () {
+                // convert image file to base64 string
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+            //$('#img_emp').attr('src',$('#employe_imageFilename').val());
+        });
+
+    });
+</script>

@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CaType{% endblock %}
+{% block page_title %} CaConge {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)"
+                       ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtablelist"><i class="fa fa-th-list"></i></a>
+                <a class="btn btn-default btn-sm" href="#" id="jqtablebox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('contrat_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-success btn-sm pull-right" href="{{ path('contrat_new') }}"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ ca_type.id }}</td>
+        </tr>
+        <tr>
+            <th>Libelle</th>
+            <td>{{ ca_type.libelle }}</td>
+        </tr>
+        <tr>
+            <th>Code</th>
+            <td>{{ ca_type.code }}</td>
+        </tr>
+        <tr>
+            <th>Paid</th>
+            <td>{{ ca_type.paid ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>NbreJours</th>
+            <td>{{ ca_type.nbreJours }}</td>
+        </tr>
+        <tr>
+            <th>DateDebut</th>
+            <td>{{ ca_type.dateDebut ? ca_type.dateDebut|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>DateFin</th>
+            <td>{{ ca_type.dateFin ? ca_type.dateFin|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Actif</th>
+            <td>{{ ca_type.actif ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Mode</th>
+            <td>{{ ca_type.mode }}</td>
+        </tr>
+        {% if ca_type.mode=='poste' %}
+            <tr>
+                <th>Poste</th>
+                <td>{{ ca_type.poste }}</td>
+            </tr>
+        {% endif %}
+        {% if ca_type.mode=='entreprise' %}
+            <tr>
+                <th>Entreprise</th>
+                <td>{{ ca_type.entreprise }}</td>
+            </tr>
+        {% endif %}
+        {% if ca_type.mode=='departement' %}
+            <tr>
+                <th>Departement</th>
+                <td>{{ ca_type.departement }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-9"><a class="btn btn-warning" href="{{ path('ca_type_index') }}">back to list</a>
+
+            <a class="btn btn-primary" href="{{ path('ca_type_edit', {'id': ca_type.id}) }}">edit</a></div>
+        <div class="col-md-3"> {{ include('ca_type/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}

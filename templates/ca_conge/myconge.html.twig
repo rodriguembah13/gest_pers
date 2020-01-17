@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('fullCalendar/core/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fullCalendar/daygrid/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fullCalendar/timegrid/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fullCalendar/list/main.min.css') }}">
+{% endblock %}
+{% block title %}CaConge index{% endblock %}
+{% block page_title %} Demande de conge {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)"
+                       ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtablelist"><i class="fa fa-th-list"></i></a>
+                <a class="btn btn-default btn-sm" href="#" id="jqtablebox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('ca_conge_my_new') }}"><i class="fa fa-flash"></i>Create new</a>
+        </div>
+    </div>
+    <br>
+    {# <div id='calendar-holder'></div>
+    {% include '@Calendar/calendar.html' %}#}
+   <table class="table table-hover">
+         <thead>
+             <tr class="bg-aqua">
+                 <th>Id</th>
+                 <th>Libelle</th>
+                 <th>Employe</th>
+                 <th>DateDebut</th>
+                 <th>DateFin</th>
+                 <th>NbreJours</th>
+                 <th>Status</th>
+             </tr>
+         </thead>
+         <tbody>
+         {% for ca_conge in ca_conges %}
+             <tr class="contentimg">
+                 <td>{{ ca_conge.id }}</td>
+                 <td>{{ ca_conge.libelle }}</td>
+                 <td>{{ ca_conge.employe.nomComplet }}</td>
+                 <td>{{ ca_conge.dateDebut ? ca_conge.dateDebut|date('Y-m-d') : '' }}</td>
+                 <td>{{ ca_conge.dateFin ? ca_conge.dateFin|date('Y-m-d') : '' }}</td>
+                 <td>{{ ca_conge.nbreJours }}</td>
+                 <td>{{ ca_conge.status }}</td>
+             </tr>
+         {% else %}
+             <tr>
+                 <td colspan="7">no records found</td>
+             </tr>
+         {% endfor %}
+         </tbody>
+     </table>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('fullCalendar/core/main.min.js')}}"></script>
+    <script src="{{asset('fullCalendar/daygrid/main.min.js')}}"></script>
+    <script src="{{asset('fullCalendar/timegrid/main.min.js')}}"></script>
+    <script src="{{asset('fullCalendar/list/main.min.js')}}"></script>
+    {% include 'ca_conge/javascript.html.twig' %}
+{% endblock %}

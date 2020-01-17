@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,7 +29,7 @@ class Contrat
     private $dateDebut;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="date", length=255)
      */
     private $dateFin;
 
@@ -55,6 +57,16 @@ class Contrat
      * @ORM\Column(type="string", length=255)
      */
     private $satut;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RhBulletinPaie", mappedBy="rhcontrat")
+     */
+    private $rhBulletinPaies;
+
+    public function __construct()
+    {
+        $this->rhBulletinPaies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,12 +97,12 @@ class Contrat
         return $this;
     }
 
-    public function getDateFin(): ?string
+    public function getDateFin(): ?\DateTimeInterface
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(string $dateFin): self
+    public function setDateFin(\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 
@@ -153,6 +165,37 @@ class Contrat
     public function setSatut(string $satut): self
     {
         $this->satut = $satut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RhBulletinPaie[]
+     */
+    public function getRhBulletinPaies(): Collection
+    {
+        return $this->rhBulletinPaies;
+    }
+
+    public function addRhBulletinPaie(RhBulletinPaie $rhBulletinPaie): self
+    {
+        if (!$this->rhBulletinPaies->contains($rhBulletinPaie)) {
+            $this->rhBulletinPaies[] = $rhBulletinPaie;
+            $rhBulletinPaie->setRhcontrat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRhBulletinPaie(RhBulletinPaie $rhBulletinPaie): self
+    {
+        if ($this->rhBulletinPaies->contains($rhBulletinPaie)) {
+            $this->rhBulletinPaies->removeElement($rhBulletinPaie);
+            // set the owning side to null (unless already changed)
+            if ($rhBulletinPaie->getRhcontrat() === $this) {
+                $rhBulletinPaie->setRhcontrat(null);
+            }
+        }
 
         return $this;
     }

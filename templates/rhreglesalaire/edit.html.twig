@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Rhreglesalaire{% endblock %}
+{% block page_subtitle %} edit {% endblock %}
+{% block page_content %}
+
+    {{ include('rhreglesalaire/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="row">
+        <div class="col-md-2"><a class="btn btn-warning"  href="{{ path('rhreglesalaire_index') }}"><i class="fa fa-arrow-left"></i> back to list</a></div>
+        {{ include('rhreglesalaire/javascript.html.twig') }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'rhreglesalaire/javascript.html.twig' %}
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\RhBulletinPaie;
 use App\Entity\Rhlignereglepaie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -34,7 +35,87 @@ class RhlignereglepaieRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+   */
+    /*
+      @return Rhlignereglepaie[] Returns an array of Rhlignereglepaie objects
+
+      */
+    public function findByBulletinorderBySequence(RhBulletinPaie $bulletinPaie)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.rhreglesalaire', 'rh')
+            ->addSelect('rh')
+            ->andWhere('r.rhBulletinPaie = :val')
+            ->setParameter('val', $bulletinPaie)
+            ->orderBy('rh.sequencecalcul', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByBulletinorderByCat(RhBulletinPaie $bulletinPaie, $code)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.rhreglesalaire', 'rh')
+            ->addSelect('rh')
+            ->leftJoin('rh.rhcategorieregle', 'rhc')
+            ->andWhere('rhc.code = :code')
+            ->andWhere('r.rhBulletinPaie = :val')
+            ->setParameter('val', $bulletinPaie)
+            ->setParameter('code', $code)
+            ->orderBy('rh.sequencecalcul', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByBulletinorderByCategorieRegle(RhBulletinPaie $bulletinPaie, $code)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.rhreglesalaire', 'rh')
+            ->addSelect('rh')
+            ->andWhere('rh.code = :code')
+            ->andWhere('r.rhBulletinPaie = :val')
+            ->setParameter('val', $bulletinPaie)
+            ->setParameter('code', $code)
+            ->orderBy('rh.sequencecalcul', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByBulletinIsRegleVisible(RhBulletinPaie $bulletinPaie)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.rhreglesalaire', 'rh')
+            ->addSelect('rh')
+            ->andWhere('rh.isvisible = :code')
+            ->andWhere('r.rhBulletinPaie = :val')
+            ->setParameter('val', $bulletinPaie)
+            ->setParameter('code', true)
+            ->orderBy('rh.sequencecalcul', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findOneByBulletinorderByCat(RhBulletinPaie $bulletinPaie, $code)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.rhreglesalaire', 'rh')
+            ->addSelect('rh')
+            ->andWhere('rh.code = :code')
+            ->andWhere('r.rhBulletinPaie = :val')
+            ->setParameter('val', $bulletinPaie)
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Rhlignereglepaie

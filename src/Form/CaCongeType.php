@@ -8,8 +8,11 @@ use App\Entity\Employe;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class CaCongeType extends AbstractType
 {
@@ -27,7 +30,9 @@ class CaCongeType extends AbstractType
                 'html5' => false,
                 'required' => false,
             ])
-            ->add('nbreJours')
+            ->add('nbreJours', TextType::class, [
+                'attr' => ['readonly' => true],
+    ])
             ->add('status')
             ->add('employe', EntityType::class, [
                 'class' => Employe::class,

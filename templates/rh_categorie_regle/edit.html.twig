@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit RhCategorieRegle{% endblock %}
+
+{% block page_title %} Categorie de regle {% endblock %}
+{% block page_subtitle %} edit {% endblock %}
+{% block page_content %}
+
+    {{ include('rh_categorie_regle/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-warning"  href="{{ path('rh_categorie_regle_index') }}">back to list</a>
+
+    {{ include('rh_categorie_regle/_delete_form.html.twig') }}
+{% endblock %}

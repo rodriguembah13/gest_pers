@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-3">
+        <a class="btn btn-warning"  href="{{ path('rh_bulletin_paie_index') }}">back to list</a>
+    </div>
+    <div class="col-md-9"><div class="pull-right">
+            <button type="submit" class="btn btn-success" id="calculer">Calculer </button>
+            <button type="submit" class="btn btn-primary" id="confirmer">Confirmer </button>
+            <button type="submit" class="btn btn-info" id="enregistrer">Enregistrer </button>
+            <button class="btn btn-danger" id="annuler">Annuler </button></div>
+    </div>
+</div>
+<hr>
+<div class="col-md-6">
+    {{ form_row(form.employe) }}
+    {{ form_row(form.periodeDebut) }}
+    {{ form_row(form.periodeFin) }}
+    {{ form_row(form.libelle) }}
+    <div id="bulletin_etat">{{ form_row(form.etat) }}</div>
+</div>
+<div class="col-md-6">
+    {{ form_row(form.rhcontrat) }}
+    {{ form_row(form.rhstructurepaie) }}
+</div>
+    {{ form_widget(form) }}
+    {#<button class="btn">{{ button_label|default('Save') }}</button>#}
+{{ form_end(form) }}

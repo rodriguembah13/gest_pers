@@ -6,18 +6,19 @@
 {% block page_content %}
     <div class="row">
         <div class="col-md-4">
-
+            <a class="btn btn-warning" href="{{ path('departement_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
         </div>
         <div class="col-md-4">
 
         </div>
         <div class="col-md-4">
-            <a class="btn btn-primary pull-right" href="{{ path('poste_new') }}"><i class="far fa-flash"></i>Create new</a>
+            <a class="btn btn-primary pull-right" href="{{ path('departement_index') }}"><i class="fa fa-arrow-left"></i>list</a>
         </div>
     </div>
-    <table class="table">
+    <br>
+    <table class="table table-condensed">
         <thead>
-        <tr>
+        <tr class="bg-aqua">
             <th>Id</th>
             <th>Libelle</th>
             <th>Code</th><th>Departement</th>
@@ -26,7 +27,7 @@
         </thead>
         <tbody>
         {% for poste in postes %}
-            <tr>
+            <tr class="contentimg">
                 <td>{{ poste.id }}</td>
                 <td>{{ poste.libelle }}</td>
                 <td>{{ poste.code }}</td>

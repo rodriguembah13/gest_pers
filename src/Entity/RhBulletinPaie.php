@@ -26,7 +26,7 @@ class RhBulletinPaie
     private $libelle;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $etat;
 
@@ -50,6 +50,26 @@ class RhBulletinPaie
      */
     private $rhlignereglepaies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Rhstructuresalaire", inversedBy="rhBulletinPaies")
+     */
+    private $rhstructurepaie;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $periodeDebut;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $periodeFin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Employe", inversedBy="rhBulletinPaies")
+     */
+    private $employe;
+
     public function __construct()
     {
         $this->rhlignereglepaies = new ArrayCollection();
@@ -72,12 +92,12 @@ class RhBulletinPaie
         return $this;
     }
 
-    public function getEtat(): ?bool
+    public function getEtat(): ?string
     {
         return $this->etat;
     }
 
-    public function setEtat(?bool $etat): self
+    public function setEtat(?string $etat): self
     {
         $this->etat = $etat;
 
@@ -147,6 +167,54 @@ class RhBulletinPaie
                 $rhlignereglepaie->setRhBulletinPaie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRhstructurepaie(): ?Rhstructuresalaire
+    {
+        return $this->rhstructurepaie;
+    }
+
+    public function setRhstructurepaie(?Rhstructuresalaire $rhstructurepaie): self
+    {
+        $this->rhstructurepaie = $rhstructurepaie;
+
+        return $this;
+    }
+
+    public function getPeriodeDebut(): ?\DateTimeInterface
+    {
+        return $this->periodeDebut;
+    }
+
+    public function setPeriodeDebut(?\DateTimeInterface $periodeDebut): self
+    {
+        $this->periodeDebut = $periodeDebut;
+
+        return $this;
+    }
+
+    public function getPeriodeFin(): ?\DateTimeInterface
+    {
+        return $this->periodeFin;
+    }
+
+    public function setPeriodeFin(?\DateTimeInterface $periodeFin): self
+    {
+        $this->periodeFin = $periodeFin;
+
+        return $this;
+    }
+
+    public function getEmploye(): ?Employe
+    {
+        return $this->employe;
+    }
+
+    public function setEmploye(?Employe $employe): self
+    {
+        $this->employe = $employe;
 
         return $this;
     }

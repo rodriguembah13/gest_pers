@@ -9,6 +9,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -62,6 +64,17 @@ class User extends BaseUser implements UserInterface, EquatableInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AdvanceSalaire", mappedBy="user")
+     */
+    private $advanceSalaires;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->advanceSalaires = new ArrayCollection();
+    }
     /**
      * Checks if the user has to be logged out of the session,
      * due to changed fields / security related settings (like roles and teams).
@@ -128,6 +141,37 @@ class User extends BaseUser implements UserInterface, EquatableInterface
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AdvanceSalaire[]
+     */
+    public function getAdvanceSalaires(): Collection
+    {
+        return $this->advanceSalaires;
+    }
+
+    public function addAdvanceSalaire(AdvanceSalaire $advanceSalaire): self
+    {
+        if (!$this->advanceSalaires->contains($advanceSalaire)) {
+            $this->advanceSalaires[] = $advanceSalaire;
+            $advanceSalaire->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvanceSalaire(AdvanceSalaire $advanceSalaire): self
+    {
+        if ($this->advanceSalaires->contains($advanceSalaire)) {
+            $this->advanceSalaires->removeElement($advanceSalaire);
+            // set the owning side to null (unless already changed)
+            if ($advanceSalaire->getUser() === $this) {
+                $advanceSalaire->setUser(null);
+            }
+        }
 
         return $this;
     }

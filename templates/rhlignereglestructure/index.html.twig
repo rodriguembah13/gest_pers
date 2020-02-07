@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rhlignereglestructure index{% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <h1>Rhlignereglestructure index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rhlignereglestructure in rhlignereglestructures %}
+            <tr>
+                <td>{{ rhlignereglestructure.id }}</td>
+                <td>{{ rhlignereglestructure.libelle }}</td>
+                <td>
+                    <a href="{{ path('rhlignereglestructure_show', {'id': rhlignereglestructure.id}) }}">show</a>
+                    <a href="{{ path('rhlignereglestructure_edit', {'id': rhlignereglestructure.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('rhlignereglestructure_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RhBulletinPaie{% endblock %}
+{% block page_title %} Bulletin de paie {% endblock %}
+{% block page_subtitle %} Detail {% endblock %}
+{% block page_content %}
+
+    <table class="table contentimg">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rh_bulletin_paie.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ rh_bulletin_paie.libelle }}{{ rh_bulletin_paie.employe }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ rh_bulletin_paie.etat ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Datecreation</th>
+                <td>{{ rh_bulletin_paie.datecreation ? rh_bulletin_paie.datecreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datepaie</th>
+                <td>{{ rh_bulletin_paie.datepaie ? rh_bulletin_paie.datepaie|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row">
+
+
+        <div class="col-md-9"> <a class="btn btn-warning" href="{{ path('rh_bulletin_paie_index') }}">back to list</a>
+
+            <a class="btn btn-primary" href="{{ path('rh_bulletin_paie_edit', {'id': rh_bulletin_paie.id}) }}">edit</a></div>
+        <div class="col-md-3"> {{ include('rh_bulletin_paie/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}

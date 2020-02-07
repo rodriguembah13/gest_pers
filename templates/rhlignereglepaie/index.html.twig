@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rhlignereglepaie index{% endblock %}
+
+{% block body %}
+    <h1>Rhlignereglepaie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Quantite</th>
+                <th>Total</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rhlignereglepaie in rhlignereglepaies %}
+            <tr>
+                <td>{{ rhlignereglepaie.id }}</td>
+                <td>{{ rhlignereglepaie.libelle }}</td>
+                <td>{{ rhlignereglepaie.quantite }}</td>
+                <td>{{ rhlignereglepaie.total }}</td>
+                <td>
+                    <a href="{{ path('rhlignereglepaie_show', {'id': rhlignereglepaie.id}) }}">show</a>
+                    <a href="{{ path('rhlignereglepaie_edit', {'id': rhlignereglepaie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('rhlignereglepaie_new') }}">Create new</a>
+{% endblock %}

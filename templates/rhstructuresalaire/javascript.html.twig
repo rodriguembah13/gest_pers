@@ -1,0 +1,179 @@
+<script type="text/javascript">
+    var rhreglesalaires = [];
+    var rhreglesalaires_id = [];
+ /*   $(function () {
+        var statutSelector = $('#rhreglesalaire_typecondition');
+        var idRegle = $('#selectregle option:selected').attr('id');
+        $.ajax({
+            url: "{{ path('posterest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: data,
+            success: function (data) {
+                rhreglesalaires = data;
+                $('#selectregle').replaceWith(
+                    $(data).find('#selectregle')
+                );
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    });*/
+
+    $("#submit_regle").click(function (e) {
+       e.preventDefault();
+//alert($("#rhstructuresalaire_libelle").val());
+       $.ajax({
+            url: "{{ path('structurepostrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                libelle: $("#rhstructuresalaire_libelle").val(),
+                reference: $("#rhstructuresalaire_reference").val()
+            },
+            success: function (data) {
+               alert(data[0].id);
+                sendArray(data[0].id)
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        })
+    });
+    function sendArray(id){
+        //alert(JSON.stringify(rhreglesalaires_id[0]));
+        removeDups(rhreglesalaires_id);
+      $.each(rhreglesalaires_id,function (i,item) {
+          $.ajax({
+              url: "{{ path('structurelinepostrest') }}",
+              type: "GET",
+              dataType: "JSON",
+              data: {
+                  id_structure: id,
+                  id_regle: item.id
+              },
+              success: function (data) {
+                  //alert(JSON.stringify(data[0]));
+              },
+              error: function (err) {
+                  alert("An error ocurred while loading data ...");
+              }
+          })
+        })
+    }
+    function removeDups(names) {
+        let unique = {};
+        rhreglesalaires_id.forEach(function(i) {
+            if(!unique[i]) {
+                unique[i] = true;
+            }
+        });
+        return Object.keys(unique);
+    }
+    $(".delete-row").click(function(){
+        $("table tbody").find('input[name="record"]').each(function(){
+
+            if($(this).is(":checked")){
+                $(this).parents("tr").remove();
+                $.ajax({
+                    url: "{{ path('rhlignereglestructure_delete_rest') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        id_line: $(this).attr("id")
+                    },
+                    success: function (html) {
+
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                })
+            }
+
+        });
+        /* $("#overlay").fadeIn(300);
+        *$(".checkbox").each(function () {
+             var checked = $(this).is(':checked');
+             if (checked){
+                 //   alert($(this).attr("id"));
+                 $.ajax({
+                     url: "{{ path('rhlignereglestructure_delete_rest') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        id_line: $(this).attr("id")
+                    },
+                    success: function (html) {
+
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                })
+            }
+        });
+        setTimeout(function(){
+            $("#overlay").fadeOut(300);
+            //window.location.reload(true);
+        },500);*/
+
+    });
+    $('#selectregle_edit').change(function () {
+        var idRegle = $('#selectregle_edit option:selected').attr('id');
+        var idStruture = $('#struture_id').html();
+        //alert(idStruture);
+       $.ajax({
+            url: "{{ path('rhlignereglestructure_edit_rest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                id_regle: idRegle,
+                id_structure:idStruture
+            },
+            success: function (data) {
+                rhreglesalaires = data[0];
+               // alert(rhreglesalaires.id);
+                rhreglesalaires_id.push(rhreglesalaires);
+                var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + rhreglesalaires.libelle + "</td><td>" + rhreglesalaires.code + "</td></tr>";
+                //$('#selectregle tr:first').before(markup);
+                $('#jqtable_regle tr:last').after(markup);
+window.location.reload(true);
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+
+    });
+
+    $('#deleteAll').click(function () {
+        $("#overlay").fadeIn(300);
+        $(".checkbox").each(function () {
+            var checked = $(this).is(':checked');
+            if (checked){
+                //   alert($(this).attr("id"));
+                $.ajax({
+                    url: "{{ path('rhlignereglestructure_delete_rest') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        id_line: $(this).attr("id")
+                    },
+                    success: function (html) {
+
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                })
+            }
+        });
+        setTimeout(function(){
+            $("#overlay").fadeOut(300);
+            window.location.reload(true);
+        },500);
+
+    });
+</script>

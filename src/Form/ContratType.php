@@ -58,7 +58,7 @@ class ContratType extends AbstractType
                 'required' => false,
             ])
             ->add('salaire')
-
+            ->add('enfants')
         ;
     }
 

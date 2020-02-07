@@ -6,6 +6,7 @@ use App\Entity\CaConge;
 use App\Form\CaCongeType;
 use App\Form\MyCaCongeType;
 use App\Repository\CaCongeRepository;
+use App\Repository\HolidayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,16 @@ class CaCongeController extends AbstractController
     {
         return $this->render('ca_conge/index.html.twig', [
             'ca_conges' => $caCongeRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/a_valider", name="ca_conge_a_avider", methods={"GET"})
+     */
+    public function congesavalider(CaCongeRepository $caCongeRepository): Response
+    {
+        return $this->render('ca_conge/avalider.html.twig', [
+            'ca_conges' => $caCongeRepository->findByStaut('approuve'),
         ]);
     }
 
@@ -65,6 +76,7 @@ class CaCongeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/mynew", name="ca_conge_my_new", methods={"GET","POST"})
      */
@@ -91,6 +103,7 @@ class CaCongeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/{id}", name="ca_conge_show", methods={"GET"})
      */
@@ -108,7 +121,6 @@ class CaCongeController extends AbstractController
     {
         $form = $this->createForm(CaCongeType::class, $caConge);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $libelle = $caConge->getType()->getLibelle().'-'.$caConge->getEmploye()->getNomComplet();
             $caConge->setLibelle($libelle);
@@ -121,6 +133,27 @@ class CaCongeController extends AbstractController
         return $this->render('ca_conge/edit.html.twig', [
             'ca_conge' => $caConge,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/update", name="ca_conge_update", methods={"GET","POST"})
+     */
+    public function changeStatut(Request $request, CaConge $caConge, CaCongeRepository $caCongeRepository): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if ('approuve' == $caConge->getStatus()) {
+            $caConge->setStatus('valide');
+        } elseif ('valide' === $caConge->getStatus()) {
+            $caConge->setStatus('confirme');
+        } elseif ('annuler' === $caConge->getStatus()) {
+            $caConge->setStatus('annule');
+        }
+        $entityManager->persist($caConge);
+        $entityManager->flush();
+
+        return $this->render('ca_conge/avalider.html.twig', [
+            'ca_conges' => $caCongeRepository->findByStaut('approuve'),
         ]);
     }
 
@@ -157,5 +190,40 @@ class CaCongeController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse($conge);
+    }
+
+    /**
+     * Returns a JSON string with the neighborhoods of the City with the providen id.
+     */
+    public function updateNumberDay(Request $request, HolidayRepository $holidayRepository): JsonResponse
+    {
+        // Get Entity manager and repository
+        $em = $this->getDoctrine()->getManager();
+        // $neighborhoodsRepository = $em->getRepository('AppBundle:Neighborhood');
+        $dateBegin = \DateTime::createFromFormat('Y-m-d', $request->get('dateBegin'));
+        $dateEnd = \DateTime::createFromFormat('Y-m-d', $request->get('dateEnd'));
+        $holiday = $holidayRepository->findByBetweenDate($dateBegin, $dateEnd);
+        $weekend = $this->getNumberOfWeekendDays($dateBegin, $dateEnd);
+        $daysBetweenStartAndEnd = $dateEnd->diff($dateBegin)->days;
+        $responseArray = [];
+        $responseArray[] = [
+            'nombrejour' => $daysBetweenStartAndEnd,
+        ];
+        $nombre_jour = $daysBetweenStartAndEnd- (count($holiday) + $weekend) ;
+
+        //return new JsonResponse($responseArray);
+        return new JsonResponse(['nombrejour' => $nombre_jour], 200);
+    }
+
+    private function getNumberOfWeekendDays(\DateTimeInterface $startDate, \DateTimeInterface $endDate): int
+    {
+        $startNumber = (int) $startDate->format('N');
+        $endNumber = (int) $endDate->format('N');
+        $daysBetweenStartAndEnd = $endDate->diff($startDate)->d;
+
+        $weekendDays = (int) (2 * ($daysBetweenStartAndEnd + $startNumber) / 7);
+        $weekendDays = $weekendDays - (7 == $startNumber ? 1 : 0) - (7 == $endNumber ? 1 : 0);
+
+        return $weekendDays;
     }
 }

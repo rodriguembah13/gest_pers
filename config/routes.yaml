@@ -32,16 +32,76 @@ type-conge:
 demande-conge:
     path: /ca/conge
     controller: App\Controller\CaCongeController::index
+demande-conge-avalider:
+    path: /ca/conge_avalider
+    controller: App\Controller\CaCongeController::congesavalider
+bulletin-paie:
+    path: /bulletin
+    controller: App\Controller\RhBulletinPaieController::index
+struture-salaire:
+    path: /struture
+    controller: App\Controller\RhstructuresalaireController::index
+advance-salaire:
+    path: /advance
+    controller: App\Controller\AdvanceSalaireController::index
+categorie-regle:
+    path: /categorie
+    controller: App\Controller\RhCategorieRegleController::index
+regle-salaire:
+    path: /regle
+    controller: App\Controller\RhreglesalaireController::index
 mes-demande-conge:
     path: /ca/myconge
     controller: App\Controller\CaCongeController::myconge
+presence:
+    path: /presence
+    controller: App\Controller\PresenceController::index
+interface-presence:
+    path: /interface-presence
+    controller: App\Controller\PresenceController::interface
 posterest:
     path: /posterest
     controller: App\Controller\EmployeController::listpost
     methods:  GET
+employe_departementrest:
+    path: /employedepartementrest
+    controller: App\Controller\PresenceController::listsemploye
+    methods:  GET
+presencepostrest:
+    path: /presencepostrest
+    controller: App\Controller\PresenceController::postrest
+    methods:  GET
+presencegetdepartementrest:
+    path: /presencegetdepartementrest
+    controller: App\Controller\PresenceController::listspresence
+    methods:  GET
 congerest:
     path: /congerest
     controller: App\Controller\CaCongeController::update
+    methods:  GET
+conge_update_dayrest:
+    path: /conge_update_dayrest
+    controller: App\Controller\CaCongeController::updateNumberDay
+    methods:  GET
+reglerest:
+    path: /reglerest
+    controller: App\Controller\RhreglesalaireController::getJsonRegle
+    methods:  GET
+structurepostrest:
+    path: /structurepost
+    controller: App\Controller\RhstructuresalaireController::postJsonStructure
+    methods:  GET
+structurelinepostrest:
+    path: /structurelinepost
+    controller: App\Controller\RhlignereglestructureController::postJsonStructureLine
+    methods:  GET
+advancepostrest:
+    path: /advancepostrest
+    controller: App\Controller\AdvanceSalaireController::postJsonAdvance
+    methods:  GET
+advance_cheancepostrest:
+    path: /advance_echeancepostrest
+    controller: App\Controller\AdvanceSalaireEcheanceController::postJsonAdvanceEcheance
     methods:  GET
 fos_user_security:
     prefix: /{_locale}

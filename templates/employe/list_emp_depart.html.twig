@@ -6,7 +6,7 @@
 {% block page_content %}
     <div class="row">
         <div class="col-md-4">
-
+            <a class="btn btn-warning" href="{{ path('employe_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
         </div>
         <div class="col-md-4">
             <div class="input-group">
@@ -28,6 +28,37 @@
         </div>
     </div>
     <br>
+    <div class="row" id="jqbox_employe">
+    {% for employe in employes %}
+        <div class="col-md-3">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+
+                {% block box_body %}
+                    {% if employe.imageFilename is defined and employe.imageFilename  is not null %}
+                        <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
+                             src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
+                             alt="My image">
+                    {% else %}  <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
+                                     src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="my image"
+                                     alt="My image">
+                    {% endif %}
+                    <div class="col-md-7">
+                        {{ employe.nomComplet }}<br>
+                        {# {{ employe.poste.libelle}}#}
+                        <div class="btn-group">
+                            <a class="btn btn-info btn-xs" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
+                            <a class="btn btn-primary btn-xs" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
+                        </div>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    {% else %}
+        <tr>
+            <td colspan="15">no records found</td>
+        </tr>
+    {% endfor %}
+    </div>
     <table class="table table-responsive" id="jqtable_employe">
         <thead>
         <tr class="bg-aqua">
@@ -43,7 +74,7 @@
         </thead>
         <tbody>
         {% for employe in employes %}
-            <tr>
+            <tr class="contentimg">
                 <td>{{ employe.id }}</td>
                 <td>{{ employe.nomComplet }}</td>
                 <td>{{ employe.matricule }}</td>
@@ -65,31 +96,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <div class="row" id="jqbox_employe">
-        {% for employe in employes %}
-            <div class="col-md-3">
-                {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
 
-                    {% block box_body %}
-                        {% if employe.imageFilename is defined and employe.imageFilename  is not null %}
-                            <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
-                                 src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
-                                 alt="My image">
-                        {% else %}  <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
-                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="my image"
-                                         alt="My image">
-                        {% endif %}
-                        <div class="col-md-7">
-                            {{ employe.nomComplet }}<br>
-                            {# {{ employe.poste.libelle}}#}
-                            <div class="btn-group">
-                                <a class="btn btn-info btn-xs" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
-                                <a class="btn btn-primary btn-xs" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
-                            </div>
-                        </div>
-                    {% endblock %}
-                {% endembed %}
-            </div> {% endfor %}</div>
  {#   <div class="navigation">
         {{ knp_pagination_render(employes) }}
     </div>#}

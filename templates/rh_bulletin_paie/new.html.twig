@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New RhBulletinPaie{% endblock %}
+{% block page_title %} Bulletin de paie {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('rh_bulletin_paie/_form.html.twig') }}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% block box_before %}{% endblock %}
+                {% block box_body %}
+                    <div class="col-md-12">
+                        <ul id="tabs" class="nav nav-tabs">
+                            <li class="nav-item"><a href="" data-target="#home1" data-toggle="tab" class="nav-link small text-uppercase active">Calcul salaire</a></li>
+                            <li class="nav-item"><a href="" data-target="#profile1" data-toggle="tab" class="nav-link small text-uppercase">Jours</a></li>
+                            <li class="nav-item"><a href="" data-target="#messages1" data-toggle="tab" class="nav-link small text-uppercase">Messages</a></li>
+                        </ul>
+                        <br>
+                        <div id="tabsContent" class="tab-content">
+                            <div id="home1" class="tab-pane fade active show">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Libelle</th>
+                                        <th>Categorie</th>
+                                        <th>Regle</th>
+                                        <th>Montant</th>
+                                        <th>Quantite</th>
+                                        <th>Total</th>
+                                        <th>actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {#    {% for rhlignereglepaie in rhlignereglepaies %}
+                                        <tr>
+                                            <td>{{ rhlignereglepaie.id }}</td>
+                                            <td>{{ rhlignereglepaie.libelle }}</td>
+                                            <td>{{ rhlignereglepaie.quantite }}</td>
+                                            <td>{{ rhlignereglepaie.total }}</td>
+                                            <td>
+                                                <a href="{{ path('rhlignereglepaie_show', {'id': rhlignereglepaie.id}) }}">show</a>
+                                                <a href="{{ path('rhlignereglepaie_edit', {'id': rhlignereglepaie.id}) }}">edit</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5">no records found</td>
+                                        </tr>
+                                    {% endfor %}#}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="profile1" class="tab-pane fade">
+
+                            </div>
+                            <div id="messages1" class="tab-pane fade">
+                           </div>
+                        </div>
+                    </div>
+                {% endblock %}
+                {% block box_footer %}
+                {% endblock %}
+
+                {% block box_after %}{% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-3">
+        <a class="btn btn-warning"  href="{{ path('rh_bulletin_paie_index') }}">back to list</a>
+    </div>
+   {# <div class="col-md-9"><div class="pull-right">
+        <button class="btn btn-success" id="calculer">Calculer </button>
+        <button class="btn btn-primary" id="confirmer">Confirmer </button>
+        <button type="submit" class="btn btn-info" id="enregistrer">Enregistrer </button>
+        <button class="btn btn-danger" id="annuler">Annuler </button></div>
+    </div>#}
+</div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'rh_bulletin_paie/javascript.html.twig' %}
+{% endblock %}

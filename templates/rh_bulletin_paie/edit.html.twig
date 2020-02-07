@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit RhBulletinPaie{% endblock %}
+{% block page_title %} Bulletin de paie {% endblock %}
+{% block page_subtitle %} edit {% endblock %}
+{% block page_content %}
+
+    {{ include('rh_bulletin_paie/_form.html.twig') }}
+  {#  <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Minimal</label>
+
+                <select class="form-control select2" style="width: 100%;" id="selectregle">
+                    <option>Choisir</option>
+                    {% for rhreglesalaire in rhreglesalaires %}
+                        <option id="{{ rhreglesalaire.id }}">{{ rhreglesalaire.libelle }}</option>
+                    {% endfor %} </select>
+
+            </div>
+        </div>
+    </div>#}
+
+    <div class="row">
+        <div class="col-md-12">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% block box_before %}{% endblock %}
+                {% block box_body %}
+                    <div class="col-md-12">
+                        <ul id="tabs" class="nav nav-tabs">
+                            <li class=""><a href="" data-target="#home1" data-toggle="tab" class="nav-link small text-uppercase active">Calcul salaire</a></li>
+                     {#       <li class="nav-item active"><a href="" data-target="#profile1" data-toggle="tab" class="nav-link small text-uppercase">Jours</a></li>
+                            <li class="nav-item"><a href="" data-target="#messages1" data-toggle="tab" class="nav-link small text-uppercase">Messages</a></li>
+                       #} </ul>
+                        <br>
+                        <div id="tabsContent" class="tab-content">
+                            <div id="home1" class="tab-pane fade active show">
+                                <table class="table" id="jqbtable_regle">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Libelle</th>
+                                        <th>Categorie</th>
+                                        <th>Regle</th>
+                                        <th>Quantite</th>
+                                        <th>Montant</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for rhlignereglepaie in rhlignereglepaies %}
+                                            <tr>
+                                                <td>{{ rhlignereglepaie.id }}</td>
+                                                <td>{{ rhlignereglepaie.libelle }}</td>
+                                                <td>{{ rhlignereglepaie.rhreglesalaire.rhcategorieregle }}</td>
+                                                <td>{{ rhlignereglepaie.rhreglesalaire}}</td>
+                                                <td>{{ rhlignereglepaie.quantite}}</td>
+                                                <td>{{ rhlignereglepaie.total }}</td>
+                                                <td>{{ rhlignereglepaie.total }}</td>
+
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="5">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="profile1" class="tab-pane fade">
+{#{{ workday }}#}
+                            </div>
+                            <div id="messages1" class="tab-pane fade">
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
+                {% block box_footer %}
+                {% endblock %}
+
+                {% block box_after %}{% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-warning"  href="{{ path('rh_bulletin_paie_index') }}">back to list</a>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'rh_bulletin_paie/javascript.html.twig' %}
+{% endblock %}

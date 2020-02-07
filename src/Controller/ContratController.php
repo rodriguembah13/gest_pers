@@ -6,6 +6,8 @@ use App\Entity\Contrat;
 use App\Form\ContratType;
 use App\Repository\ContratRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -83,6 +85,7 @@ class ContratController extends AbstractController
         return $this->render('contrat/edit.html.twig', [
             'contrat' => $contrat,
             'form' => $form->createView(),
+            'salaire'=>$contrat->getSalaire(),
         ]);
     }
 
@@ -109,7 +112,7 @@ class ContratController extends AbstractController
         // $neighborhoodsRepository = $em->getRepository('AppBundle:Neighborhood');
 
         // Search the neighborhoods that belongs to the city with the given id as GET parameter "cityid"
-        $neighborhoods = $posteRepository->createQueryBuilder('q')
+        $neighborhoods = $contratRepository->createQueryBuilder('q')
             ->where('q.departement = :cityid')
             ->setParameter('cityid', $request->query->get('cityid'))
             ->getQuery()
@@ -132,4 +135,35 @@ class ContratController extends AbstractController
         // [{"id":"3","name":"Treasure Island"},{"id":"4","name":"Presidio of San Francisco"}]
     }
 
+    /**
+     * @Route("/pdf/contrat-pdf/{id}", defaults={}, name="contratprintpdf")
+     */
+    public function print(Contrat $contrat)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $html = $this->renderView('contrat/modele_contrat.html.twig', [
+            'title' => 'Welcome to our PDF Test',
+            'employe' => $contrat->getEmploye(),
+            'contrat' => $contrat,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream('mypdf.pdf', [
+            'Attachment' => false,
+        ]);
+    }
 }

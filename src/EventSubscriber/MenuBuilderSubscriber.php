@@ -46,49 +46,72 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
         $event->addItem(
             new MenuItemModel('homepage', 'menu.homepage', 'homepage', [], 'fas fa-tachometer-alt')
         );
-        $rh = new MenuItemModel('rh', 'menu.rh', null, [], 'fas fa-industry');
+        $rh = new MenuItemModel('rh', 'menu.rh', null, [], 'fas fa-users');
         $rh->addChild(
-            new MenuItemModel('employe', 'menu.employe', 'employe', [], 'fas fa-users')
+            new MenuItemModel('employe', 'menu.employe', 'employe', [], 'fas fa-minus')
         )->addChild(
-            new MenuItemModel('departement', 'Departement', 'departement', [], 'far fa-building')
+            new MenuItemModel('departement', 'Departement', 'departement', [], 'fas fa-minus')
         )->addChild(
-            new MenuItemModel('contrat', 'menu.contrat', 'contrat', [], 'far fa-folder')
-        )->addChild(
-                new MenuItemModel('config-rh', 'menu.configuration', 'config-rh', [], 'fas fa-users-cog')
-            );
+            new MenuItemModel('contrat', 'menu.contrat', 'contrat', [], 'fas fa-minus')
+        )
+         /*   ->addChild(
+            new MenuItemModel('config-rh', 'menu.configuration', 'config-rh', [], 'fas fa-minus')
+        )*/;
         $event->addItem($rh);
-        $conge = new MenuItemModel('conge', 'Conges & Absences', null, [], 'fas fa-industry');
+        $conge = new MenuItemModel('conge', 'Conges & Absences', null, [], 'far fa-calendar-alt');
         $conge->addChild(
-            new MenuItemModel('demande', 'Demande Conges', 'demande-conge', [], 'fas fa-users'))->
-       addChild(
-           new MenuItemModel('Mesdemande', 'Mes Demande Conges', 'mes-demande-conge', [], 'fas fa-users'))->
-            addChild(
-                new MenuItemModel('typeconge', 'Type De Conges', 'type-conge', [], 'fas fa-users'))->addChild(
-        new MenuItemModel('statistique', 'Statistque', 'type-conge', [], 'fas fa-users'))
-        ;
+            new MenuItemModel('demande', 'Demande Conges', 'demande-conge', [], 'fas fa-plus'))->
+        addChild(
+            new MenuItemModel('demande_avalider', 'Demande a Valider', 'demande-conge-avalider', [], 'fas fa-plus'))->
+        addChild(
+            new MenuItemModel('Mesdemande', 'Mes Demande Conges', 'mes-demande-conge', [], 'fas fa-plus'))->
+        addChild(
+            new MenuItemModel('typeconge', 'Type De Conges', 'type-conge', [], 'fas fa-plus'))->addChild(
+            new MenuItemModel('statistique', 'Statistque', 'type-conge', [], 'fas fa-plus'));
 
         $event->addItem($conge);
+        $paie = new MenuItemModel('paie', 'Paie', null, [], 'far fa-credit-card');
+        $event->addItem($paie);
+        $paie->addChild(
+            new MenuItemModel('bulletin', 'Bulletin de Paie', 'bulletin-paie', [], 'fas fa-minus'))
+            ->addChild(
+                new MenuItemModel('categorieregle', 'Categorie ', 'categorie-regle', [], 'fas fa-minus'))
+            ->addChild(
+                new MenuItemModel('reglesalaire', 'Regle des salaires', 'regle-salaire', [], 'fas fa-minus'))
+            ->addChild(
+                new MenuItemModel('structuresalaire', 'Structure de salaire', 'struture-salaire', [], 'fas fa-minus'))
+            ->addChild(
+                new MenuItemModel('advancesalaire', 'Avance sur Salaire', 'advance-salaire', [], 'fas fa-minus'));
         $formation = new MenuItemModel('form', 'Formations', null, [], 'fas fa-industry');
         $event->addItem($formation);
+        $presence = new MenuItemModel('form', 'Presence', null, [], 'fas fa-industry');
+        $event->addItem($presence);
+        $presence->addChild(
+            new MenuItemModel('presence', 'Presence', 'presence', [], 'fas fa-plus'))
+            ->addChild(
+                new MenuItemModel('interface', 'Interface de Presence', 'interface-presence', [], 'fas fa-plus'));
         $recrutment = new MenuItemModel('rec', 'Recrutements', null, [], 'fas fa-industry');
         $event->addItem($recrutment);
         $temps = new MenuItemModel('temps', 'Temps & Activites', null, [], 'fas fa-industry');
         $event->addItem($temps);
-        $event->addItem(
+        /*$event->addItem(
             new MenuItemModel('forms', 'menu.form', 'forms', [], 'fab fa-wpforms')
-        );
-
+        );*/
         $event->addItem(
-            new MenuItemModel('context', 'AdminLTE context', 'context', [], 'fas fa-code')
+            new MenuItemModel('config', 'Configuration', 'config-rh', [], 'fa fa-cog')
         );
-
-        /*   $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
-           $demo->addChild(
-               new MenuItemModel('sub-demo', 'Form - Horizontal', 'forms2', [], 'far fa-arrow-alt-circle-down')
-           )->addChild(
-               new MenuItemModel('sub-demo2', 'Form - Sidebar', 'forms3', [], 'far fa-arrow-alt-circle-up')
-           );
-           $event->addItem($demo);*/
+        /*
+                 $event->addItem(
+                     new MenuItemModel('context', 'AdminLTE context', 'context', [], 'fas fa-code')
+                 );
+        
+               /*   $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
+                    $demo->addChild(
+                        new MenuItemModel('sub-demo', 'Form - Horizontal', 'forms2', [], 'far fa-arrow-alt-circle-down')
+                    )->addChild(
+                        new MenuItemModel('sub-demo2', 'Form - Sidebar', 'forms3', [], 'far fa-arrow-alt-circle-up')
+                    );
+                    $event->addItem($demo);*/
 
         if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $event->addItem(

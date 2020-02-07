@@ -10,6 +10,7 @@ use App\Repository\EmployeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
@@ -44,13 +45,11 @@ class MyCaCongeType extends AbstractType
                 'html5' => false,
                 'required' => false,
             ])
-            ->add('nbreJours')
+            ->add('nbreJours', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
             ->add('status')
-         /*   ->add('employe', EntityType::class, [
-                'class' => Employe::class,
-                'multiple' => false,
-                'attr' => ['class' => 'selectpicker', 'data-size' => 5, 'data-live-search' => true],
-            ])*/
+
             ->add('type', EntityType::class, [
                 'class' => CaType::class,
              'choices' => $data,

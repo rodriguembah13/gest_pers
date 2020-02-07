@@ -1,0 +1,115 @@
+<script type="text/javascript">
+
+    $('#rhreglesalaire_rhcondition').change(function () {
+        var statutSelector = $(this);
+       // alert(statutSelector.val());
+        if (statutSelector.val()==='toujours'){
+            $('#plagesur').hide();
+            $('#plagemax').hide();
+            $('#plagemin').hide();
+            $('#typecondition').show();
+            $('#pourcentagesur').show();
+            $('#pourcentage').show();
+            $('#codecalcul').show();
+            $('#montantfixe').show();
+            $('#quantite').show();
+            $('#expression').hide();
+        }else if (statutSelector.val()==='plage'){
+            $('#plagesur').show();
+            $('#plagemax').show();
+            $('#plagemin').show();
+            $('#typecondition').show();
+            $('#expression').hide();
+        }else if (statutSelector.val()==='expression'){
+            $('#plagesur').hide();
+            $('#plagemax').hide();
+            $('#plagemin').hide();
+            $('#expression').show();
+            $('#typecondition').hide();
+           $('#pourcentagesur').hide();
+            $('#pourcentage').hide();
+            $('#codecalcul').hide();
+            $('#montantfixe').hide();
+            $('#quantite').hide(); /**/
+        }
+    });
+    $('#rhreglesalaire_typecondition').change(function () {
+        var statutSelector = $(this);
+        if (statutSelector.val()==='montant'){
+            $('#pourcentagesur').hide();
+            $('#pourcentage').hide();
+            $('#codecalcul').hide();
+            $('#montantfixe').show();
+            $('#quantite').show();
+        }else if (statutSelector.val()==='pourcentage'){
+            $('#montantfixe').hide();
+            $('#quantite').show();
+            $('#codecalcul').hide();
+            $('#pourcentagesur').show();
+            $('#pourcentage').show();
+        }else if (statutSelector.val()==='expression'){
+            $('#montantfixe').hide();
+            $('#quantite').hide();
+            $('#pourcentagesur').hide();
+            $('#pourcentage').hide();
+            $('#codecalcul').show();
+        }
+    });
+
+    $(function () {
+        var statutSelector =  $('#rhreglesalaire_rhcondition');
+        // alert(statutSelector.val());
+        if (statutSelector.val()==='toujours'){
+            $('#plagesur').hide();
+            $('#plagemax').hide();
+            $('#plagemin').hide();
+            $('#typecondition').show();
+            $('#pourcentagesur').show();
+            $('#pourcentage').show();
+            $('#codecalcul').show();
+            $('#montantfixe').show();
+            $('#quantite').show();
+            $('#expression').hide();
+        }else if (statutSelector.val()==='plage'){
+            $('#plagesur').show();
+            $('#plagemax').show();
+            $('#plagemin').show();
+            $('#typecondition').show();
+            $('#expression').hide();
+        }else if (statutSelector.val()==='expression'){
+            $('#plagesur').hide();
+            $('#plagemax').hide();
+            $('#plagemin').hide();
+            $('#expression').show();
+            $('#typecondition').hide();
+            $('#pourcentagesur').hide();
+            $('#pourcentage').hide();
+            $('#codecalcul').show();
+            $('#montantfixe').hide();
+            $('#quantite').hide(); /**/
+        }
+    })
+    $(function () {
+        var statutSelector = $('#rhreglesalaire_typecondition');
+        if (statutSelector.val()==='montant'){
+            $('#pourcentagesur').hide();
+            $('#pourcentage').hide();
+            $('#codecalcul').hide();
+            $('#montantfixe').show();
+            $('#quantite').show();
+        }else if (statutSelector.val()==='pourcentage'){
+            $('#montantfixe').hide();
+            $('#quantite').show();
+            $('#codecalcul').hide();
+            $('#pourcentagesur').show();
+            $('#pourcentage').show();
+        }else if (statutSelector.val()==='expression'){
+            $('#montantfixe').hide();
+            $('#quantite').hide();
+            $('#pourcentagesur').hide();
+            $('#pourcentage').hide();
+            $('#expression').show();
+            $('#codecalcul').show();
+        }
+    });
+</script>

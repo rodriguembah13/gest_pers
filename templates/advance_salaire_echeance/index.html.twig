@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdvanceSalaireEcheance index{% endblock %}
+
+{% block body %}
+    <h1>AdvanceSalaireEcheance index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Month</th>
+                <th>Year</th>
+                <th>Montant</th>
+                <th>Statut</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advance_salaire_echeance in advance_salaire_echeances %}
+            <tr>
+                <td>{{ advance_salaire_echeance.id }}</td>
+                <td>{{ advance_salaire_echeance.month }}</td>
+                <td>{{ advance_salaire_echeance.year }}</td>
+                <td>{{ advance_salaire_echeance.montant }}</td>
+                <td>{{ advance_salaire_echeance.statut ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('advance_salaire_echeance_show', {'id': advance_salaire_echeance.id}) }}">show</a>
+                    <a href="{{ path('advance_salaire_echeance_edit', {'id': advance_salaire_echeance.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('advance_salaire_echeance_new') }}">Create new</a>
+{% endblock %}

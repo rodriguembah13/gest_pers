@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Poste;
 use App\Form\PosteType;
 use App\Repository\PosteRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +20,12 @@ class PosteController extends AbstractController
     /**
      * @Route("/", name="poste_index", methods={"GET"})
      */
-    public function index(PosteRepository $posteRepository): Response
-    {
+    public function index(PosteRepository $posteRepository,PaginatorInterface $paginator, Request $request,EntityManagerInterface $em): Response
+    {$dql = 'SELECT a FROM App\Entity\Poste a';
+        $query = $em->createQuery($dql);
+        $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 12);
         return $this->render('poste/index.html.twig', [
-            'postes' => $posteRepository->findAll(),
+            'postes' => $pagination,
         ]);
     }
 

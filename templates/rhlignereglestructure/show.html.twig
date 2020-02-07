@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rhlignereglestructure{% endblock %}
+
+{% block body %}
+    <h1>Rhlignereglestructure</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rhlignereglestructure.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ rhlignereglestructure.libelle }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('rhlignereglestructure_index') }}">back to list</a>
+
+    <a href="{{ path('rhlignereglestructure_edit', {'id': rhlignereglestructure.id}) }}">edit</a>
+
+    {{ include('rhlignereglestructure/_delete_form.html.twig') }}
+{% endblock %}

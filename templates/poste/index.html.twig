@@ -17,7 +17,7 @@
     </div>
     <table class="table">
         <thead>
-            <tr>
+            <tr class="bg-aqua">
                 <th>Id</th>
                 <th>Libelle</th>
                 <th>Code</th><th>Departement</th>
@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         {% for poste in postes %}
-            <tr>
+            <tr class="contentimg">
                 <td>{{ poste.id }}</td>
                 <td>{{ poste.libelle }}</td>
                 <td>{{ poste.code }}</td>
@@ -45,4 +45,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation center-block">
+        {{ knp_pagination_render(postes) }}
+    </div>
 {% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RhCategorieRegle index{% endblock %}
+{% block page_title %} Categorie de regle {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('rh_categorie_regle_new') }}"><i class="fa fa-cpanel"></i>Create new</a>
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+<br>
+    <table class="table table-hover">
+        <thead>
+            <tr class="bg-aqua">
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Operation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rh_categorie_regle in rh_categorie_regles %}
+            <tr class="contentimg">
+                <td>{{ rh_categorie_regle.id }}</td>
+                <td>{{ rh_categorie_regle.libelle }}</td>
+                <td>{{ rh_categorie_regle.code }}</td>
+                <td>{{ rh_categorie_regle.description }}</td>
+                <td>{{ rh_categorie_regle.operation }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm" href="{{ path('rh_categorie_regle_show', {'id': rh_categorie_regle.id}) }}">show</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('rh_categorie_regle_edit', {'id': rh_categorie_regle.id}) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

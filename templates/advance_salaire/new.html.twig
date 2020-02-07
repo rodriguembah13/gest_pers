@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AdvanceSalaire{% endblock %}
+{% block page_title %} AdvanceSalaire {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+    <span class="hidden"id="statut">{{ statut }}</span>
+{% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+        {% block box_title %}{% endblock %}
+    {% block box_body %}
+    {{ include('advance_salaire/_form.html.twig') }}
+    {% endblock %}
+    {% block box_footer %}
+    {% endblock %}
+{% endembed %}
+<div class=""id="etape">
+{% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+    {% block box_before %}{% endblock %}
+        {% block box_title %}{{ 'Echeance'|trans }}{% endblock %}
+    {% block box_body %}
+        <div class="form-group">
+            <label class="control-label" for="field_manuel">Calcul Manuel</label>
+            <input type="checkbox" class="form-control checkbox_" name="field_manuel" id="field_manuel"
+            />
+        </div>
+        <div class="row"id="salaire_row">
+
+        </div>
+
+    {% endblock %}
+    {% block box_footer %}
+    {% endblock %}
+{% endembed %}
+</div>
+
+    <div class="row container">
+        <a class="btn btn-warning" href="{{ path('advance_salaire_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>   <button class="btn btn-success" id="valider">valider</button>
+    </div>
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'advance_salaire/javascript.html.twig' %}
+{% endblock %}

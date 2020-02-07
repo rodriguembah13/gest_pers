@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Contrat;
 use App\Entity\Rhreglesalaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -17,6 +18,32 @@ class RhreglesalaireRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rhreglesalaire::class);
+    }
+
+    public function findByOneFieldBetwenSalaire(Contrat $contrat, $code): ?Rhreglesalaire
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.plagemin < :val')
+            ->andWhere('r.plagemax >= :val')
+            ->andWhere('r.code = :code')
+            ->setParameter('val', $contrat->getSalaire())
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function findByOneFieldBetweenChild(Contrat $contrat, $code): ?Rhreglesalaire
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.plagemin < :val')
+            ->andWhere('r.plagemax >= :val')
+            ->andWhere('r.code = :code')
+            ->setParameter('val', $contrat->getEnfants())
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
     // /**

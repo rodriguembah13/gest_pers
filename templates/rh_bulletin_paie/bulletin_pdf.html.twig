@@ -1,0 +1,208 @@
+<style type="text/css">
+    /*** Table Styles **/
+
+    .table-fill {
+        background: white;
+        border-radius:3px;
+        /* border-collapse: collapse;
+         height: 320px;
+         margin: auto;*/
+        max-width: 600px;width: 100%;
+        /*     padding:5px;
+
+             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+             animation: float 5s infinite;*/
+    }
+
+    th {
+        color:#D5DDE5;;
+        background:#1b1e24;
+        border-bottom:1px solid #9ea7af;
+        border-right: 1px solid #343a45 ;
+        font-size:12px;
+        font-weight: 100;
+        padding:5px;
+        text-align:left;
+        /* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);*/
+        vertical-align:middle;
+    }
+
+    th:first-child {
+        border-top-left-radius:3px;
+    }
+
+    th:last-child {
+        border-top-right-radius:3px;
+        border-right:none;
+    }/**/
+
+    tr {
+        border-top: 1px solid #666B85;
+        border-bottom: 1px solid #666B85; /**/
+        color:#666B85;
+        /*  font-size:10px;
+          font-weight:normal;*/
+        /* text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);*/
+    }
+
+    /*tr:hover td {
+        background:#4E5066;
+        color:#FFFFFF;
+        border-top: 1px solid #22262e;
+    }
+
+    tr:first-child {
+        border-top:none;
+    }
+
+    tr:last-child {
+        border-bottom:none;
+    }
+
+    tr:nth-child(odd) td {
+        background:#EBEBEB;
+    }
+
+    tr:nth-child(odd):hover td {
+        background:#4E5066;
+    }
+
+    tr:last-child td:first-child {
+        border-bottom-left-radius:3px;
+    }
+
+    tr:last-child td:last-child {
+        border-bottom-right-radius:3px;
+    }*/
+
+    td {
+        background:#FFFFFF;
+        padding:10px;
+        text-align:left;
+        vertical-align:middle;
+        font-weight:100;
+        font-size:10px;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+        border: 1px solid #C1C3D1;/**/
+    }
+
+    td:last-child {
+        border-right: 0px;
+    }
+
+    th.text-left {
+        text-align: left;
+    }
+
+    th.text-center {
+        text-align: center;
+    }
+
+    th.text-right {
+        text-align: right;
+    }
+
+    td.text-left {
+        text-align: left;
+    }
+
+    td.text-center {
+        text-align: center;
+    }
+
+    td.text-right {
+        text-align: right;
+    }
+.mycard{
+    height: 120px;
+    border: 2px solid #0d5aa7;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+    .mylinecard{
+        height: 20px;
+        margin: 5px 0 5px 5px;
+    }
+    .col-md-6 {
+        width: 50%;
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        float: left;
+    }
+    .row {
+        margin-right: -5px;
+        margin-left: -5px;
+    }
+
+    .row::after, .row::before {
+
+        display: table;
+        content: " ";
+
+    }
+    .footer {
+        display: block;
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+       /* background-color: #0d5aa7;*/
+    }
+</style>
+{#{{include('rh_bulletin_paie/header_paie_pdf.html.twig')}}#}
+<h3 style="text-align: center">Bulletin de paie</h3>
+<hr>
+<img id="img_emp"
+     src="/var/www/html/mautic/media/images/mautic_logo_db64.png" title="my image"
+     alt="My image">
+<h5>{{ bulletin.libelle}}</h5>
+<div class="mycard">
+    <div class="row">
+    <div class="col-md-6" >
+        <span style="margin-top: 15px"><strong>Nom Complet:</strong> </span><span>{{ bulletin.employe}}</span><br>
+        <span><strong>Matricule:  </strong></span><span>{{ bulletin.employe.matricule}}</span><br>
+        <span><strong>Departement:  </strong></span><span>{{ bulletin.employe.departement}}</span><br>
+        <span><strong>Poste:  </strong></span><span>{{ bulletin.employe.poste}}</span><br>
+        <span><strong>Adresse:    </strong></span><span>{{ bulletin.employe.adresse}}</span>
+    </div>
+        <div class="col-md-6">
+            <span><strong>Société: </strong></span><span>{{ bulletin.employe.departement.entreprise}}</span><br>
+            <span><strong>Adresse: </strong></span><span>{{ bulletin.employe.departement.entreprise.adresse}}</span><br>
+            <span><strong>Telephone: </strong></span><span>{{ bulletin.employe.departement.entreprise.telephone}}</span><br>
+        </div>
+    </div>
+
+</div>
+
+<table class="table-fill">
+    <thead>
+    <tr style="">
+        <th>Rubrique</th>
+        <th>quantite</th>
+        <th>Categorie</th>
+        <th>Montant</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for line in lines %}
+        <tr class="contentimg">
+            <td>{{ line.rhreglesalaire.libelle }}</td>
+            <td>{{ line.quantite }}</td>
+            <td>{{ line.rhreglesalaire.rhcategorieregle}}</td>
+            <td>{{ line.total}}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="footer">
+    <hr>
+    <p>tel:675066919</p>
+</div>
+

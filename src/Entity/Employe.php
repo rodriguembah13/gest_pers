@@ -58,13 +58,10 @@ class Employe
      */
     private $passeport;
 
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $lieuNaissance;
-
-
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -75,8 +72,6 @@ class Employe
      * @ORM\ManyToOne(targetEntity="App\Entity\Poste")
      */
     private $poste;
-
-
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -112,10 +107,27 @@ class Employe
      * @ORM\OneToMany(targetEntity="App\Entity\CaConge", mappedBy="employe")
      */
     private $caConges;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contrat", mappedBy="employe")
+     */
+    private $rhcontrats;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RhBulletinPaie", mappedBy="employe")
+     */
+    private $rhBulletinPaies;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AdvanceSalaire", mappedBy="employe")
+     */
+    private $advanceSalaires;
 
     public function __construct()
     {
         $this->caConges = new ArrayCollection();
+        $this->rhcontrats = new ArrayCollection();
+        $this->rhBulletinPaies = new ArrayCollection();
+        $this->advanceSalaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,7 +231,6 @@ class Employe
         return $this;
     }
 
-
     public function getLieuNaissance(): ?string
     {
         return $this->lieuNaissance;
@@ -231,7 +242,6 @@ class Employe
 
         return $this;
     }
-
 
     public function getNoteAdditionnelle(): ?string
     {
@@ -366,4 +376,96 @@ class Employe
         return $this;
     }
 
+    /**
+     * @return Collection|Contrat[]
+     */
+    public function getRhcontrats(): Collection
+    {
+        return $this->rhcontrats;
+    }
+
+    public function addContrat(Contrat $contrat): self
+    {
+        if (!$this->rhcontrats->contains($contrat)) {
+            $this->rhcontrats[] = $contrat;
+            $contrat->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContrat(Contrat $contrat): self
+    {
+        if ($this->rhcontrats->contains($contrat)) {
+            $this->rhcontrats->removeElement($contrat);
+            // set the owning side to null (unless already changed)
+            if ($contrat->getEmploye() === $this) {
+                $contrat->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RhBulletinPaie[]
+     */
+    public function getRhBulletinPaies(): Collection
+    {
+        return $this->rhBulletinPaies;
+    }
+
+    public function addRhBulletinPaie(RhBulletinPaie $rhBulletinPaie): self
+    {
+        if (!$this->rhBulletinPaies->contains($rhBulletinPaie)) {
+            $this->rhBulletinPaies[] = $rhBulletinPaie;
+            $rhBulletinPaie->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRhBulletinPaie(RhBulletinPaie $rhBulletinPaie): self
+    {
+        if ($this->rhBulletinPaies->contains($rhBulletinPaie)) {
+            $this->rhBulletinPaies->removeElement($rhBulletinPaie);
+            // set the owning side to null (unless already changed)
+            if ($rhBulletinPaie->getEmploye() === $this) {
+                $rhBulletinPaie->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AdvanceSalaire[]
+     */
+    public function getAdvanceSalaires(): Collection
+    {
+        return $this->advanceSalaires;
+    }
+
+    public function addAdvanceSalaire(AdvanceSalaire $advanceSalaire): self
+    {
+        if (!$this->advanceSalaires->contains($advanceSalaire)) {
+            $this->advanceSalaires[] = $advanceSalaire;
+            $advanceSalaire->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvanceSalaire(AdvanceSalaire $advanceSalaire): self
+    {
+        if ($this->advanceSalaires->contains($advanceSalaire)) {
+            $this->advanceSalaires->removeElement($advanceSalaire);
+            // set the owning side to null (unless already changed)
+            if ($advanceSalaire->getEmploye() === $this) {
+                $advanceSalaire->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
 }

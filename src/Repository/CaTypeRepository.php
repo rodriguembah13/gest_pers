@@ -23,6 +23,8 @@ class CaTypeRepository extends ServiceEntityRepository
     public function findByEmployeField(Employe $employe)
     {
         return $this->createQueryBuilder('c')
+            ->leftJoin('c.entreprise','entreprise')
+            ->addSelect('entreprise')
             ->andWhere('c.departement = :val')
             ->setParameter('val', $employe->getDepartement()->getId())
            ->andWhere('c.poste = :poste')

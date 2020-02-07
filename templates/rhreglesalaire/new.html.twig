@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Rhreglesalaire{% endblock %}
+{% block page_title %} Regle de salaire {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('rhreglesalaire/_form.html.twig') }}
+
+    <a  class="btn btn-warning" href="{{ path('rhreglesalaire_index') }}">back to list</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'rhreglesalaire/javascript.html.twig' %}
+{% endblock %}

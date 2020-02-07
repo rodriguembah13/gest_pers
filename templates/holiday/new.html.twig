@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Holiday{% endblock %}
+{% block page_title %} Holiday {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('holiday/_form.html.twig') }}
+
+    <a href="{{ path('holiday_index') }}">back to list</a>
+{% endblock %}

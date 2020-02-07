@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rhreglesalaire{% endblock %}
+{% block page_title %} Regle salaire {% endblock %}
+{% block page_subtitle %} Detail {% endblock %}
+{% block page_content %}
+
+    <table class="table contentimg">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ rhreglesalaire.id }}</td>
+        </tr>
+        <tr>
+            <th>Libelle</th>
+            <td>{{ rhreglesalaire.libelle }}</td>
+        </tr>
+        <tr>
+            <th>Code</th>
+            <td>{{ rhreglesalaire.code }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ rhreglesalaire.description }}</td>
+        </tr>
+        <tr>
+            <th>Sequencecalcul</th>
+            <td>{{ rhreglesalaire.sequencecalcul }}</td>
+        </tr>
+        <tr>
+            <th>Isvisible</th>
+            <td>{{ rhreglesalaire.isvisible ? 'Yes' : 'No' }}</td>
+        </tr>
+        {% if rhreglesalaire.quantite %}
+            <tr>
+                <th>Quantite</th>
+                <td>{{ rhreglesalaire.quantite }}</td>
+            </tr>
+        {% endif %}
+        {% if rhreglesalaire.pourcentage %}
+            <tr>
+            <th>Pourcentage</th>
+            <td>{{ rhreglesalaire.pourcentage }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.montantfixe %}
+            <tr>
+            <th>Montantfixe</th>
+            <td>{{ rhreglesalaire.montantfixe }}</td>
+            </tr>{% endif %}
+        <tr>
+            <th>Registrecontribution</th>
+            <td>{{ rhreglesalaire.registrecontribution }}</td>
+        </tr>
+        {% if rhreglesalaire.plagemin %}
+            <tr>
+            <th>Plagemin</th>
+            <td>{{ rhreglesalaire.plagemin }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.plagemax %}
+            <tr>
+            <th>Plagemax</th>
+            <td>{{ rhreglesalaire.plagemax }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.plagesur %}
+            <tr>
+            <th>Plagesur</th>
+            <td>{{ rhreglesalaire.plagesur }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.pourcentagesur %}
+            <tr>
+            <th>Pourcentagesur</th>
+            <td>{{ rhreglesalaire.pourcentagesur }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.codecalcul %}
+            <tr>
+            <th>Codecalcul</th>
+            <td>{{ rhreglesalaire.codecalcul }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.rhcondition %}
+            <tr>
+            <th>Condition</th>
+            <td>{{ rhreglesalaire.rhcondition }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.typecondition %}
+            <tr>
+            <th>Type de Montant</th>
+            <td>{{ rhreglesalaire.typecondition }}</td>
+            </tr>{% endif %}
+        {% if rhreglesalaire.expression %}
+            <tr>
+                <th>Expression</th>
+                <td>{{ rhreglesalaire.expression }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <div class="row">
+
+
+        <div class="col-md-9"> <a class="btn btn-warning" href="{{ path('rhreglesalaire_index') }}">back to list</a>
+
+            <a class="btn btn-primary" href="{{ path('rhreglesalaire_edit', {'id': rhreglesalaire.id}) }}">edit</a></div>
+        <div class="col-md-3"> {{ include('rhreglesalaire/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}

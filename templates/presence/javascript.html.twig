@@ -1,0 +1,152 @@
+<script type="text/javascript">
+    $('#dateJour').change(function () {
+        getPresenceBydepartement();
+    });
+    $('#selectdepartement').change(function () {
+        $.ajax({
+            url: "{{ path('employe_departementrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                departement_id: $('#selectdepartement option:selected').attr('id')
+            },
+            success: function (data) {
+                var table = $("#table_empl>tbody");
+                // Remove current options
+                table.html('');
+                $.each(data, function (key, empl) {
+                  $("#table_empl>tbody:last").append("<tr> <td><input class='checkbox' type='checkbox' /></td><td>" + empl.id + "</td><td>" + empl.nomComplet + "</td><td>" + empl.matricule + "</td><td>" + empl.poste + "</td> <td><button class='btn btn-primary btn-sm' data-toggle='modal' data-target='#exampleModal' onclick='getId(\"" + empl.id + "\")'><i class='fa fa-arrow-left'></i>Ajouter</button></td></tr>");
+                    // $("#table_empl>tbody:last").append("<tr><td>" + empl.id + "</td><td>" + empl.nomComplet + "</td><td>" + empl.matricule + "</td><td>" + empl.poste + "</td> <td><button class='btn btn-primary btn-sm' data-toggle='modal' data-target='#exampleModal' onclick='getId(\"" + empl.id + "\")'><i class='fa fa-arrow-left'></i>Ajouter</button></td></tr>");
+                });
+                getPresenceBydepartement();
+                setTimeout(function(){
+                    $("#overlay").fadeOut(300);
+                },500);
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        })
+    });
+
+    function getPresenceBydepartement() {
+        $.ajax({
+            url: "{{ path('presencegetdepartementrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                departement_id: $('#selectdepartement option:selected').attr('id'),
+                jour: $('#dateJour').val()
+            },
+            success: function (donnes) {
+                var table = $("#table_presence>tbody");
+                // Remove current options
+                table.html('');
+                $.each(donnes, function (key, empl) {
+                    $("#table_presence>tbody:last").append("<tr><td>" + empl.id + "</td><td>" + empl.nomComplet + "</td><td>" + empl.dateCreation + "</td><td>" + empl.heureArrivee + "</td><td>" + empl.heureDepart + "</td> <td><button class='btn btn-primary btn-sm' data-toggle='modal' data-target='#exampleModal2' onclick='getPresenceId(\"" + empl.id + "\")'><i class='fa fa-arrow-right'></i>Ajouter</button></td></tr>");
+                });
+
+                    setTimeout(function(){
+                        $("#overlay").fadeOut(300);
+                    },500);
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    }
+
+    function getId(id) {
+        var id_ = id;
+        $("#data_id").val(id);
+    }
+
+    function getPresenceId(id) {
+        $("#presence_id").val(id);
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+    $('#savepresence').click(function () {
+        var heureArrivee = $('#form_heureArrivee').val();
+        var heureDepart = $('#form_heureDepart').val();
+        var id_employe = $('#data_id').val();
+        var datet = formatDate(Date.now()) + " " + heureArrivee;
+        $.ajax({
+            url: "{{ path('presencepostrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                status: "start",
+                id_employe: id_employe,
+                heureDepart: datet,
+                heureArrivee: datet,
+                jour: $('#dateJour').val()
+            },
+            success: function (data) {
+               // alert(data.presence);
+                $('#modalclose').click();
+                getPresenceBydepartement();
+                setTimeout(function(){
+                    $("#overlay").fadeOut(300);
+                },500);
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    })
+    $('#savepresence_end').click(function () {
+        var heureArrivee = $('#form_heureArrivee').val();
+        var heureDepart = $('#form_heureDepart').val();
+        var id_presence = $('#presence_id').val();
+        var datet = formatDate(Date.now()) + " " + heureDepart;
+        $.ajax({
+            url: "{{ path('presencepostrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                status: "stop",
+                id_presence: id_presence,
+                heureDepart: datet,
+                heureArrivee: datet
+            },
+            success: function (data) {
+               // alert(data.presence);
+                $('#modalclose_end').click();
+                getPresenceBydepartement();
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    })
+    $(document).ajaxSend(function() {
+        $("#overlay").fadeIn(300);
+    });
+
+    $('#button').click(function(){
+        $.ajax({
+            type: 'GET',
+            success: function(data){
+                console.log(data);
+            }
+        }).done(function() {
+            setTimeout(function(){
+                $("#overlay").fadeOut(300);
+            },500);
+        });
+    });
+</script>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New RhCategorieRegle{% endblock %}
+{% block page_title %} Categorie de regle {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('rh_categorie_regle/_form.html.twig') }}
+
+    <a class="btn btn-warning"  href="{{ path('rh_categorie_regle_index') }}">back to list</a>
+{% endblock %}

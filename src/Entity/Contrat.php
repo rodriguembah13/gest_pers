@@ -44,7 +44,7 @@ class Contrat
     private $salaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Employe")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Employe", inversedBy="rhcontrats")
      */
     private $employe;
 
@@ -62,6 +62,11 @@ class Contrat
      * @ORM\OneToMany(targetEntity="App\Entity\RhBulletinPaie", mappedBy="rhcontrat")
      */
     private $rhBulletinPaies;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $enfants;
 
     public function __construct()
     {
@@ -199,4 +204,22 @@ class Contrat
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->libelle;
+    }
+
+    public function getEnfants(): ?int
+    {
+        return $this->enfants;
+    }
+
+    public function setEnfants(?int $enfants): self
+    {
+        $this->enfants = $enfants;
+
+        return $this;
+    }
+
 }

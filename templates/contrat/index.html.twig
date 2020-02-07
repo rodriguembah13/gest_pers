@@ -29,44 +29,6 @@
         </div>
     </div>
     <br>
-
-    <table class="table table-hover" id="jqtable_contrat">
-        <thead>
-        <tr class="bg-aqua">
-            <th>Id</th>
-            <th>Libelle</th>
-            <th>DateDebut</th>
-            <th>DateFin</th>
-            <th>FinEssai</th>
-            <th>Salaire</th>
-            <th>Satut</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for contrat in contrats %}
-            <tr>
-                <td>{{ contrat.id }}</td>
-                <td>{{ contrat.libelle }}</td>
-                <td>{{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.dateFin  ? contrat.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.finEssai ? contrat.finEssai|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.salaire }}</td>
-                <td><span class="label label-info">{{ contrat.satut }}</span></td>
-                <td>
-                    <div class="btn-group">
-                        <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
     <div class="row" id="jqbox_contrat">
         {% for contrat in contrats %}
             <div class="col-md-3">
@@ -132,6 +94,45 @@
                   {% endblock %}#}
                 {% endembed %}
             </div> {% endfor %}</div>
+    <table class="table table-hover" id="jqtable_contrat">
+        <thead>
+        <tr class="bg-aqua">
+            <th>Id</th>
+            <th>Libelle</th>
+            <th>DateDebut</th>
+            <th>DateFin</th>
+            <th>FinEssai</th>
+            <th>Salaire</th>
+            <th>Satut</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for contrat in contrats %}
+            <tr class="contentimg">
+                <td>{{ contrat.id }}</td>
+                <td>{{ contrat.libelle }}</td>
+                <td>{{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.dateFin  ? contrat.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.finEssai ? contrat.finEssai|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.salaire }}</td>
+                <td><span class="label label-info">{{ contrat.satut }}</span></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
+                        <a class="btn btn-success btn-sm" href="{{ path('contratprintpdf', {'id': contrat.id}) }}" target="_blank">print</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
     <div class="navigation center-block">
         {{ knp_pagination_render(contrats) }}
     </div>

@@ -12,8 +12,11 @@ namespace App\Controller;
 use App\Form\FormDemoModelType;
 use App\Repository\DepartementRepository;
 use App\Repository\EmployeRepository;
+use App\Repository\HolidayRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,13 +49,15 @@ class DefaultController extends AbstractController
     /**
      * @Route("/config-rh", defaults={}, name="configpage")
      */
-    public function config(UserRepository $userRepository, EntityManagerInterface $em, PaginatorInterface $paginator, Request $request)
+    public function config(UserRepository $userRepository, HolidayRepository $holidayRepository, EntityManagerInterface $em, PaginatorInterface $paginator, Request $request)
     {
         $dql = 'SELECT a FROM App\Entity\User a';
         $query = $em->createQuery($dql);
         $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
-        return $this->render('default/config.html.twig', ['users' => $pagination]);
+        return $this->render('default/config.html.twig', [
+            'users' => $pagination, 'nbholydays' => count($holidayRepository->findByBetweenDate('2020-01-01', '2020-01-31')),
+        ]);
     }
 
     /**
@@ -119,5 +124,37 @@ class DefaultController extends AbstractController
     public function userPreferences()
     {
         return $this->render('control-sidebar/settings.html.twig', []);
+    }
+
+    /**
+     * @Route("/print-pdf", defaults={}, name="printpdf")
+     */
+    public function print()
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('default/mypdf.html.twig', [
+            'title' => 'Welcome to our PDF Test',
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream('mypdf.pdf', [
+            'Attachment' => false,
+        ]);
     }
 }

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Rhstructuresalaire{% endblock %}
+{% block page_title %} Structure de salaire {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('rhstructuresalaire/_form.html.twig') }}
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Regles</label>
+
+                <select class="form-control select2" style="width: 100%;" id="selectregle">
+                    {% for rhreglesalaire in rhreglesalaires %}
+                        <option id="{{ rhreglesalaire.id }}">{{ rhreglesalaire.libelle }}</option>
+                    {% endfor %} </select>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% block box_before %}{% endblock %}
+                {% block box_title %}{{ 'Regles salaire'|trans }}{% endblock %}
+                {% block box_body %}
+                    <table class="table table-responsive" id="jqtable_regle">
+                        <tr class="bg-aqua">
+                            <th></th>
+                            <th>LIbelle</th>
+                            <th>Code</th>
+                        </tr>
+                        <tbody>
+                        <tr>
+                        </tr>
+                        </tbody>
+                    </table>
+                {% endblock %}
+                {% block box_footer %}
+                    <button type="button" class="delete-row">Delete Row</button>
+                {% endblock %}
+
+                {% block box_after %}{% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    <a class="btn btn-warning" href="{{ path('rhstructuresalaire_index') }}">back to list</a>
+    <button class="btn btn-primary pull-right" id="submit_regle">{{ button_label|default('Save') }}</button>
+    <div class="col-md-9">
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'rhstructuresalaire/javascript.html.twig' %}
+{% endblock %}

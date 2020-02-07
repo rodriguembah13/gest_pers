@@ -57,18 +57,18 @@
                 {% endembed %}
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6"><a href="{{ path('holiday_index') }}">
             {# ... infobox widget, solid background ... #}
             {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
                 'solid' : 'indigo',
                 'icon'  : 'far fa-star',
-                'progress' : 40
+                'progress' : nbholydays
             } %}
 
-                {% block box_text %}Module installes{% endblock %}
-                {% block progress_description %}The progress description{% endblock %}
+                {% block box_text %}Jour Ferie{% endblock %}
+                {% block progress_description %}{{ nbholydays }}{% endblock %}
             {% endembed %}
-
+            </a>
         </div>
     </div>
 {% endblock %}

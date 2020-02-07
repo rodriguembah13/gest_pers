@@ -1,0 +1,118 @@
+<script type="text/javascript">
+    $('#valider').click(function () {
+        var number = $('#advance_salaire_echance').val();
+        var empl = $('#advance_salaire_employe').val();
+        $("#overlay").fadeIn(300);
+      $.ajax({
+            url: "{{ path('advancepostrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                employe: empl,
+                echeance:number,
+                montant:$('#advance_salaire_montant').val(),
+            },
+            success: function (data) {
+                $('#advance_salaire_employe').prop("disabled",true);
+                $('#advance_salaire_echance').prop("disabled",true);
+                $('#advance_salaire_montant').prop("disabled",true);
+                for (i=0;i<number;i++){
+                    var selector ="#select_"+ i +"";
+                    var field ="#field_"+ i +"";
+                    createLine(data[0].id,$(field).val(),$(selector).val());
+                    $(field).prop("disabled",true);
+                    $(selector).prop("disabled",true);
+                }
+                setTimeout(function(){
+                    $("#overlay").fadeOut(300);
+                },500);
+                $('#valider').prop("disabled",true);
+            },
+            error: function (err) {
+                setTimeout(function(){
+                    $("#overlay").fadeOut(300);
+                },500);
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    });
+    $('#field_manuel').on('ifChanged',function (event) {
+        var checked = $(this).is(':checked');
+        var statutSelector = $('#advance_salaire_echance').val();
+        var mantantSelector = $('#advance_salaire_montant').val() / statutSelector;
+        if (checked) {
+            for (i = 0; i < statutSelector; i++) {
+                var selector = "#field_" + i + "";
+                $(selector).val(" ")
+            }
+        } else {
+            for (i = 0; i < statutSelector; i++) {
+                var selector = "#field_" + i + "";
+                $(selector).val(mantantSelector)
+
+            }
+        }
+    })
+    $('.checked_').change(function () {
+        alert("ici")
+        var checked = $(this).is(':checked');
+        var statutSelector = $('#advance_salaire_montant').val();
+        var mantantSelector = $('#advance_salaire_montant').val() / statutSelector;
+        if (checked) {
+            for (i = 0; i < statutSelector; i++) {
+                var selector = "#field_" + i + "";
+                $(selector).val(" ")
+            }
+        } else {
+            for (i = 0; i < statutSelector; i++) {
+                var selector = "#field_" + i + "";
+                $(selector).val(mantantSelector)
+
+            }
+        }
+
+    })
+    $('#advance_salaire_echance').change(function () {
+        var statutSelector = $(this).val();
+        var mantantSelector = $('#advance_salaire_montant').val() / statutSelector;
+        $("#salaire_row").html(" ");
+        for (i = 0; i < statutSelector; i++) {
+            //  alert(i);
+            $("#salaire_row:last").append("<div class=''><div class='col-md-6'> <div class='form-group'><label class='control-label'for='fiel\"" + i + "\"'>Montant</label><input type='number' class='form-control' name='moyenneGeneral' id='field_" + i + "'/>\n" +
+                "        </div> </div><div class='col-md-6'><div class='form-group'><label class='control-label' for='field_'>Month</label> <select class='form-control' id='select_" + i + "'><option value='1'>Janvier</option> <option value='2'>Fevrier</option><option value='3'>Mars</option>" +
+                "<option value='4'>Avril</option><option value='5'>Mai</option><option value='6'>Juin</option><option value='7'>Juillet</option><option value='8'>Aout</option><option value='9'>Septembre</option><option value='10'>Octobre</option>" +
+                "<option value='11'>Novembre</option><option value='12'>Decembre</option></select></div></div>");
+            var selector = "#field_" + i + "";
+            //alert(selector);
+        }
+        for (i = 0; i < statutSelector; i++) {
+            var selector = "#field_" + i + "";
+            $(selector).val(mantantSelector)
+        }
+    });
+    $(function () {
+        //$("#etape").hide();
+        if ($("#statut").html() === 'create') {
+            // alert("An error ocurred while loading data ...");
+            $("#etape").show();
+        }
+    });
+    function createLine(id_advance,montant,month) {
+        $.ajax({
+            url: "{{ path('advance_cheancepostrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                advance: id_advance,
+                month:month,
+                montant:montant,
+            },
+            success: function (data) {
+
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    }
+</script>

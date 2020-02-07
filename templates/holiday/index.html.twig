@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Holiday index{% endblock %}
+{% block page_title %} Holidays {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <a class="btn btn-info btn-sm" href="{{ path('config-rh') }}"><i class="fa fa-arrow-left"></i>Retour</a>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('holiday_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('holidayprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr class="bg-aqua">
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Day</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for holiday in holidays %}
+            <tr class="contentimg">
+                <td>{{ holiday.id }}</td>
+                <td>{{ holiday.libelle }}</td>
+                <td>{{ holiday.day ? holiday.day|date('Y-m-d') : '' }}</td>
+                <td>{{ holiday.etat ? '<span class="label label-success">actif</span>' : '<span class="label label-danger">non actif</span>' }}</td>
+                <td>
+                    <div class="btn-group pull-right ">
+                        <a  class="btn btn-info btn-sm" href="{{ path('holiday_show', {'id': holiday.id}) }}">show</a>
+                        <a  class="btn btn-primary btn-sm" href="{{ path('holiday_edit', {'id': holiday.id}) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation center-block">
+        {{ knp_pagination_render(holidays) }}
+    </div>
+{% endblock %}

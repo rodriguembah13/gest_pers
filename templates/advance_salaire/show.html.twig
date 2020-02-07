@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdvanceSalaire{% endblock %}
+{% block page_title %} AdvanceSalaire {% endblock %}
+{% block page_subtitle %} Detail - {{ advance_salaire.employe }} {% endblock %}
+{% block page_content %}
+    <table class="table table-condensed contentimg">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ advance_salaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ advance_salaire.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ advance_salaire.created ? advance_salaire.created|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ advance_salaire.montant }}</td>
+            </tr>
+            <tr>
+                <th>Month</th>
+                <td>{{ advance_salaire.month }}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{ advance_salaire.year }}</td>
+            </tr>
+            <tr>
+                <th>Echance</th>
+                <td>{{ advance_salaire.echance }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+    {% block box_before %}{% endblock %}
+        {% block box_title %}{{ 'Echeance'|trans }}{% endblock %}
+    {% block box_body %}
+    <table class="table table-condensed">
+        <thead>
+        <tr class="bg-aqua">
+            <th>Id</th>
+            <th>Month</th>
+            <th>Year</th>
+            <th>Montant</th>
+            <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for advance_salaire_echeance in advance_salaire.advanceSalaireEcheances %}
+            <tr>
+                <td>{{ advance_salaire_echeance.id }}</td>
+                <td>{{ advance_salaire_echeance.month }}</td>
+                <td>{{ advance_salaire_echeance.year }}</td>
+                <td>{{ advance_salaire_echeance.montant }}</td>
+                <td>{{ advance_salaire_echeance.statut ? 'Yes' : 'No' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+    {% block box_footer %}
+    {% endblock %}
+{% endembed %}
+    <div class="row">
+        <div class="col-md-9"><a class="btn btn-warning" href="{{ path('advance_salaire_index') }}">back to list</a>
+        <div class="col-md-3"> {{ include('advance_salaire/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}

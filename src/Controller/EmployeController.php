@@ -6,9 +6,13 @@ use App\Entity\Employe;
 use App\Entity\User;
 use App\Form\EmployeType;
 use App\Form\UploadExelType;
+use App\Repository\DepartementRepository;
 use App\Repository\EmployeRepository;
 use App\Repository\PosteRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -239,5 +243,39 @@ class EmployeController extends AbstractController
     private function randomMatricule()
     {
         return rand(5, 15);
+    }
+
+    /**
+     * @Route("/pdf/print2-pdf", defaults={}, name="employeprintpdf")
+     */
+    public function print(EmployeRepository $employeRepository)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        //$dql = 'SELECT a.id,a.nomComplet FROM App\Entity\Employe a';
+        //$query = $entityManager->createQuery($dql);
+        // Retrieve the HTML generated in our twigœ
+        $html = $this->renderView('employe/pdf.html.twig', [
+            'title' => 'Welcome to our PDF Test',
+            'employes' => $employeRepository->findAll(),
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream('mypdf.pdf', [
+            'Attachment' => false,
+        ]);
     }
 }

@@ -1,0 +1,48 @@
+{{ form_start(form) }}
+<div class="row">
+<div class="col-md-6">
+    {{ form_row(form.libelle) }}
+    {{ form_row(form.code) }}
+    {{ form_row(form.description) }}
+</div>
+<div class="col-md-6">
+    {{ form_row(form.rhcategorieregle) }}
+    {{ form_row(form.sequencecalcul) }}
+    {{ form_row(form.registrecontribution) }}
+</div></div>
+{{ form_row(form.rhcondition) }}
+<div id="typecondition">
+    {{ form_row(form.typecondition) }}</div>
+<div class="row">
+    <div class="col-md-6">
+        <div id="montantfixe">
+            {{ form_row(form.montantfixe) }}</div>
+        <div id="pourcentagesur">
+        {{ form_row(form.pourcentagesur) }}
+        </div>
+        <div id="plagesur">
+            {{ form_row(form.plagesur) }}</div>
+            <div id="plagemax">
+                {{ form_row(form.plagemax) }}</div>
+    </div>
+    <div class="col-md-6">
+        <div id="quantite">  {{ form_row(form.quantite) }}</div>
+        <div id="pourcentage">
+            {{ form_row(form.pourcentage) }}
+        </div>
+            <div id="plagemin">
+                {{ form_row(form.plagemin) }}</div>
+        <div id="codecalcul">
+            {{ form_row(form.codecalcul) }}
+        </div>
+    </div>
+    <div id="expression">
+        {{ form_row(form.expression) }}
+    </div>
+</div>
+    {{ form_widget(form) }}
+<div class="pull-right">
+    <button type="reset" class="btn btn-warning "><i class="fa fa-times"></i> {{ 'Cancel'|trans }}</button>
+    <button type="submit" class="btn btn-primary "><i class="fa fa-check-square"></i> {{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

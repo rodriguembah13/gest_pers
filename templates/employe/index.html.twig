@@ -18,19 +18,50 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="btn-group">
                 <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
                 <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
             </div>
             <a class="btn btn-primary btn-sm" href="{{ path('employe_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('employeprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+
             <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
         </div>
     </div>
     <br>
+    <div class="row" id="jqbox_employe">
+        {% for employe in employes %}
+            <div class="col-md-3">
+                {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+
+                    {% block box_body %}
+                        {#<img class="col-md-5 img img-responsive img-thumbnail" width="100" height="70"
+                             src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
+                             alt="My image">#}
+                        {% if employe.imageFilename is defined and employe.imageFilename  is not null %}
+                            <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
+                                 src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
+                                 alt="My image">
+                        {% else %}  <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
+                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="my image"
+                                         alt="My image">
+                        {% endif %}
+                        <div class="col-md-7">
+                            {{ employe.nomComplet }}<br>
+                            {# {{ employe.poste.libelle}}#}
+                            <div class="btn-group">
+                                <a class="btn btn-info btn-xs" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
+                                <a class="btn btn-primary btn-xs" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
+                            </div>
+                        </div>
+                    {% endblock %}
+                {% endembed %}
+            </div> {% endfor %}</div>
     <table class="table table-responsive" id="jqtable_employe">
         <thead>
             <tr class="bg-aqua">
+                <th><input type="checkbox" class="checkbox"></th>
                 <th>Id</th>
                 <th>NomComplet</th>
                 <th>Matricule</th>
@@ -43,7 +74,8 @@
         </thead>
         <tbody>
         {% for employe in employes %}
-            <tr>
+            <tr class="contentimg">
+                <td><input type="checkbox"></td>
                 <td>{{ employe.id }}</td>
                 <td>{{ employe.nomComplet }}</td>
                 <td>{{ employe.matricule }}</td>
@@ -65,34 +97,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <div class="row" id="jqbox_employe">
-        {% for employe in employes %}
-            <div class="col-md-3">
-                {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
 
-                    {% block box_body %}
-                        {#<img class="col-md-5 img img-responsive img-thumbnail" width="100" height="70"
-                             src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
-                             alt="My image">#}
-                        {% if employe.imageFilename is defined and employe.imageFilename  is not null %}
-                            <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
-                                 src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
-                                 alt="My image">
-                        {% else %}  <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
-                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="my image"
-                                         alt="My image">
-                        {% endif %}
-                        <div class="col-md-7">
-                            {{ employe.nomComplet }}<br>
-                           {# {{ employe.poste.libelle}}#}
-                            <div class="btn-group">
-                                <a class="btn btn-info btn-xs" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
-                                <a class="btn btn-primary btn-xs" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
-                            </div>
-                        </div>
-                    {% endblock %}
-                {% endembed %}
-            </div> {% endfor %}</div>
     <div class="navigation">
         {{ knp_pagination_render(employes) }}
     </div>

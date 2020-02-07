@@ -35,9 +35,15 @@ class Rhstructuresalaire
      */
     private $rhlignereglestructures;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RhBulletinPaie", mappedBy="rhstructurepaie")
+     */
+    private $rhBulletinPaies;
+
     public function __construct()
     {
         $this->rhlignereglestructures = new ArrayCollection();
+        $this->rhBulletinPaies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,41 @@ class Rhstructuresalaire
             // set the owning side to null (unless already changed)
             if ($rhlignereglestructure->getRhstructuresalaire() === $this) {
                 $rhlignereglestructure->setRhstructuresalaire(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->libelle;
+    }
+
+    /**
+     * @return Collection|RhBulletinPaie[]
+     */
+    public function getRhBulletinPaies(): Collection
+    {
+        return $this->rhBulletinPaies;
+    }
+
+    public function addRhBulletinPaie(RhBulletinPaie $rhBulletinPaie): self
+    {
+        if (!$this->rhBulletinPaies->contains($rhBulletinPaie)) {
+            $this->rhBulletinPaies[] = $rhBulletinPaie;
+            $rhBulletinPaie->setRhstructurepaie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRhBulletinPaie(RhBulletinPaie $rhBulletinPaie): self
+    {
+        if ($this->rhBulletinPaies->contains($rhBulletinPaie)) {
+            $this->rhBulletinPaies->removeElement($rhBulletinPaie);
+            // set the owning side to null (unless already changed)
+            if ($rhBulletinPaie->getRhstructurepaie() === $this) {
+                $rhBulletinPaie->setRhstructurepaie(null);
             }
         }
 

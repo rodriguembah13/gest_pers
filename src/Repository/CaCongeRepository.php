@@ -35,7 +35,17 @@ class CaCongeRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    public function findByStaut($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.status = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?CaConge
     {

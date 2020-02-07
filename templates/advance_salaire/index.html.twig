@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdvanceSalaire index{% endblock %}
+{% block page_title %} Advance Salaires {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('advance_salaire_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('employeprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+    <table class="table table-hover">
+        <thead>
+            <tr class="bg-aqua">
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Created</th>
+                <th>Montant</th>
+                <th>Montant Restant</th>
+                <th>Month</th>
+                <th>Year</th>
+                <th>Echance</th>
+                <th>Satatut</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advance_salaire in advance_salaires %}
+            <tr class="contentimg l">
+                <td>{{ advance_salaire.id }}</td>
+                <td>{{ advance_salaire.libelle }}</td>
+                <td>{{ advance_salaire.created ? advance_salaire.created|date('Y-m-d') : '' }}</td>
+                <td>{{ advance_salaire.montant }}</td>
+                <td>{{ advance_salaire.montantRestant }}</td>
+                <td>{{ advance_salaire.month }}</td>
+                <td>{{ advance_salaire.year }}</td>
+                <td>{{ advance_salaire.echance }}</td>
+                <td>{{advance_salaire.status ? '<span class="label label-success">termine</span>' : '<span class="label label-danger">encours</span>'}}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm" href="{{ path('advance_salaire_show', {'id': advance_salaire.id}) }}">show</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

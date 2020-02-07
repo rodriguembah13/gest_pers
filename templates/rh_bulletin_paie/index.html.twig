@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RhBulletinPaie index{% endblock %}
+{% block page_title %} Bulletin de paie {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="dropdown messages-menu">
+                <a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                    Action group
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" id="checkall"><i class="fa fa-check-circle"></i> Print</a></li>
+                    <li><a class="dropdown-item" href="#" id="unSelectAll"><i class="fa fa-minus-circle"></i>Tout deselectionner</a></li>
+                    <li class="divider"></li>
+                    <li><a class="dropdown-item" href="#" id="deleteAll">Suprimer</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('rh_bulletin_paie_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('paieprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+
+<br>
+    <table class="table table-bordered">
+        <thead class="bg-aqua">
+            <tr>
+                <th><input type="checkbox" id="check_all" class="checkbox_"/></th>
+                <th>Id</th>
+                <th>Employe</th>
+                <th>Libelle</th>
+                <th>Etat</th>
+                <th>Datecreation</th>
+                <th>Datepaie</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rh_bulletin_paie in rh_bulletin_paies %}
+            <tr class="contentimg">
+                <td><input type="checkbox" class="checkbox" id="{{ rh_bulletin_paie.id }}"/></td>
+                <td>{{ rh_bulletin_paie.id }}</td>
+                <td>{{ rh_bulletin_paie.employe.nomComplet }}</td>
+                <td>{{ rh_bulletin_paie.libelle }}</td>
+                <td>{{ rh_bulletin_paie.etat }}</td>
+                <td>{{ rh_bulletin_paie.datecreation ? rh_bulletin_paie.datecreation|date('Y-m-d') : '' }}</td>
+                <td>{{ rh_bulletin_paie.datepaie ? rh_bulletin_paie.datepaie|date('Y-m-d') : '' }}</td>
+                <td>   <div class="btn-group pull-right">
+                        <a  class="btn btn-info btn-sm" href="{{ path('rh_bulletin_paie_show', {'id': rh_bulletin_paie.id}) }}">show</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('bulletineprintpdf', {'id': rh_bulletin_paie.id}) }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+                        <a  class="btn btn-primary btn-sm" href="{{ path('rh_bulletin_paie_edit', {'id': rh_bulletin_paie.id}) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation center-block text-center">
+        {{ knp_pagination_render(rh_bulletin_paies) }}
+    </div>
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'rh_bulletin_paie/javascript.html.twig' %}
+{% endblock %}

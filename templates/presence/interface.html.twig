@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Presence index{% endblock %}
+{% block page_title %} Presence {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Departement</label>
+
+                <select class="form-control select2" style="width: 100%;" id="selectdepartement">
+                    <option >choisir</option>
+                    {% for departement in departements %}
+                        <option id="{{ departement.id }}">{{ departement.libelle }}</option>
+                    {% endfor %} </select>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="control-label" for="ca_conge_dateDebut">Date du jour</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <input type="text" id="dateJour" name="ca_conge[dateDebut]" class="timepicker form-control" data-datepickerenable="on">
+            </div>
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+    <br>
+    <div class="row">
+     {#   {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+            {% block box_before %}{% endblock %}
+            {% block box_title %}{{ 'Employes'|trans }}{% endblock %}
+            {% block box_body %}
+        <table class="table table-bordered" id="table_empl">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employes</th>
+                <th>01</th>
+                <th>02</th>
+                <th>03</th>
+                <th>04</th><th>05</th><th>07</th><th>08</th><th>09</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th>
+                <th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th>
+                <th>25</th><th>26</th><th>27</th><th>28</th><th>30</th><th>30</th><th>31</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            </tr>
+            </tbody>
+        </table>
+            {% endblock %}
+            {% block box_footer %}
+            {% endblock %}
+        {% endembed %}#}
+
+       <div class="col-md-6">
+
+    {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+    {% block box_before %}{% endblock %}
+        {% block box_title %}{{ 'Employes'|trans }}{% endblock %}
+    {% block box_body %}
+        <table class="table table-condensed" id="table_empl">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Matricule</th>
+                <th>Poste</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                </tr>
+            </tbody>
+        </table>
+    {% endblock %}
+        {% block box_footer %}
+        {% endblock %}
+    {% endembed %}
+      </div>
+
+        <div class="col-md-6">
+
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% block box_before %}{% endblock %}
+                {% block box_title %}{{ 'Presence'|trans }}{% endblock %}
+                {% block box_body %}
+                    <table class="table" id="table_presence">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Employe</th>
+                            <th>Date</th>
+                            <th>Heure d'arrivee</th>
+                            <th>Heure de depart</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for presence in presences %}
+                            <tr>
+                                <td>{{ presence.id }}</td>
+                                <td>{{ presence.employe.nomComplet }}</td>
+                                <td>{{ presence.dateCreation ? presence.dateCreation|date('Y-m-d') : '' }}</td>
+                                <td>{{ presence.heureDepart ? presence.heureArrivee|date('h:i A') : '' }}</td>
+                                <td>{{ presence.heureDepart ? presence.heureDepart|date('h:i A') : '' }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-sm" data-toggle='modal' data-target='#exampleModal2' onclick='getPresenceId({{ presence.id }})'><i class="fa fa-arrow-left"></i> Ajouter</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endblock %}
+                {% block box_footer %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Presence Start</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="#" >
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input id="data_id" class="hidden">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalclose">Close</button>
+                    <button type="button" class="btn btn-primary" id="savepresence">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="#" >
+                        {{ form_start(form2) }}
+                        {{ form_widget(form2) }}
+                        {{ form_end(form2) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input id="presence_id" class="hidden">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalclose_end">Close</button>
+                    <button type="button" class="btn btn-primary" id="savepresence_end">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  {#  <button id="button" type="button">Click</button>#}
+
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'presence/javascript.html.twig' %}
+{% endblock %}

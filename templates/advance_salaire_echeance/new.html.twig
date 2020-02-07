@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AdvanceSalaireEcheance{% endblock %}
+
+{% block body %}
+    <h1>Create new AdvanceSalaireEcheance</h1>
+
+    {{ include('advance_salaire_echeance/_form.html.twig') }}
+
+    <a href="{{ path('advance_salaire_echeance_index') }}">back to list</a>
+{% endblock %}

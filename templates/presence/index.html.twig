@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Presence index{% endblock %}
+{% block page_title %} Presence {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)"
+                       ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('presence_new') }}"><i class="fa fa-flash"></i>Create
+                new</a>
+            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#uploadModal"><i
+                        class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+
+        <table class="table table-condensed">
+            <thead>
+            <tr class="bg-aqua">
+                <th>Id</th>
+                <th>Employe</th>
+                <th>Date</th>
+                <th>Date Arrivee</th>
+                <th>Date Depart</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for presence in presences %}
+                <tr class="contentimg">
+                    <td>{{ presence.id }}</td>
+                    <td>{{ presence.employe.nomComplet }}</td>
+                    <td>{{ presence.dateCreation ? presence.dateCreation|date('Y-m-d') : '' }}</td>
+                    <td>{{ presence.heureArrivee ? presence.heureArrivee|date('h:i A') : '' }}</td>
+                    <td>{{ presence.heureDepart ? presence.heureDepart|date('h:i A') : '' }}</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a  class="btn btn-info btn-sm" href="{{ path('presence_show', {'id': presence.id}) }}">show</a>
+                            <a  class="btn btn-primary btn-sm" href="{{ path('presence_edit', {'id': presence.id}) }}">edit</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <div class="navigation center-block">
+        {{ knp_pagination_render(presences) }}
+    </div>
+{% endblock %}

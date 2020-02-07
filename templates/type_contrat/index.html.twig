@@ -5,9 +5,9 @@
 {% block page_subtitle %} list {% endblock %}
 {% block page_content %}
 
-    <table class="table">
+    <table class="table table-condensed">
         <thead>
-            <tr>
+            <tr class="bg-aqua">
                 <th>Id</th>
                 <th>Libelle</th>
                 <th>Code</th>
@@ -16,7 +16,7 @@
         </thead>
         <tbody>
         {% for type_contrat in type_contrats %}
-            <tr>
+            <tr class="contentimg">
                 <td>{{ type_contrat.id }}</td>
                 <td>{{ type_contrat.libelle }}</td>
                 <td>{{ type_contrat.code }}</td>

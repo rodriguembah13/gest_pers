@@ -1,0 +1,54 @@
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    $('#jqtablelist').hide();
+    var $projet = $('#timesheet_project');
+    // When sport gets selected ...
+    $projet.change(function() {
+        // ... retrieve the corresponding form.
+        var $form = $(this).closest('form');
+        // Simulate form data, but only include the selected sport value.
+        var data = {};
+        data[$projet.attr('name')] = $projet.val();
+        // Submit data via AJAX to the form's action path.
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function(html) {
+                // Replace current position field ...
+                $('#timesheet_employe').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('#timesheet_employe')
+                );
+                $('#timesheet_activity').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('#timesheet_activity')
+                );
+
+                // Position field now displays the appropriate positions.
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    });
+    $('#timesheet_dateFin').change(function () {
+        $.ajax({
+            url: "{{ path('conge_update_dayrest') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                dateBegin: $('#timesheet_dateDebut').val(),
+                dateEnd: $(this).val()
+            },
+            success: function (data) {
+                // alert(data.nombrejour);
+                $('#timesheet_duration').val(data.nombrejour);
+
+            },
+            error: function (err) {
+                alert("An error ocurred while loading data ...");
+            }
+        });
+    })
+</script>

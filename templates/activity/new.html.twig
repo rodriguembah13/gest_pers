@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Activity{% endblock %}
+{% block page_title %} Activite {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('activity/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('activity_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}

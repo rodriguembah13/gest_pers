@@ -123,6 +123,95 @@
         {% endembed %}
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+        {% block box_before %}{% endblock %}
+        {% block box_title %}{{ 'information Scolaire'|trans }}{% endblock %}
+        {% block box_body %}
+            <table class="table table-condensed">
+                <thead>
+                <tr class="bg-aqua">
+                    <th>Id</th>
+                    <th>Etablissement</th>
+                    <th>Option</th>
+                    <th>Diplome</th>
+                    <th>date</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for etude in employe.etudeEmployes %}
+                    <tr class="contentimg">
+                        <td>{{ etude.id }}</td>
+                        <td>{{ etude.nomEtablissement }}</td>
+                        <td>{{ etude.optionEtude}}</td>
+                        <td>{{ etude.diplome}}</td>
+                        <td>{{ etude.date ? etude.date|date('Y-m-d') : ''}}</td>
+                        <td><div class="btn-group">
+                                {#<a class="btn btn-primary btn-sm" href="{{ path('type_contrat_edit', {'id': type_contrat.id}) }}">edit</a>#}</div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endblock %}
+            {% block box_footer %}
+
+            {% endblock %}
+
+            {% block box_after %}{% endblock %}
+        {% endembed %}
+    </div>
+        <div class="col-md-6">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+            {% block box_before %}{% endblock %}
+            {% block box_title %}{{ 'Experience professionelle'|trans }}{% endblock %}
+            {% block box_body %}
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="bg-aqua">
+                        <th>Id</th>
+                        <th>Titre Fonction</th>
+                        <th>Employeur</th>
+                        <th>Adresse</th>
+                        <th>date debut</th><th>date fin</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for etude in employe.experienceEmployes %}
+                        <tr class="contentimg">
+                            <td>{{ etude.id }}</td>
+                            <td>{{ etude.titreFonction }}</td>
+                            <td>{{ etude.employeur}}</td>
+                            <td>{{ etude.adresse}}</td>
+                            <td>{{ etude.dateDebut ? etude.dateDebut|date('Y-m-d') : ''}}</td>
+                            <td>{{ etude.dateFin ? etude.dateFin|date('Y-m-d') : ''}}</td>
+                            <td><div class="btn-group">
+                                    {#<a class="btn btn-primary btn-sm" href="{{ path('type_contrat_edit', {'id': type_contrat.id}) }}">edit</a>#}</div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endblock %}
+                {% block box_footer %}
+
+                {% endblock %}
+
+                {% block box_after %}{% endblock %}
+            {% endembed %}
+        </div>
+</div>
     <div class="row">
 
 
@@ -143,21 +232,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form method="post" action="{{ path('employe_delete', {'id': employe.id}) }}">
+                <form method="post" action="{{ path('employe_delete', {'id': employe.id}) }}">
+                    <div class="modal-body">
+                      <h3>{{ employe.nomComplet }}</h3>
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employe.id) }}">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">cancel</span>
-                        </button>
-                        <button class="btn btn-danger">Delete</button>
 
-                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div></form>
             </div>
         </div>
     </div>

@@ -243,38 +243,42 @@ class RhBulletinPaieController extends AbstractController
     {
         $regle = $repository->findByOneFieldBetweenChild($bulletinPaie->getRhcontrat(), 'CHE');
         $entityManager = $this->getDoctrine()->getManager();
-        $pourcentage = $regle->getPourcentage();
-        $pourcentagesur = $regle->getPourcentagesur();
-        $lignepourcentagesur = $rhlignereglepaieRepository->findOneByBulletinorderByCat($bulletinPaie, $pourcentagesur);
+        if ($regle) {
+            $pourcentage = $regle->getPourcentage();
+            $pourcentagesur = $regle->getPourcentagesur();
+            $lignepourcentagesur = $rhlignereglepaieRepository->findOneByBulletinorderByCat($bulletinPaie, $pourcentagesur);
 
-        $line = new Rhlignereglepaie();
-        $line->setQuantite($regle->getQuantite());
-        $line->setRhBulletinPaie($bulletinPaie);
-        $line->setRhreglesalaire($regle);
-        $line->setLibelle($regle->getLibelle().'-'.'bulletin');
-        $line->setTotal($lignepourcentagesur->getTotal() * $pourcentage / 100);
-        $entityManager->persist($line);
-        $entityManager->flush();
+            $line = new Rhlignereglepaie();
+            $line->setQuantite($regle->getQuantite());
+            $line->setRhBulletinPaie($bulletinPaie);
+            $line->setRhreglesalaire($regle);
+            $line->setLibelle($regle->getLibelle().'-'.'bulletin');
+            $line->setTotal($lignepourcentagesur->getTotal() * $pourcentage / 100);
+            $entityManager->persist($line);
+            $entityManager->flush();
+        }
     }
 
     private function createLineBaseIRRP(RhBulletinPaie $bulletinPaie, RhreglesalaireRepository $repository, RhlignereglepaieRepository $rhlignereglepaieRepository)
     {
         $regle = $repository->findByOneFieldBetwenSalaire($bulletinPaie->getRhcontrat(), 'birpp');
         $entityManager = $this->getDoctrine()->getManager();
-        $pourcentage = $regle->getPourcentage();
-        $pourcentagesur = $regle->getPourcentagesur();
+        if ($regle) {
+            $pourcentage = $regle->getPourcentage();
+            $pourcentagesur = $regle->getPourcentagesur();
 
-        $line = new Rhlignereglepaie();
-        $line->setQuantite($regle->getQuantite());
-        $line->setRhBulletinPaie($bulletinPaie);
-        $line->setRhreglesalaire($regle);
-        $line->setLibelle($regle->getLibelle().'-'.'bulletin');
-        /* foreach ($bulletinPaie->getRhlignereglepaies() as $ligne) {
-             if ($ligne->getRhreglesalaire()->getCode() === $pourcentagesur) {
-             }*/
-        $line->setTotal($bulletinPaie->getRhcontrat()->getSalaire() * $pourcentage / 100);
-        $entityManager->persist($line);
-        $entityManager->flush();
+            $line = new Rhlignereglepaie();
+            $line->setQuantite($regle->getQuantite());
+            $line->setRhBulletinPaie($bulletinPaie);
+            $line->setRhreglesalaire($regle);
+            $line->setLibelle($regle->getLibelle().'-'.'bulletin');
+            /* foreach ($bulletinPaie->getRhlignereglepaies() as $ligne) {
+                 if ($ligne->getRhreglesalaire()->getCode() === $pourcentagesur) {
+                 }*/
+            $line->setTotal($bulletinPaie->getRhcontrat()->getSalaire() * $pourcentage / 100);
+            $entityManager->persist($line);
+            $entityManager->flush();
+        }
     }
 
     /**
@@ -434,7 +438,7 @@ class RhBulletinPaieController extends AbstractController
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
         $pdfOptions->set('isRemoteEnabled', true);
-
+        $destination = $this->getParameter('kernel.project_dir').'/public/bundles/adminlte/images/logo_gp.png';
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
         //$dql = 'SELECT a.id,a.nomComplet FROM App\Entity\Employe a';
@@ -444,6 +448,7 @@ class RhBulletinPaieController extends AbstractController
             'title' => 'Welcome to our PDF Test',
             'bulletin' => $rhBulletinPaie,
             'lines' => $repository->findByBulletinIsRegleVisible($rhBulletinPaie),
+            'path' => $destination,
         ]);
 
         // Load HTML to Dompdf

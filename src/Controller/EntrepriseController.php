@@ -31,6 +31,7 @@ class EntrepriseController extends AbstractController
     public function new(Request $request): Response
     {
         $entreprise = new Entreprise();
+
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
@@ -75,6 +76,19 @@ class EntrepriseController extends AbstractController
         return $this->render('entreprise/edit.html.twig', [
             'entreprise' => $entreprise,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/workday", name="entreprise_workday", methods={"GET","POST"})
+     */
+    public function workday(Request $request, Entreprise $entreprise): Response
+    {
+        $worksdays = $entreprise->getWorkDays();
+
+        return $this->render('entreprise/workdays.html.twig', [
+            'entreprise' => $entreprise,
+            'work_days' => $worksdays,
         ]);
     }
 

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employe index{% endblock %}
+{% block page_title %} Employes {% endblock %}
+{% block page_subtitle %} test xls {% endblock %}
+{% block page_content %}
+    test{{ name}}
+    {% for employe in employes %}
+        <li>{{employe.libelle  }}siwe{{ name }}</li>
+    {% endfor %}
+{% endblock %}

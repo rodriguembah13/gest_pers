@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Project{% endblock %}
+{% block page_title %} Project {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('project/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('project_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}

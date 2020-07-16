@@ -24,17 +24,11 @@ class NavbarUserSubscriber implements EventSubscriberInterface
      */
     protected $security;
 
-    /**
-     * @param Security $security
-     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -43,9 +37,6 @@ class NavbarUserSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ShowUserEvent $event
-     */
     public function onShowUser(ShowUserEvent $event)
     {
         if (null === $this->security->getUser()) {
@@ -61,11 +52,15 @@ class NavbarUserSubscriber implements EventSubscriberInterface
             ->setName($myUser->getUsername())
             ->setUsername($myUser->getUsername())
             ->setIsOnline(true)
-            ->setTitle('demo user')
-            ->setAvatar($myUser->getAvatar())
+            ->setTitle('Gesp user')
+            //->setAvatar($myUser->getAvatar() || '/bundles/adminlte/images/default_avatar.png')
             //->setAvatar('/bundles/adminlte/images/default_avatar.png')
             ->setMemberSince(new \DateTime());
-
+        if (null !== $myUser->getAvatar()) {
+            $user->setAvatar('uploads/'.$myUser->getAvatar());
+        } else {
+            $user->setAvatar('/bundles/adminlte/images/default_avatar.png');
+        }
         //$event->setShowProfileLink(false);
         //$event->addLink(new NavBarUserLink('Followers', 'home'));
 

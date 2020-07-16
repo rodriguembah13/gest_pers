@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+    {{ form_row(form.libelle) }}
+<div class="col-md-6">
+    {{ form_row(form.project) }}
+    <div class="col-md-6">
+        {{ form_row(form.dateDebut) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.dateFin) }}
+    </div>
+</div>
+<div class="col-md-6">
+    {{ form_row(form.activity) }}
+    {{ form_row(form.duration) }}
+</div>
+{{ form_row(form.description) }}
+<div class="pull-right">
+    <button type="reset" class="btn btn-warning "><i class="fa fa-times"></i> {{ 'Cancel'|trans }}</button>
+    <button type="submit" class="btn btn-primary "><i class="fa fa-check-square"></i> {{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

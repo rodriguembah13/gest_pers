@@ -56,6 +56,9 @@ mes-demande-conge:
 presence:
     path: /presence
     controller: App\Controller\PresenceController::index
+presence-recapitulatif:
+    path: /recapitulatif
+    controller: App\Controller\PresenceController::recapitulatifPresence
 interface-presence:
     path: /interface-presence
     controller: App\Controller\PresenceController::interface

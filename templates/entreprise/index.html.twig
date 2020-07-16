@@ -21,8 +21,9 @@
                 <td>{{ entreprise.adresse }}</td>
                 <td>{{ entreprise.telephone }}</td>
                 <td>
-                    <a href="{{ path('entreprise_show', {'id': entreprise.id}) }}">show</a>
-                    <a href="{{ path('entreprise_edit', {'id': entreprise.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('entreprise_show', {'id': entreprise.id}) }}">show</a>
+                    <a class="btn btn-success" href="{{ path('entreprise_edit', {'id': entreprise.id}) }}">edit</a>
+                    <a class="btn btn-default" href="{{ path('entreprise_workday', {'id': entreprise.id}) }}">workday</a>
                 </td>
             </tr>
         {% else %}

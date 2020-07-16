@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customer index{% endblock %}
+{% block page_title %} Clients {% endblock %}
+{% block page_subtitle %} list{% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('customer_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('employeprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr class="bg-aqua">
+                <th>Id</th>
+                <th>NomComplet</th>
+                <th>Company</th>
+                <th>Address</th>
+                <th>Country</th>
+                <th>Telephone</th>
+                <th>Fax</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+            <tr class="contentimg">
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.nomComplet }}</td>
+                <td>{{ customer.company }}</td>
+                <td>{{ customer.address }}</td>
+                <td>{{ customer.country }}</td>
+                <td>{{ customer.telephone }}</td>
+                <td>{{ customer.fax }}</td>
+                <td>{{ customer.email }}</td>
+                <td style="text-align: right">
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm" href="{{ path('customer_show', {'id': customer.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('customer_edit', {'id': customer.id}) }}"><i class="fa fa-edit"></i></a>
+                        <a href="#" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+                            plus
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{path('customer_timeheet',{'id':customer.id})}}" ><i class="fa fa-check-circle"></i> Timesheet</a></li>
+                            <li><a class="dropdown-item" href="{{path('customer_activity',{'id':customer.id})}}" ><i class="fa fa-blender"></i>Activites</a></li>
+                            <li><a class="dropdown-item" href="{{path('customer_project',{'id':customer.id})}}" ><i class="fa fa-user-friends"></i>Projects</a></li>
+                            <li class="divider"></li>
+                            <li><a class="dropdown-item" href="{{path('project_customer_new',{'id':customer.id})}}" ><i class="fa fa-user-friends"></i>New Project</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fa fa-trash"></i>Suprimer</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

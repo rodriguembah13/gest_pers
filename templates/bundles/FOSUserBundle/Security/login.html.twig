@@ -4,9 +4,9 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('style.css') }}">
 {% endblock %}
-{% block logo_login %}<b>GEST-P</b>{% endblock %}
+{% block logo_login %}{% endblock %}
 {% block login_box_icon %}
-    <img id="img" class="" src="{{ asset('bundles/adminlte/images/logo_gp.png') }}" title="my image" alt="My image"style="height: 150px">
+    <img id="img" class="" src="{{ asset('images/logo_gp.png') }}" title="my image" alt="My image"style="height: 150px">
 {% endblock %}
 {% block login_actions %}
     {% if 'adminlte_password_reset'|route_alias != 'adminlte_password_reset' %}

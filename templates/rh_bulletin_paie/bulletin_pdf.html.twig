@@ -152,26 +152,28 @@
        /* background-color: #0d5aa7;*/
     }
 </style>
+
+<img id="img_emp"  style="height: 100px"
+             src="{{path}}" title="my image"
+             alt="My image">
 {#{{include('rh_bulletin_paie/header_paie_pdf.html.twig')}}#}
 <h3 style="text-align: center">Bulletin de paie</h3>
 <hr>
-<img id="img_emp"
-     src="/var/www/html/mautic/media/images/mautic_logo_db64.png" title="my image"
-     alt="My image">
+
 <h5>{{ bulletin.libelle}}</h5>
 <div class="mycard">
     <div class="row">
     <div class="col-md-6" >
         <span style="margin-top: 15px"><strong>Nom Complet:</strong> </span><span>{{ bulletin.employe}}</span><br>
         <span><strong>Matricule:  </strong></span><span>{{ bulletin.employe.matricule}}</span><br>
-        <span><strong>Departement:  </strong></span><span>{{ bulletin.employe.departement}}</span><br>
-        <span><strong>Poste:  </strong></span><span>{{ bulletin.employe.poste}}</span><br>
-        <span><strong>Adresse:    </strong></span><span>{{ bulletin.employe.adresse}}</span>
+        <span><strong>Departement:  </strong></span><span>{{ bulletin.employe.departement ? bulletin.employe.departement :''}}</span><br>
+        <span><strong>Poste:  </strong></span><span>{{ bulletin.employe.poste ? bulletin.employe.poste :''}}</span><br>
+        <span><strong>Adresse:    </strong></span><span>{{ bulletin.employe.adresse ? bulletin.employe.adresse : ''}}</span>
     </div>
         <div class="col-md-6">
             <span><strong>Société: </strong></span><span>{{ bulletin.employe.departement.entreprise}}</span><br>
-            <span><strong>Adresse: </strong></span><span>{{ bulletin.employe.departement.entreprise.adresse}}</span><br>
-            <span><strong>Telephone: </strong></span><span>{{ bulletin.employe.departement.entreprise.telephone}}</span><br>
+            <span><strong>Adresse: </strong></span><span>{{ bulletin.employe.departement.entreprise.adresse ? bulletin.employe.departement.entreprise.adresse:''}}</span><br>
+            <span><strong>Telephone: </strong></span><span>{{ bulletin.employe.departement.entreprise.telephone ? bulletin.employe.departement.entreprise.telephone :''}}</span><br>
         </div>
     </div>
 

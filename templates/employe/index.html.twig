@@ -6,16 +6,26 @@
 {% block page_content %}
     <div class="row">
         <div class="col-md-4">
-
+            <div class = "ui-widget">
+                <p>Type "a" or "s"</p>
+                <label for = "automplete-1">Tags: </label>
+                <input id = "automplete-1">
+            </div>
         </div>
         <div class="col-md-4">
             <div class="input-group">
-                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
-                       placeholder="recherche " type="text"/>
+                <input class="form-control" id="search" name="Search" placeholder="recherche " type="text"/>
                 <div class="input-group-btn">
                     <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
                                 class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
                 </div>
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="#"> Entities<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="entitiesNav">
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="col-md-4">
@@ -23,10 +33,10 @@
                 <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
                 <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
             </div>
-            <a class="btn btn-primary btn-sm" href="{{ path('employe_new') }}"><i class="fa fa-flash"></i>Create new</a>
-            <a class="btn btn-primary btn-sm" href="{{ path('employeprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('employe_new') }}"><i class="fa fa-plus"></i> Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('employeprintpdf') }}" target="_blank"><i class="fa fa-print"></i> print</a>
 
-            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="fa fa-download"></i> Importer</a>
         </div>
     </div>
     <br>
@@ -41,28 +51,46 @@
                              alt="My image">#}
                         {% if employe.imageFilename is defined and employe.imageFilename  is not null %}
                             <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
-                                 src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="my image"
+                                 src="{{ asset('uploads/' ~ employe.imageFilename) }}" title="{{ employe.nomComplet }}"
                                  alt="My image">
                         {% else %}  <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
-                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="my image"
+                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="{{ employe.nomComplet }}"
                                          alt="My image">
                         {% endif %}
                         <div class="col-md-7">
                             {{ employe.nomComplet }}<br>
-                            {# {{ employe.poste.libelle}}#}
-                            <div class="btn-group">
-                                <a class="btn btn-info btn-xs" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
-                                <a class="btn btn-primary btn-xs" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
-                            </div>
+                            {{ employe.matricule }}<br>
+                            {{ employe.email }}<br>
+                             {{ employe.poste ? employe.poste : 'pas de poste' }}
+
                         </div>
+                    {% endblock %}
+                    {% block box_footer %}
+                        <div class="btn-group">
+                        <a class="btn btn-info btn-xs" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
+                        <a class="btn btn-primary btn-xs" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
+                            <a class="btn btn-danger btn-xs" href="{{ path('employe_etude', {'id': employe.id}) }}">etudes</a>
+                            <a class="btn btn-success btn-xs" href="{{ path('employe_experience', {'id': employe.id}) }}">eperiences</a>
+                            <a href="#" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown">
+                                plus
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{path('timesheet_employe_new',{'id':employe.id})}}" ><i class="fa fa-check-circle"></i> Timesheet</a></li>
+                                <li><a class="dropdown-item" href="#" ><i class="fa fa-blender"></i>Activites</a></li>
+                                <li><a class="dropdown-item" href="#" ><i class="fa fa-user-friends"></i>Equipes</a></li>
+                                <li class="divider"></li>
+                                <li><a class="dropdown-item" onclick='getEmployeId({{ employe.id }})' href="#" id="delete_" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i>Suprimer</a></li>
+                            </ul>
+                    </div>
                     {% endblock %}
                 {% endembed %}
             </div> {% endfor %}</div>
+
     <table class="table table-responsive" id="jqtable_employe">
         <thead>
             <tr class="bg-aqua">
                 <th><input type="checkbox" class="checkbox"></th>
-                <th>Id</th>
+                <th>{{ knp_pagination_sortable(employes, 'Id', 'a.id') }}</th>
                 <th>NomComplet</th>
                 <th>Matricule</th>
                 <th>Telephone</th>
@@ -76,7 +104,7 @@
         {% for employe in employes %}
             <tr class="contentimg">
                 <td><input type="checkbox"></td>
-                <td>{{ employe.id }}</td>
+                <td>{{ employe.id}}</td>
                 <td>{{ employe.nomComplet }}</td>
                 <td>{{ employe.matricule }}</td>
                 <td>{{ employe.telephone }}</td>
@@ -87,7 +115,10 @@
                     <div class="btn-group pull-right">
                     <a  class="btn btn-info btn-sm" href="{{ path('employe_show', {'id': employe.id}) }}">show</a>
                     <a  class="btn btn-primary btn-sm" href="{{ path('employe_edit', {'id': employe.id}) }}">edit</a>
-                    </div>
+                        <a class="btn btn-danger btn-sm" href="{{ path('employe_etude', {'id': employe.id}) }}">etudes</a>
+                        <a class="btn btn-success btn-sm" href="{{ path('employe_etude', {'id': employe.id}) }}">experiences</a>
+                   {#     <a  class="btn btn-primary btn-sm delete_"  data-toggle="modal" data-id="{{ employe.id }}" data-target="#deleteModal">delete</a>
+                   #} </div>
                 </td>
             </tr>
         {% else %}
@@ -101,30 +132,27 @@
     <div class="navigation">
         {{ knp_pagination_render(employes) }}
     </div>
-   {# <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this item?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{{ path('employe_delete', {'id': employe.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employe.id) }}">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <input id="employe_id" class="hidden">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_delete">Close</button>
+                    <button type="button" class="btn btn-primary delete_">Delete</button>
                 </div>
             </div>
         </div>
     </div>
-#}
+
     <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -134,21 +162,22 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form method="post" action="{{ path('employe_upload') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ path('employe_upload') }}" enctype="multipart/form-data">
+                    <div class="modal-body">
+
                         <input type="hidden" name="_method" value="GET">
                         <input type="file" name="file">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">cancel</span>
                         </button>
-                        <button class="btn btn-success">Upload</button>
+                        <button class="btn btn-success">Upload</button>#}
 
-                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div></form>
             </div>
         </div>
     </div>

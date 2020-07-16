@@ -57,7 +57,13 @@
                 <td>{{ advance_salaire_echeance.month }}</td>
                 <td>{{ advance_salaire_echeance.year }}</td>
                 <td>{{ advance_salaire_echeance.montant }}</td>
-                <td>{{ advance_salaire_echeance.statut ? 'Yes' : 'No' }}</td>
+                <td>
+                {% if advance_salaire_echeance.statut %}
+                    <i class="fa fa-check"></i>
+                    {% else %}
+                        <i class="fa fa-times"></i>
+                        {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr>
@@ -71,7 +77,7 @@
     {% endblock %}
 {% endembed %}
     <div class="row">
-        <div class="col-md-9"><a class="btn btn-warning" href="{{ path('advance_salaire_index') }}">back to list</a>
+        <div class="col-md-9"><a class="btn btn-warning" href="{{ path('advance_salaire_index') }}"><i class="fa fa-arrow-left"></i>back to list</a></div>
         <div class="col-md-3"> {{ include('advance_salaire/_delete_form.html.twig') }}</div>
     </div>
 {% endblock %}

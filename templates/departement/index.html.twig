@@ -35,7 +35,7 @@
                 <th>Id</th>
                 <th>Libelle</th>
                 <th>Code</th>
-                <th>actions</th>
+                <th style="text-align: right">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -44,7 +44,7 @@
                 <td>{{ departement.id }}</td>
                 <td>{{ departement.libelle }}</td>
                 <td>{{ departement.code }}</td>
-                <td>
+                <td style="text-align: right">
                     <div class="btn-group">
                     <a class="btn btn-info btn-sm" href="{{ path('departement_show', {'id': departement.id}) }}">show</a>
                     <a class="btn btn-primary btn-sm" href="{{ path('departement_edit', {'id': departement.id}) }}">edit</a>

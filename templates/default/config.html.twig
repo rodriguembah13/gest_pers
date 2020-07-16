@@ -2,19 +2,26 @@
 {% block page_title %} Configuration {% endblock %}
 {% block page_subtitle %} Basic {% endblock %}
 {% block page_content %}
-<nav class="navbar navbar-inverse" role="navigation">
+    <br>
+{#<nav class="navbar navbar-inverse" role="navigation">
     <div class="navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a class="btn btn-warning" href="{{ path('entreprise_index') }}">
+                <a class="btn btn-success" href="{{ path('entreprise_index') }}">
                     <span >Entreprise</span>
+                </a> </li><li>
+                <a class="btn btn-primary" href="{{ path('work_day_index') }}">
+                    <span >Jour de travail</span>
+                </a> </li><li>
+                <a class="btn btn-warning" href="{{ path('currency_index') }}">
+                    <span >Monaie</span>
                 </a>
             </li>
         </ul>
     </div>
-</nav>
+</nav>#}
     <div class="row">
-        <div class="col-md-6"><a href="#">
+        <div class="col-md-4"><a href="#">
             {# ... infobox widget, solid background ... #}
             {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
                 'solid' : 'yellow',
@@ -27,7 +34,7 @@
             {% endembed %}
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <a href="{{ path('module_index') }}">
             {# ... infobox widget, solid background ... #}
             {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
@@ -42,9 +49,8 @@
 
             </a>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6"><a href="{{ path('user_index') }}">
+
+        <div class="col-md-4"><a href="{{ path('user_index') }}">
                 {# ... infobox widget, solid background ... #}
                 {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
                     'solid' : 'green',
@@ -57,7 +63,7 @@
                 {% endembed %}
             </a>
         </div>
-        <div class="col-md-6"><a href="{{ path('holiday_index') }}">
+        <div class="col-md-4"><a href="{{ path('holiday_index') }}">
             {# ... infobox widget, solid background ... #}
             {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
                 'solid' : 'indigo',
@@ -68,6 +74,45 @@
                 {% block box_text %}Jour Ferie{% endblock %}
                 {% block progress_description %}{{ nbholydays }}{% endblock %}
             {% endembed %}
+            </a>
+        </div>
+        <div class="col-md-4"><a href="{{ path('holiday_index') }}">
+                {# ... infobox widget, solid background ... #}
+                {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+                    'solid' : 'indigo',
+                    'icon'  : 'far fa-star',
+                    'progress' : entreprises
+                } %}
+
+                    {% block box_text %}Entreprise{% endblock %}
+                    {% block progress_description %}{{ entreprises }}{% endblock %}
+                {% endembed %}
+            </a>
+        </div>
+        <div class="col-md-4"><a href="{{ path('currency_index') }}">
+                {# ... infobox widget, solid background ... #}
+                {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+                    'solid' : 'yellow',
+                    'icon'  : 'far fa-star',
+                    'progress' : currencies
+                } %}
+
+                    {% block box_text %}Monaie{% endblock %}
+                    {% block progress_description %}{{ currencies }}{% endblock %}
+                {% endembed %}
+            </a>
+        </div>
+        <div class="col-md-4"><a href="{{ path('work_day_index') }}">
+                {# ... infobox widget, solid background ... #}
+                {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+                    'solid' : 'blue',
+                    'icon'  : 'far fa-star',
+                    'progress' : workdays
+                } %}
+
+                    {% block box_text %}Jours Ouvrable{% endblock %}
+                    {% block progress_description %}{{ workdays }}{% endblock %}
+                {% endembed %}
             </a>
         </div>
     </div>

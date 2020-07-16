@@ -64,9 +64,10 @@
                 <td>{{ rh_bulletin_paie.datecreation ? rh_bulletin_paie.datecreation|date('Y-m-d') : '' }}</td>
                 <td>{{ rh_bulletin_paie.datepaie ? rh_bulletin_paie.datepaie|date('Y-m-d') : '' }}</td>
                 <td>   <div class="btn-group pull-right">
-                        <a  class="btn btn-info btn-sm" href="{{ path('rh_bulletin_paie_show', {'id': rh_bulletin_paie.id}) }}">show</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('bulletineprintpdf', {'id': rh_bulletin_paie.id}) }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
-                        <a  class="btn btn-primary btn-sm" href="{{ path('rh_bulletin_paie_edit', {'id': rh_bulletin_paie.id}) }}">edit</a>
+                        <a  class="btn btn-info btn-sm" href="{{ path('rh_bulletin_paie_show', {'id': rh_bulletin_paie.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a  class="btn btn-primary btn-sm" href="{{ path('rh_bulletin_paie_edit', {'id': rh_bulletin_paie.id}) }}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('bulletineprintpdf', {'id': rh_bulletin_paie.id}) }}" target="_blank"><i class="fa fa-print"></i></a>
+
                     </div>
                 </td>
             </tr>

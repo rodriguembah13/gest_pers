@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Presence index{% endblock %}
+{% block page_title %} Presence {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+ {#       <div class="col-md-4">
+            <label class="control-label" for="ca_conge_dateDebut">Date du jour</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <select>
+                    <option>choisir un mois</option>
+                    <option value="1">Janvier</option><option value="2">Fevrier</option><option value="3">Mars</option>
+                    <option value="4">Avril</option><option value="5">Mai</option><option value="6">Juin</option>
+                    <option value="7">Julliet</option><option value="8">Aout</option><option value="9">Septembre</option>
+                    <option value="10">Octobre</option><option value="11">Novembre</option><option value="12">Decembre</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <select>
+                    <option>choisir une Annee</option>
+                    <option value="19">2019</option><option value="20">2020</option>
+                </select>
+            </div>
+        </div>#}
+        <div class="col-md-12">
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+                {% form_theme form '@AdminLTE/layout/form-theme-horizontal.html.twig' %}
+                {% block box_before %}{{ form_start(form) }}{% endblock %}
+                {% block box_body %}
+                    <div class="col-md-3">
+                        {{ form_row(form.month) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.year) }}
+                    </div>
+                    <div class="">
+                        <button type="submit" class="btn btn-primary "><i class="fa fa-check-square"></i> {{ 'Valider'|trans }}</button>
+                    </div>
+                    {{ form_widget(form) }}
+                {% endblock %}
+                {% block box_after %}{{ form_end(form)}}{% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    <br>
+{#<div style="overflow-x:auto;">#}
+    <div class = "table-responsive table-bordered">
+    <table class="table">
+        <thead>
+        <tr class="bg-aqua">
+            <th><div class="firstcol">Employe</div></th>
+            <th>01</th>
+            <th>02</th>
+            <th>03</th>
+            <th>04</th>
+            <th>05</th>
+            <th>06</th>
+            <th>07</th>
+            <th>08</th>
+            <th>09</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+            <th>13</th>
+            <th>14</th>
+            <th>15</th>
+            <th>16</th>
+            <th>17</th>
+            <th>18</th>
+            <th>19</th>
+            <th>20</th>
+            <th>21</th>
+            <th>22</th>
+            <th>23</th>
+            <th>24</th>
+            <th>25</th>
+            <th>26</th>
+            <th>27</th>
+            <th>28</th>
+            <th>29</th>
+            <th>30</th>
+            <th>31</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for presence in presences %}
+            <tr class="contentimg">
+                <td style="background-color: #00a65a"><div class="firstcol">{{ presence.employe.nomComplet }}</div></td>
+
+                <td class="{{presence.color1}}">{{ presence.day1 ? presence.status1 : '' }}</td>
+                <td class="{{presence.color2}}">{{ presence.day2 ? presence.status2 : '' }}</td>
+                <td class="{{presence.color3}}">{{ presence.day3 ? presence.status3 : '' }}</td>
+                <td class="{{presence.color4}}">{{ presence.day4 ? presence.status4 : '' }}</td>
+                <td class="{{presence.color5}}">{{ presence.day5 ? presence.status5 : '' }}</td>
+                <td class="{{presence.color6}}">{{ presence.day6 ? presence.status6 : '' }}</td>
+                <td class="{{presence.color7}}">{{ presence.day7 ? presence.status7 : '' }}</td>
+                <td class="{{presence.color8}}">{{ presence.day8 ? presence.status8 : '' }}</td>
+                <td class="{{presence.color9}}">{{ presence.day9 ? presence.status9 : '' }}</td>
+                <td class="{{presence.color10}}">{{ presence.day10 ? presence.status10 : '' }}</td>
+                <td class="{{presence.color11}}">{{ presence.day11 ? presence.status11 : '' }}</td>
+                <td class="{{presence.color12}}">{{ presence.day12 ? presence.status12 : '' }}</td>
+                <td class="{{presence.color13}}">{{ presence.day13 ? presence.status13 : '' }}</td>
+                <td class="{{presence.color14}}">{{ presence.day14 ? presence.status14 : '' }}</td>
+                <td class="{{presence.color15}}">{{ presence.day15 ? presence.status15 : '' }}</td>
+                <td class="{{presence.color16}}">{{ presence.day16 ? presence.status16 : '' }}</td>
+                <td class="{{presence.color17}}">{{ presence.day17 ? presence.status17 : '' }}</td>
+                <td class="{{presence.color18}}">{{ presence.day18 ? presence.status18 : '' }}</td>
+                <td class="{{presence.color19}}">{{ presence.day19 ? presence.status19 : '' }}</td>
+                <td class="{{presence.color20}}">{{ presence.day20 ? presence.status20 : '' }}</td>
+                <td class="{{presence.color21}}">{{ presence.day21 ? presence.status21 : '' }}</td>
+                <td class="{{presence.color22}}">{{ presence.day22 ? presence.status22 : '' }}</td>
+                <td class="{{presence.color23}}">{{ presence.day23 ? presence.status23 : '' }}</td>
+                <td class="{{presence.color24}}">{{ presence.day24 ? presence.status24 : '' }}</td>
+                <td class="{{presence.color25}}">{{ presence.day25 ? presence.status25 : '' }}</td>
+                <td class="{{presence.color26}}">{{ presence.day26 ? presence.status26 : '' }}</td>
+                <td class="{{presence.color27}}">{{ presence.day27 ? presence.status27 : '' }}</td>
+                <td class="{{presence.color28}}">{{ presence.day28 ? presence.status28 : '' }}</td>
+                <td class="{{presence.color29}}">{{ presence.day29 ? presence.status29 : '' }}</td>
+                <td class="{{presence.color30}}">{{ presence.day30 ? presence.status30 : '' }}</td>
+                <td class="{{presence.color31}}">{{ presence.day31 ? presence.status31 : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table></div>
+    <div class="navigation center-block">
+        {{ knp_pagination_render(presences) }}
+    </div>
+{% endblock %}
+
+

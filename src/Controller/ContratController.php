@@ -45,6 +45,12 @@ class ContratController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contrat->setSatut('encours');
+            if (null == $contrat->getDateFin()) {
+                $contrat->setDateFin(new \DateTime('now'));
+            }
+            if (null == $contrat->getDateDebut()) {
+                $contrat->setDateDebut(new \DateTime('now'));
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($contrat);
             $entityManager->flush();
@@ -85,7 +91,7 @@ class ContratController extends AbstractController
         return $this->render('contrat/edit.html.twig', [
             'contrat' => $contrat,
             'form' => $form->createView(),
-            'salaire'=>$contrat->getSalaire(),
+            'salaire' => $contrat->getSalaire(),
         ]);
     }
 
@@ -102,6 +108,7 @@ class ContratController extends AbstractController
 
         return $this->redirectToRoute('contrat_index');
     }
+
     /**
      * Returns a JSON string with the neighborhoods of the City with the providen id.
      */

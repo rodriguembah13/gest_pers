@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New WorkDay{% endblock %}
+{% block page_title %} WorkDay {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+    {{ include('work_day/_form.html.twig') }}
+
+    <a href="{{ path('work_day_index') }}">back to list</a>
+{% endblock %}

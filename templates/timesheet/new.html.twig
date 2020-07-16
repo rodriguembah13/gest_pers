@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Timesheet{% endblock %}
+{% block page_title %} Timesheet {% endblock %}
+{% block page_subtitle %} new - {{ employe }} {% endblock %}
+{% block page_content %}
+
+    {{ include('timesheet/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('timesheet_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'timesheet/javascript.html.twig' %}
+{% endblock %}

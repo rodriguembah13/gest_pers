@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkDay index{% endblock %}
+{% block page_title %} WorkDays {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-primary btn-sm" href="{{ path('work_day_new_entreprise', {'id': entreprise.id})}}"><i class="fa fa-flash"></i>Create new</a>
+        </div>
+    </div>
+    <br>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Libelle</th>
+            <th>HeureDebut</th>
+            <th>HeureFin</th>
+            <th>NombreHeure</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for work_day in work_days %}
+            <tr>
+                <td>{{ work_day.id }}</td>
+                <td>{{ work_day.libelle }}</td>
+                <td>{{ work_day.heureDebut ? work_day.heureDebut|date('H:i:s') : '' }}</td>
+                <td>{{ work_day.heureFin ? work_day.heureFin|date('H:i:s') : '' }}</td>
+                <td>{{ work_day.nombreHeure }}</td>
+                <td>
+                    <a href="{{ path('work_day_show', {'id': work_day.id}) }}">show</a>
+                    <a href="{{ path('work_day_edit', {'id': work_day.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

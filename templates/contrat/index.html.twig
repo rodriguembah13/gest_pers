@@ -36,23 +36,32 @@
 
                     {% block box_body %}
 
-                        <img class="col-md-5" width="100" height="70"
+                      {#  <img class="col-md-5" width="100" height="70"
                              src="{{ asset('uploads/' ~ contrat.employe.imageFilename) }}" title="my image"
-                             alt="My image">
-
+                             alt="My image">#}
+                        {% if contrat.employe.imageFilename is defined and contrat.employe.imageFilename  is not null %}
+                            <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
+                                 src="{{ asset('uploads/' ~ contrat.employe.imageFilename) }}" title="{{  contrat.employe.nomComplet }}"
+                                 alt="My image">
+                        {% else %}  <img id="img_emp" class="col-md-5 img img-responsive img-thumbnail"style="height: 75px;"
+                                         src="{{ asset('bundles/adminlte/images/default_avatar.png') }}" title="{{  contrat.employe.nomComplet }}"
+                                         alt="My image">
+                        {% endif %}
                         <div class="col-md-7">
+                            <span id="span1" class="label label-info">{{ contrat.satut}}</span><br>
                             {{ contrat.libelle }}<br>
                             {{ contrat.employe.nomComplet }}-
                             {{ contrat.employe.poste.libelle }}
-                            <div class="btn-group">
-                                <a class="btn btn-info btn-xs" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
-                                <a class="btn btn-primary btn-xs" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
-                            </div>
+
                         </div>
                     {% endblock %}
                     {% block box_footer %}
-                        <span id="span1" class="label label-info">{{ contrat.satut}}</span>
 
+                        <div class="btn-group">
+                            <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-success btn-sm" href="{{ path('contratprintpdf', {'id': contrat.id}) }}" target="_blank"><i class="fa fa-print"></i></a>
+                        </div>
                         {#<select class="" id="changestatut">
                             <option value="nouveau"><span class="label label-info">Nouveau</span></option>
                             <option value="encours">Encours</option>
@@ -119,9 +128,9 @@
                 <td><span class="label label-info">{{ contrat.satut }}</span></td>
                 <td>
                     <div class="btn-group">
-                        <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}">show</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}">edit</a>
-                        <a class="btn btn-success btn-sm" href="{{ path('contratprintpdf', {'id': contrat.id}) }}" target="_blank">print</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('contrat_show', {'id': contrat.id}) }}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('contrat_edit', {'id': contrat.id}) }}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-success btn-sm" href="{{ path('contratprintpdf', {'id': contrat.id}) }}" target="_blank"><i class="fa fa-print"></i></a>
                     </div>
                 </td>
             </tr>

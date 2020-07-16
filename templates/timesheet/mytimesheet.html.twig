@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Timesheet index{% endblock %}
+{% block page_title %} Timesheet {% endblock %}
+{% block page_subtitle %} list {% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input class="form-control" id="Search" name="Search" ng-change="vm.getElevesSearch(vm.search)" ng-model="vm.search"
+                       placeholder="recherche " type="text"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="vm.resetInput(vm.search)"><i
+                                class="glyphicon glyphicon-refresh glyphicon-spin"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" href="#" id="jqtable_emplist"><i class="fa fa-th-list"></i></a>
+                <a  class="btn btn-default btn-sm" href="#" id="jqtable_empbox"><i class="fa fa-th"></i></a>
+            </div>
+            <a class="btn btn-primary btn-sm" href="{{ path('timesheet_new') }}"><i class="fa fa-flash"></i>Create new</a>
+            <a class="btn btn-primary btn-sm" href="{{ path('employeprintpdf') }}" target="_blank"><i class="fa fa-file-pdf"></i>print</a>
+
+            <a class="btn btn-success btn-sm pull-right"  data-toggle="modal" data-target="#uploadModal"><i class="far fa-flash"></i>Importer</a>
+        </div>
+    </div>
+    <br>
+
+    <table class="table">
+        <thead>
+        <tr class="bg-aqua">
+            <th>Id</th>
+            <th>Libelle</th>
+            <th>Activite</th>
+            <th>Description</th>
+            <th>DateDebut</th>
+            <th>DateFin</th>
+            <th>Duration</th>
+            <th>Statut</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for timesheet in timesheets %}
+            <tr class="contentimg">
+                <td>{{ timesheet.id }}</td>
+                <td>{{ timesheet.libelle }}</td>
+                <td>{{ timesheet.activity }}</td>
+                <td>{{ timesheet.description }}</td>
+                <td>{{ timesheet.dateDebut ? timesheet.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ timesheet.dateFin ? timesheet.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ timesheet.duration }}</td>
+                <td>
+                    {% if timesheet.statut=='open'%}
+                        <i class="fa fa-lock-open"></i>
+                    {% else  %}
+                        <i class="fa fa-lock"></i>
+                    {% endif %}
+                </td>
+                <td style="text-align: right">
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm" href="{{ path('timesheet_show', {'id': timesheet.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('timesheet_edit', {'id': timesheet.id}) }}"><i class="fa fa-edit"></i></a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

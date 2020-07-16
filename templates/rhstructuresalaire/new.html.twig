@@ -7,19 +7,20 @@
 
     {{ include('rhstructuresalaire/_form.html.twig') }}
     <br>
-    <div class="row">
+   {# <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>Regles</label>
+                <label>Regles de paie</label>
 
                 <select class="form-control select2" style="width: 100%;" id="selectregle">
+                    <option>choisir une regle</option>
                     {% for rhreglesalaire in rhreglesalaires %}
                         <option id="{{ rhreglesalaire.id }}">{{ rhreglesalaire.libelle }}</option>
                     {% endfor %} </select>
 
             </div>
         </div>
-    </div>
+    </div>#}
     <div class="row">
         <div class="col-md-12">
             {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
@@ -47,7 +48,7 @@
         </div>
     </div>
     <a class="btn btn-warning" href="{{ path('rhstructuresalaire_index') }}">back to list</a>
-    <button class="btn btn-primary pull-right" id="submit_regle">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-primary pull-right" id="submit_regle">{{ button_label|default('Suivant') }}</button>
     <div class="col-md-9">
 
     </div>

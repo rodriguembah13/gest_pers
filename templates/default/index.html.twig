@@ -4,8 +4,8 @@
 #}
 
 {% block document_title %}Dashboard gest_pers{% endblock %}
-{% block page_title %}Dashboard gest_pers{% endblock %}
-
+{% block page_title %}Dashboard Ges-P{% endblock %}
+{% block page_subtitle %} gestion de Personnel {% endblock %}
 {% block page_content %}
     <div class="row">
         <div class="col-md-3">
@@ -28,8 +28,8 @@
             'solid' : 'aqua',
             'icon'  : 'fas fa-comments',
             } %}
-                {% block box_text %}Employes{% endblock %}
-                {% block box_number %}999.9{% endblock %}
+                {% block box_text %}Presence{% endblock %}
+                {% block box_number %}{{precences}}{% endblock %}
                 {% block progress_description %}{% endblock %}
             {% endembed %}
         </div>
@@ -58,69 +58,16 @@
             {% endembed %}
         </div>
     </div>
-{#    <div class="pull-right">
-        <button type="reset" class="btn btn-warning "><i class="fa fa-times"></i> {{ 'Cancel'|trans }}</button>
-        <a class="btn btn-primary "href="{{ path('printpdf')}}"><i class="fa fa-check-square"></i> {{ 'pdf'|trans }}</a>
-    </div>#}
-{#    <div class="row">
-        <div class="col-md-6">
-            #}{# ... box widget with defaults ... #}{#
-            {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
+    <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 
-                {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
-                {% block box_title %}Widget box title{% endblock %}
-                {% block box_body %}
-                    <div class="callout callout-info">
-                        Sed libero ipsum, auctor ac volutpat ac, adipiscing a enim. Nulla convallis quam eget tortor
-                        dictum lobortis. Aenean tincidunt arcu id lectus facilisis imperdiet. Curabitur in orci nisl.
-                        Nullam vitae arcu in tellus malesuada sollicitudin ut in sem. Ut eu nunc lacus, sit amet
-                        venenatis mauris. Donec dui neque, cursus sed molestie sit amet, tempor quis nibh. Proin nec
-                        ligula non lacus fermentum tincidunt. Nam tempus lectus ut dolor imperdiet quis commodo odio
-                        porttitor. Fusce blandit placerat posuere. Pellentesque risus leo, tempor sit amet consequat
-                        tempus, dictum vel magna. Nulla dolor turpis, dignissim a sodales quis, molestie molestie magna.
-                        Vivamus imperdiet vestibulum tellus, quis rutrum magna eleifend quis. Pellentesque convallis
-                        metus nisl. Sed eu dolor massa, sit amet luctus nulla. Mauris sit amet diam urna, eget volutpat
-                        nunc.
-                    </div>
-                {% endblock %}
-                {% block box_footer %}
-                    <div class="pull-right">
-                        {{ btn.link_button('save', '#', 'floppy') }}
-                    </div>
-                {% endblock %}
-            {% endembed %}
-        </div>
-        <div class="col-md-6">
-            #}{# ... box widget with some options ... #}{#
-            {% embed '@AdminLTE/Widgets/box-widget.html.twig' with {
-            'boxtype' : 'success',
-            'solid' : 0,
-            'collapsible' : 'widget-box.collapse'|trans ~ '... ',
-            'removable' : 'widget-box.remove'|trans ~ '...',
-            } %}
-
-                {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
-                {% block box_title %}Widget box title{% endblock %}
-                {% block box_body %}
-                    <div class="callout callout-info">
-                        Sed libero ipsum, auctor ac volutpat ac, adipiscing a enim. Nulla convallis quam eget tortor
-                        dictum lobortis. Aenean tincidunt arcu id lectus facilisis imperdiet. Curabitur in orci nisl.
-                        Nullam vitae arcu in tellus malesuada sollicitudin ut in sem. Ut eu nunc lacus, sit amet
-                        venenatis mauris. Donec dui neque, cursus sed molestie sit amet, tempor quis nibh. Proin nec
-                        ligula non lacus fermentum tincidunt. Nam tempus lectus ut dolor imperdiet quis commodo odio
-                        porttitor. Fusce blandit placerat posuere. Pellentesque risus leo, tempor sit amet consequat
-                        tempus, dictum vel magna. Nulla dolor turpis, dignissim a sodales quis, molestie molestie magna.
-                        Vivamus imperdiet vestibulum tellus, quis rutrum magna eleifend quis. Pellentesque convallis
-                        metus nisl. Sed eu dolor massa, sit amet luctus nulla. Mauris sit amet diam urna, eget volutpat
-                        nunc.
-                    </div>
-                {% endblock %}
-                {% block box_footer %}
-                    <div class="pull-right">
-                        {{ btn.link_button('save', '#', 'far fa-save', 'success', 'lg') }}
-                    </div>
-                {% endblock %}
-            {% endembed %}
-        </div>
-    </div>#}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+ {#  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>#}
+    <script src="{{asset('loader.js')}}"></script>
+    <script src="{{asset('js/highcharts.js')}}"></script>
+    <script src="{{asset('js/exporting.js')}}"></script>
+    <script type="text/javascript">
+        {{ chart(chart) }}
+    </script>
 {% endblock %}

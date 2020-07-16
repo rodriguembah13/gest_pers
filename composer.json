@@ -12,6 +12,7 @@
         "kevinpapst/adminlte-bundle": "~3.0",
         "knplabs/knp-menu-bundle": "^2.2",
         "knplabs/knp-paginator-bundle": "^5.0",
+        "ob/highcharts-bundle": "^1.7",
         "onurb/excel-bundle": "^1.0",
         "phpoffice/phpspreadsheet": "^1.10",
         "sensio/framework-extra-bundle": "^5.2",

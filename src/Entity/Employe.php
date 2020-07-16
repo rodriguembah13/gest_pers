@@ -122,12 +122,42 @@ class Employe
      */
     private $advanceSalaires;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EtudeEmploye", mappedBy="employe")
+     */
+    private $etudeEmployes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ExperienceEmploye", mappedBy="employe")
+     */
+    private $experienceEmployes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="teamlead")
+     */
+    private $teams;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Team", mappedBy="members")
+     */
+    private $teams_members;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Timesheet", mappedBy="employe")
+     */
+    private $timesheets;
+
     public function __construct()
     {
         $this->caConges = new ArrayCollection();
         $this->rhcontrats = new ArrayCollection();
         $this->rhBulletinPaies = new ArrayCollection();
         $this->advanceSalaires = new ArrayCollection();
+        $this->etudeEmployes = new ArrayCollection();
+        $this->experienceEmployes = new ArrayCollection();
+        $this->teams = new ArrayCollection();
+        $this->teams_members = new ArrayCollection();
+        $this->timesheets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -463,6 +493,158 @@ class Employe
             // set the owning side to null (unless already changed)
             if ($advanceSalaire->getEmploye() === $this) {
                 $advanceSalaire->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EtudeEmploye[]
+     */
+    public function getEtudeEmployes(): Collection
+    {
+        return $this->etudeEmployes;
+    }
+
+    public function addEtudeEmploye(EtudeEmploye $etudeEmploye): self
+    {
+        if (!$this->etudeEmployes->contains($etudeEmploye)) {
+            $this->etudeEmployes[] = $etudeEmploye;
+            $etudeEmploye->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudeEmploye(EtudeEmploye $etudeEmploye): self
+    {
+        if ($this->etudeEmployes->contains($etudeEmploye)) {
+            $this->etudeEmployes->removeElement($etudeEmploye);
+            // set the owning side to null (unless already changed)
+            if ($etudeEmploye->getEmploye() === $this) {
+                $etudeEmploye->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExperienceEmploye[]
+     */
+    public function getExperienceEmployes(): Collection
+    {
+        return $this->experienceEmployes;
+    }
+
+    public function addExperienceEmploye(ExperienceEmploye $experienceEmploye): self
+    {
+        if (!$this->experienceEmployes->contains($experienceEmploye)) {
+            $this->experienceEmployes[] = $experienceEmploye;
+            $experienceEmploye->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperienceEmploye(ExperienceEmploye $experienceEmploye): self
+    {
+        if ($this->experienceEmployes->contains($experienceEmploye)) {
+            $this->experienceEmployes->removeElement($experienceEmploye);
+            // set the owning side to null (unless already changed)
+            if ($experienceEmploye->getEmploye() === $this) {
+                $experienceEmploye->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->setTeamlead($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            // set the owning side to null (unless already changed)
+            if ($team->getTeamlead() === $this) {
+                $team->setTeamlead(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeamsMembers(): Collection
+    {
+        return $this->teams_members;
+    }
+
+    public function addTeamsMember(Team $teamsMember): self
+    {
+        if (!$this->teams_members->contains($teamsMember)) {
+            $this->teams_members[] = $teamsMember;
+            $teamsMember->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeamsMember(Team $teamsMember): self
+    {
+        if ($this->teams_members->contains($teamsMember)) {
+            $this->teams_members->removeElement($teamsMember);
+            $teamsMember->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Timesheet[]
+     */
+    public function getTimesheets(): Collection
+    {
+        return $this->timesheets;
+    }
+
+    public function addTimesheet(Timesheet $timesheet): self
+    {
+        if (!$this->timesheets->contains($timesheet)) {
+            $this->timesheets[] = $timesheet;
+            $timesheet->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimesheet(Timesheet $timesheet): self
+    {
+        if ($this->timesheets->contains($timesheet)) {
+            $this->timesheets->removeElement($timesheet);
+            // set the owning side to null (unless already changed)
+            if ($timesheet->getEmploye() === $this) {
+                $timesheet->setEmploye(null);
             }
         }
 

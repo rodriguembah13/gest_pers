@@ -89,14 +89,26 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
         $presence->addChild(
             new MenuItemModel('presence', 'Presence', 'presence', [], 'fas fa-plus'))
             ->addChild(
+                new MenuItemModel('recapitulatif', 'Recapitulatif des Presences', 'presence-recapitulatif', [], 'fas fa-plus'))
+            ->addChild(
                 new MenuItemModel('interface', 'Interface de Presence', 'interface-presence', [], 'fas fa-plus'));
+        $event->addItem(
+            new MenuItemModel('clients', 'Clients', 'customer_index', [], 'fa fa-user-check')
+        );
+        $event->addItem(
+            new MenuItemModel('team', 'Equipe', 'team_index', [], 'fa fa-user-friends')
+        );
         $recrutment = new MenuItemModel('rec', 'Recrutements', null, [], 'fas fa-industry');
         $event->addItem($recrutment);
         $temps = new MenuItemModel('temps', 'Temps & Activites', null, [], 'fas fa-industry');
+        $temps->addChild(new MenuItemModel('project', 'Projects', 'project_index', [], 'fa fa-plus'))
+            ->addChild(new MenuItemModel('activity', 'Activity', 'activity_index', [], 'fa fa-plus'))
+            ->addChild(new MenuItemModel('mytimesheet', 'MY Timesheet', 'timesheet_user', [], 'fa fa-plus'))
+            ->addChild(new MenuItemModel('timesheet', 'Timesheet', 'timesheet_index', [], 'fa fa-plus'));
         $event->addItem($temps);
-        /*$event->addItem(
+        $event->addItem(
             new MenuItemModel('forms', 'menu.form', 'forms', [], 'fab fa-wpforms')
-        );*/
+        );/**/
         $event->addItem(
             new MenuItemModel('config', 'Configuration', 'config-rh', [], 'fa fa-cog')
         );
@@ -104,7 +116,7 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
                  $event->addItem(
                      new MenuItemModel('context', 'AdminLTE context', 'context', [], 'fas fa-code')
                  );
-        
+
                /*   $demo = new MenuItemModel('demo', 'Demo', null, [], 'far fa-arrow-alt-circle-right');
                     $demo->addChild(
                         new MenuItemModel('sub-demo', 'Form - Horizontal', 'forms2', [], 'far fa-arrow-alt-circle-down')
@@ -115,12 +127,12 @@ class MenuBuilderSubscriber implements EventSubscriberInterface
 
         if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $event->addItem(
-                new MenuItemModel('logout', 'menu.logout', 'fos_user_security_logout', [], 'fas fa-sign-out-alt')
-            );
+                  new MenuItemModel('logout', 'menu.logout', 'fos_user_security_logout', [], 'fas fa-sign-out-alt')
+              );
         } else {
             $event->addItem(
-                new MenuItemModel('login', 'menu.login', 'fos_user_security_login', [], 'fas fa-sign-in-alt')
-            );
+                  new MenuItemModel('login', 'menu.login', 'fos_user_security_login', [], 'fas fa-sign-in-alt')
+              );
         }
 
         $this->activateByRoute(

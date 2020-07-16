@@ -46,8 +46,9 @@ class RhstructuresalaireController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($rhstructuresalaire);
             $entityManager->flush();
+            $url = $this->generateUrl('rhstructuresalaire_edit', ['id' => $rhstructuresalaire->getId()]);
 
-            return $this->redirectToRoute('rhstructuresalaire_index');
+            return $this->redirect($url);
         }
 
         return $this->render('rhstructuresalaire/new.html.twig', [

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Presence;
+use App\Entity\PresenceModel;
 use App\Form\PresenceType;
 use App\Repository\DepartementRepository;
 use App\Repository\EmployeRepository;
@@ -10,6 +11,7 @@ use App\Repository\PresenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +34,207 @@ class PresenceController extends AbstractController
 
         return $this->render('presence/index.html.twig', [
             'presences' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/recap", name="presence_recap", methods={"GET"})
+     */
+    public function recapitulatifPresence(Request $request, PaginatorInterface $paginator, PresenceRepository $presenceRepository, EmployeRepository $employeRepository)
+    {
+        $presenceModelList = [];
+        $options2 = [
+            '2020' => '20',
+            '2021' => '21',
+        ];
+        $options = [
+            'Janvier' => '1',
+            'Fevrier' => '2',
+            'Mars' => '3',
+            'Avril' => '4',
+            'Mai' => '5',
+            'Juin' => '6',
+            'Juillet' => '7',
+            'Aout' => '8',
+            'Septembre' => '9',
+            'Octobre' => '10',
+            'Novembre' => '11', 'Decembre' => '12',
+        ];
+        $form = $this->createFormBuilder()
+            ->add('month', ChoiceType::class, [
+                'choices' => $options,
+                'attr' => ['class' => 'selectpicker', 'data-size' => 5, 'data-live-search' => true],
+            ])
+            ->add('year', ChoiceType::class, [
+                'choices' => $options2,
+                'attr' => ['class' => 'selectpicker', 'data-size' => 5, 'data-live-search' => true],
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+        //dump($form);
+        $testday = new \DateTime();
+
+        dump($request->request->get('form')['month']);
+        dump($request->request->get('form')['year']);
+        //dump($request->request->get('month'));
+        if (null == $request->request->get('form')['month']) {
+            //$date = \DateTime::createFromFormat('Y-m-d', date_format(new \DateTime(), 'y-m-d'));
+            $date = date_format(new \DateTime(), 'y-m-d');
+            $day = date('d', strtotime($date));
+            $month = date('m', strtotime($date));
+            $year = date('y', strtotime($date));
+        /*$newdate = $testday->setDate($year,$month,$day);
+        $newdateformat = date_diff($newdate, new \DateTime());*/
+        } else {
+            //$date = date_format(new \DateTime(), 'y-m-d');
+            // $day = date('d', strtotime($date));
+            $month = $request->request->get('form')['month'];
+            $year = $request->request->get('form')['year'];
+            /* $newdate = $testday->setDate($year,$month,$day);
+             $newdateformat = date_diff($newdate, new \DateTime());*/
+        }
+
+        foreach ($employeRepository->findAll() as $employe) {
+            $presenceModel = new PresenceModel();
+            for ($i = 1; $i <= 31; ++$i) {
+                $presence = $presenceRepository->findOneBy(['employe' => $employe, 'day' => $i, 'month' => $month, 'year' => $year]);
+                $newdate = $testday->setDate($year, $month, $i);
+                $newdateformat0 = date_format(new \DateTime(), 'y-m-d');
+                $newdateformat1 = date_format($newdate, 'y-m-d');
+                $newday = (int) date('d', strtotime($newdateformat0));
+                $newday1 = (int) date('d', strtotime($newdateformat1));
+                $newdateformat = date_diff($newdate, new \DateTime());
+                /** numero du jour*/
+                $numeroday = (int) $testday->format('N');
+              if (6 == $numeroday) {
+                    $presenceModel->setColor('gray');
+                } elseif (7 == $numeroday) {
+                    $presenceModel->setColor('darkgray');
+                } else {
+                    $presenceModel->setColor('blue');
+                }
+           /*     switch ($numeroday){
+                    case 7:
+                        $presenceModel->setColor('darkgray');
+                        break;
+                    case 6:
+                        $presenceModel->setColor('gray');
+                        break;
+                    case 5:
+                        if ($presence) {
+                            $presenceModel->setStatus('present');
+                            $presenceModel->setColor('bleu');
+                        } else {
+                            if ($newdateformat0 <= $newdateformat1) {
+                                $presenceModel->setStatus('encours');
+                            } else {
+                                $presenceModel->setStatus('absent');
+                            }
+                        }
+                        $presenceModel->setColor('blue');
+                        break;
+                    case 4:
+                        if ($presence) {
+                            $presenceModel->setStatus('present');
+                            $presenceModel->setColor('bleu');
+                        } else {
+                            if ($newdateformat0 <= $newdateformat1) {
+                                $presenceModel->setStatus('encours');
+                            } else {
+                                $presenceModel->setStatus('absent');
+                            }
+                        }
+                        $presenceModel->setColor('blue');
+                        break;
+                    case 3:
+                        if ($presence) {
+                            $presenceModel->setStatus('present');
+                            $presenceModel->setColor('bleu');
+                        } else {
+                            if ($newdateformat0 <= $newdateformat1) {
+                                $presenceModel->setStatus('encours');
+                            } else {
+                                $presenceModel->setStatus('absent');
+                            }
+                        }
+                        $presenceModel->setColor('blue');
+                        break;
+                    case 2:
+                        if ($presence) {
+                            $presenceModel->setStatus('present');
+                            $presenceModel->setColor('bleu');
+                        } else {
+                            if ($newdateformat0 <= $newdateformat1) {
+                                $presenceModel->setStatus('encours');
+                            } else {
+                                $presenceModel->setStatus('absent');
+                            }
+                        }
+                        $presenceModel->setColor('blue');
+                        break;
+                    case 1:
+                        if ($presence) {
+                            $presenceModel->setStatus('present');
+                            $presenceModel->setColor('bleu');
+                        } else {
+                            if ($newdateformat0 <= $newdateformat1) {
+                                $presenceModel->setStatus('encours');
+                            } else {
+                                $presenceModel->setStatus('absent');
+                            }
+                        }
+                        $presenceModel->setColor('blue');
+                        break;
+                    case 0:
+                        if ($presence) {
+                            $presenceModel->setStatus('present');
+                            $presenceModel->setColor('bleu');
+                        } else {
+                            if ($newdateformat0 <= $newdateformat1) {
+                                $presenceModel->setStatus('encours');
+                            } else {
+                                $presenceModel->setStatus('absent');
+                            }
+                        }
+                        $presenceModel->setColor('blue');
+                        break;
+                }*/
+
+
+                if ($presence) {
+                    $presenceModel->setStatus('present');
+                    $presenceModel->setColor('bleu');
+                } else {
+                    if ($newdateformat0 <= $newdateformat1) {
+                        $presenceModel->setStatus('encours');
+                    } else {
+                        $presenceModel->setStatus('absent');
+                    }
+                }
+                if (6 == $numeroday) {
+                    $presenceModel->setColor('gray');
+                    $presenceModel->setStatus('');
+                } elseif (7 == $numeroday) {
+                    $presenceModel->setColor('darkgray');
+                    $presenceModel->setStatus('');
+                } else {
+                    //$presenceModel->setColor('blue');
+                }
+                $presenceModel->setDay($i);
+            }
+
+            //$presenceModel->setDay($presence->getDay());
+            $presenceModel->setMonth($month);
+            $presenceModel->setYear($year);
+            $presenceModel->setEmploye($employe);
+            $presenceModelList[] = $presenceModel;
+        }
+        $pagination = $paginator->paginate($presenceModelList, $request->query->getInt('page', 1), 12);
+
+        return $this->render('presence/recapitulatif.html.twig', [
+            'presences' => $pagination,
+            'form' => $form->createView(),
+            'test' => $testday,
         ]);
     }
 
@@ -119,6 +322,10 @@ class PresenceController extends AbstractController
             $presence->setHeureArrivee(\DateTime::createFromFormat('Y-m-d H:i:s', $newforma));
             // $presence->setHeureDepart(null);
             $presence->setDateCreation(\DateTime::createFromFormat('Y-m-d', $request->query->get('jour')));
+            $date = date_format($jour, 'y-m-d');
+            $presence->setDay(date('d', strtotime($date)));
+            $presence->setMonth(date('m', strtotime($date)));
+            $presence->setYear(date('y', strtotime($date)));
             $presence->setEmploye($employe);
             $entityManager->persist($presence);
         } elseif ('stop' === $tatus) {
@@ -162,7 +369,7 @@ class PresenceController extends AbstractController
         // $departement=handleRequest($request);
         return $this->render('presence/interface.html.twig', [
             'departements' => $departementRepository->findAll(),
-            'presences' => $presenceRepository->findByDepartement($departementRepository->find(102)),
+            'presences' => $presenceRepository->findByDepartement($departementRepository->find(1)),
             'form' => $form->createView(),
             'form2' => $form2->createView(),
         ]);

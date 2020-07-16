@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+
+<div class="col-md-6">
+    {{ form_row(form.nomComplet) }}
+    {{ form_row(form.company) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.fax) }}
+
+</div>
+<div class="col-md-6">
+    {{ form_row(form.email) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.telephone) }}
+    {{ form_row(form.currency) }}
+    {{ form_row(form.country) }}
+</div>
+
+<div class="row pull-right">
+    <button type="reset" class="btn btn-warning "><i class="fa fa-times"></i> {{ 'Cancel'|trans }}</button>
+    <button type="submit" class="btn btn-primary "><i class="fa fa-check-square"></i> {{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

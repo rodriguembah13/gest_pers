@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Departement;
 use App\Entity\Poste;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +16,11 @@ class PosteType extends AbstractType
         $builder
             ->add('libelle')
             ->add('code')
-            ->add('departement')
+            ->add('departement', EntityType::class, [
+                'class' => Departement::class,
+                'multiple' => false,
+                'attr' => ['class' => 'selectpicker', 'data-size' => 5, 'data-live-search' => true],
+            ])
         ;
     }
 

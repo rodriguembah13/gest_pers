@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Team{% endblock %}
+{% block page_title %} Equipe {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('team/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('team_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}

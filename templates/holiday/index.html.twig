@@ -49,8 +49,8 @@
                 <td>{{ holiday.etat ? '<span class="label label-success">actif</span>' : '<span class="label label-danger">non actif</span>' }}</td>
                 <td>
                     <div class="btn-group pull-right ">
-                        <a  class="btn btn-info btn-sm" href="{{ path('holiday_show', {'id': holiday.id}) }}">show</a>
-                        <a  class="btn btn-primary btn-sm" href="{{ path('holiday_edit', {'id': holiday.id}) }}">edit</a>
+                        <a  class="btn btn-info btn-sm" href="{{ path('holiday_show', {'id': holiday.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a  class="btn btn-primary btn-sm" href="{{ path('holiday_edit', {'id': holiday.id}) }}"><i class="fa fa-edit"></i></a>
                     </div>
                 </td>
             </tr>

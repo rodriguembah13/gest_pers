@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Customer{% endblock %}
+{% block page_title %} Client {% endblock %}
+{% block page_subtitle %} new {% endblock %}
+{% block page_content %}
+
+    {{ include('customer/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('customer_index') }}"><i class="fa fa-arrow-left"></i>back to list</a>
+{% endblock %}

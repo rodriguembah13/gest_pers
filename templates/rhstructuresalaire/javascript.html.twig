@@ -23,6 +23,9 @@
 
     $("#submit_regle").click(function (e) {
        e.preventDefault();
+       var id_test=1;
+      //  window.location.href=""+id_test+"/edit"
+       // load('rhstructuresalaire_edit',{ id:1})
 //alert($("#rhstructuresalaire_libelle").val());
        $.ajax({
             url: "{{ path('structurepostrest') }}",
@@ -34,7 +37,9 @@
             },
             success: function (data) {
                alert(data[0].id);
+              var id=data[0].id;
                 sendArray(data[0].id)
+                window.location.href=""+id+"/edit"
             },
             error: function (err) {
                 alert("An error ocurred while loading data ...");

@@ -21,8 +21,8 @@
                 <td>{{ type_contrat.libelle }}</td>
                 <td>{{ type_contrat.code }}</td>
                 <td><div class="btn-group">
-                    <a class="btn btn-info btn-sm" href="{{ path('type_contrat_show', {'id': type_contrat.id}) }}">show</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('type_contrat_edit', {'id': type_contrat.id}) }}">edit</a></div>
+                    <a class="btn btn-info btn-sm" href="{{ path('type_contrat_show', {'id': type_contrat.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('type_contrat_edit', {'id': type_contrat.id}) }}"><i class="fa fa-edit"></i></a></div>
                 </td>
             </tr>
         {% else %}

@@ -4,14 +4,17 @@
 {% block page_title %} Structure de salaire {% endblock %}
 {% block page_subtitle %} edit {% endblock %}
 {% block page_content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {#<button class="btn btn-primary" id="submit_regle">{{ button_label|default('Save') }}</button>#}
 
-    {{ include('rhstructuresalaire/_form.html.twig') }}
+{#    {{ include('rhstructuresalaire/_form.html.twig') }}#}
     <br>
     <span class="hidden" id="struture_id">{{ rhstructuresalaire.id }}</span>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>Minimal</label>
+                <label>Regles de paie</label>
 
                 <select class="form-control select2" style="width: 100%;" id="selectregle_edit">
                     <option>choisir</option>
@@ -73,6 +76,7 @@
     </div>
     <a class="btn btn-warning" href="{{ path('rhstructuresalaire_index') }}">back to list</a>
     <button class="btn btn-primary pull-right" id="submit">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
     <div class="col-md-9">
 
     </div>
